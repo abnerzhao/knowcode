@@ -1,0 +1,1988 @@
+{
+  "version": 1,
+  "name": "数据与中间件",
+  "kind": "discussion",
+  "source": "https://dev.mysql.com/doc/refman/8.4/en/",
+  "fetchedAt": "2026-09-09T00:00:00.000Z",
+  "editorialNote": "本站原创复习问题，覆盖 MySQL、Redis、Elasticsearch 与 Apache Kafka，各 8 道基础知识、12 道常见面试考点；不提供答案、示例或答题提示。MySQL 按 8.4 / InnoDB、Kafka 按 4.1 文档核对；其他版本与部署差异需以来源为准。难度为本站练习分级，不代表企业真题或面试频率统计。",
+  "groups": [
+    {
+      "name": "MySQL · 基础知识",
+      "count": 8
+    },
+    {
+      "name": "MySQL · 面试考点",
+      "count": 12
+    },
+    {
+      "name": "Redis · 基础知识",
+      "count": 8
+    },
+    {
+      "name": "Redis · 面试考点",
+      "count": 12
+    },
+    {
+      "name": "Elasticsearch · 基础知识",
+      "count": 8
+    },
+    {
+      "name": "Elasticsearch · 面试考点",
+      "count": 12
+    },
+    {
+      "name": "Kafka · 基础知识",
+      "count": 8
+    },
+    {
+      "name": "Kafka · 面试考点",
+      "count": 12
+    }
+  ],
+  "questions": [
+    {
+      "order": 1,
+      "id": "MYSQL01",
+      "slug": "mysql-query-path",
+      "title": "一条 SQL 的执行过程",
+      "englishTitle": "MySQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "MySQL · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "MySQL",
+        "基础知识"
+      ],
+      "source": "https://dev.mysql.com/doc/refman/8.4/en/",
+      "references": [
+        {
+          "title": "MySQL 8.4 参考手册",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>一条 SELECT 从客户端发送到 MySQL，直到返回结果，会经历哪些阶段？</p><p>连接层、优化器、执行器和存储引擎各负责什么？</p>"
+    },
+    {
+      "order": 2,
+      "id": "MYSQL02",
+      "slug": "mysql-column-types",
+      "title": "字段类型如何选择",
+      "englishTitle": "MySQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "MySQL · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "MySQL",
+        "基础知识"
+      ],
+      "source": "https://dev.mysql.com/doc/refman/8.4/en/data-types.html",
+      "references": [
+        {
+          "title": "MySQL 8.4 数据类型",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/data-types.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>CHAR 与 VARCHAR、DECIMAL 与 FLOAT、DATETIME 与 TIMESTAMP 各有什么区别？</p><p>设计金额、手机号和创建时间字段时，你会如何选择？</p>"
+    },
+    {
+      "order": 3,
+      "id": "MYSQL03",
+      "slug": "mysql-keys-and-null",
+      "title": "主键、唯一约束与 NULL",
+      "englishTitle": "MySQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "MySQL · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "MySQL",
+        "基础知识"
+      ],
+      "source": "https://dev.mysql.com/doc/refman/8.4/en/",
+      "references": [
+        {
+          "title": "MySQL 8.4 参考手册",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>主键和唯一索引有哪些区别？</p><p>NULL 会怎样影响比较、COUNT、唯一约束和索引查询？</p>"
+    },
+    {
+      "order": 4,
+      "id": "MYSQL04",
+      "slug": "mysql-innodb-index",
+      "title": "聚簇索引与二级索引",
+      "englishTitle": "MySQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "MySQL · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "MySQL",
+        "基础知识"
+      ],
+      "source": "https://dev.mysql.com/doc/refman/8.4/en/innodb-index-types.html",
+      "references": [
+        {
+          "title": "InnoDB 聚簇索引与二级索引",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-index-types.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>InnoDB 的聚簇索引和二级索引分别保存什么？</p><p>没有显式主键时如何组织数据，主键宽度又会带来哪些影响？</p>"
+    },
+    {
+      "order": 5,
+      "id": "MYSQL05",
+      "slug": "mysql-btree",
+      "title": "为什么使用 B+ 树索引",
+      "englishTitle": "MySQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "MySQL · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "MySQL",
+        "基础知识"
+      ],
+      "source": "https://dev.mysql.com/doc/refman/8.4/en/innodb-index-types.html",
+      "references": [
+        {
+          "title": "InnoDB 聚簇索引与二级索引",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-index-types.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>InnoDB 为什么使用 B+ 树组织常见索引？</p><p>与二叉搜索树、B 树和哈希索引相比，它在等值、范围查询与磁盘访问上有哪些取舍？</p>"
+    },
+    {
+      "order": 6,
+      "id": "MYSQL06",
+      "slug": "mysql-acid",
+      "title": "事务的 ACID",
+      "englishTitle": "MySQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "MySQL · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "MySQL",
+        "基础知识"
+      ],
+      "source": "https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html",
+      "references": [
+        {
+          "title": "InnoDB 事务隔离级别",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>ACID 分别描述什么性质？</p><p>在 MySQL 8.4 的 InnoDB 中，这些性质分别依赖哪些机制，是否还需要业务代码配合？</p>"
+    },
+    {
+      "order": 7,
+      "id": "MYSQL07",
+      "slug": "mysql-isolation-levels",
+      "title": "事务隔离级别",
+      "englishTitle": "MySQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "MySQL · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "MySQL",
+        "基础知识"
+      ],
+      "source": "https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html",
+      "references": [
+        {
+          "title": "InnoDB 事务隔离级别",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>四种事务隔离级别有哪些区别？</p><p>脏读、不可重复读和幻读分别是什么，InnoDB 默认采用哪种隔离级别？</p>"
+    },
+    {
+      "order": 8,
+      "id": "MYSQL08",
+      "slug": "mysql-sql-semantics",
+      "title": "JOIN、聚合与去重",
+      "englishTitle": "MySQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "MySQL · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "MySQL",
+        "基础知识"
+      ],
+      "source": "https://dev.mysql.com/doc/refman/8.4/en/",
+      "references": [
+        {
+          "title": "MySQL 8.4 参考手册",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>INNER JOIN 与 LEFT JOIN 的结果有什么区别？</p><p>WHERE 与 HAVING、COUNT(*) 与 COUNT(列)、UNION 与 UNION ALL 分别有什么区别？</p>"
+    },
+    {
+      "order": 9,
+      "id": "MYSQL09",
+      "slug": "mysql-composite-index",
+      "title": "联合索引与最左前缀",
+      "englishTitle": "MySQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "MySQL · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "MySQL",
+        "面试考点"
+      ],
+      "source": "https://dev.mysql.com/doc/refman/8.4/en/multiple-column-indexes.html",
+      "references": [
+        {
+          "title": "MySQL 8.4 联合索引",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/multiple-column-indexes.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>索引 (a, b, c) 遇到不同查询条件时，哪些列能用于定位、过滤或排序？</p><p>范围条件、跳跃扫描与最左前缀规则之间是什么关系？</p>"
+    },
+    {
+      "order": 10,
+      "id": "MYSQL10",
+      "slug": "mysql-index-usage",
+      "title": "为什么没有使用预期索引",
+      "englishTitle": "MySQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "MySQL · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "MySQL",
+        "面试考点"
+      ],
+      "source": "https://dev.mysql.com/doc/refman/8.4/en/optimization-indexes.html",
+      "references": [
+        {
+          "title": "MySQL 8.4 索引优化",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/optimization-indexes.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>SQL 中出现函数、隐式类型转换、前导通配符或 OR 时，索引使用可能如何变化？</p><p>如何区分索引无法有效利用与优化器主动选择全表扫描？</p>"
+    },
+    {
+      "order": 11,
+      "id": "MYSQL11",
+      "slug": "mysql-covering-index",
+      "title": "回表、覆盖索引与索引下推",
+      "englishTitle": "MySQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "MySQL · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "MySQL",
+        "面试考点"
+      ],
+      "source": "https://dev.mysql.com/doc/refman/8.4/en/optimization-indexes.html",
+      "references": [
+        {
+          "title": "MySQL 8.4 索引优化",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/optimization-indexes.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>什么情况下需要回表？</p><p>覆盖索引与索引条件下推分别减少哪类开销，能否用一条联合索引查询说明区别？</p>"
+    },
+    {
+      "order": 12,
+      "id": "MYSQL12",
+      "slug": "mysql-explain",
+      "title": "执行计划与慢查询",
+      "englishTitle": "MySQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "MySQL · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "MySQL",
+        "面试考点"
+      ],
+      "source": "https://dev.mysql.com/doc/refman/8.4/en/using-explain.html",
+      "references": [
+        {
+          "title": "MySQL 8.4 执行计划",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/using-explain.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>你会如何使用 EXPLAIN 和 EXPLAIN ANALYZE 定位慢 SQL？</p><p>估算行数与实际行数偏差很大时，会检查哪些信息？</p>"
+    },
+    {
+      "order": 13,
+      "id": "MYSQL13",
+      "slug": "mysql-mvcc",
+      "title": "MVCC 与 Read View",
+      "englishTitle": "MySQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "MySQL · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "MySQL",
+        "面试考点"
+      ],
+      "source": "https://dev.mysql.com/doc/refman/8.4/en/innodb-multi-versioning.html",
+      "references": [
+        {
+          "title": "InnoDB 多版本机制",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-multi-versioning.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>InnoDB 如何利用版本信息、undo log 和 Read View 判断记录可见性？</p><p>READ COMMITTED 与 REPEATABLE READ 的快照行为有什么区别？</p>"
+    },
+    {
+      "order": 14,
+      "id": "MYSQL14",
+      "slug": "mysql-locking-reads",
+      "title": "快照读、当前读与幻读",
+      "englishTitle": "MySQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "MySQL · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "MySQL",
+        "面试考点"
+      ],
+      "source": "https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html",
+      "references": [
+        {
+          "title": "InnoDB 事务隔离级别",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>普通 SELECT、SELECT FOR UPDATE 和 UPDATE 的读写行为有什么区别？</p><p>在 REPEATABLE READ 下，快照读与锁定读分别如何处理幻读？</p>"
+    },
+    {
+      "order": 15,
+      "id": "MYSQL15",
+      "slug": "mysql-gap-locks",
+      "title": "记录锁、间隙锁与临键锁",
+      "englishTitle": "MySQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "MySQL · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "MySQL",
+        "面试考点"
+      ],
+      "source": "https://dev.mysql.com/doc/refman/8.4/en/innodb-locking.html",
+      "references": [
+        {
+          "title": "InnoDB 锁",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-locking.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>在 MySQL 8.4 / InnoDB 的 REPEATABLE READ 下，记录锁、间隙锁和 next-key lock 分别锁住什么？</p><p>唯一索引等值查询、范围查询和未命中记录时，加锁范围可能怎样变化？</p>"
+    },
+    {
+      "order": 16,
+      "id": "MYSQL16",
+      "slug": "mysql-deadlock",
+      "title": "死锁与长事务",
+      "englishTitle": "MySQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "MySQL · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "MySQL",
+        "面试考点"
+      ],
+      "source": "https://dev.mysql.com/doc/refman/8.4/en/innodb-locking.html",
+      "references": [
+        {
+          "title": "InnoDB 锁",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-locking.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>死锁与锁等待超时有什么区别？</p><p>如何获取等待链并定位死锁原因，长事务又会影响哪些资源和后台工作？</p>"
+    },
+    {
+      "order": 17,
+      "id": "MYSQL17",
+      "slug": "mysql-pagination",
+      "title": "大表深分页优化",
+      "englishTitle": "MySQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "MySQL · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "MySQL",
+        "面试考点"
+      ],
+      "source": "https://dev.mysql.com/doc/refman/8.4/en/optimization-indexes.html",
+      "references": [
+        {
+          "title": "MySQL 8.4 索引优化",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/optimization-indexes.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>为什么 LIMIT 配合很大的 OFFSET 可能越来越慢？</p><p>游标分页需要怎样的排序与索引条件，如何处理排序值重复和数据变化？</p>"
+    },
+    {
+      "order": 18,
+      "id": "MYSQL18",
+      "slug": "mysql-durability-logs",
+      "title": "redo、undo 与 binlog",
+      "englishTitle": "MySQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "MySQL · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "MySQL",
+        "面试考点"
+      ],
+      "source": "https://dev.mysql.com/doc/refman/8.4/en/innodb-redo-log.html",
+      "references": [
+        {
+          "title": "InnoDB 重做日志",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-redo-log.html"
+        },
+        {
+          "title": "MySQL 8.4 二进制日志",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/binary-log.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>redo log、undo log 和 binlog 分别解决什么问题？</p><p>InnoDB 事务提交如何协调存储引擎与 binlog，持久化配置如何影响崩溃后的结果？</p>"
+    },
+    {
+      "order": 19,
+      "id": "MYSQL19",
+      "slug": "mysql-replica-lag",
+      "title": "主从复制与读写一致性",
+      "englishTitle": "MySQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "MySQL · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "MySQL",
+        "面试考点"
+      ],
+      "source": "https://dev.mysql.com/doc/refman/8.4/en/replication.html",
+      "references": [
+        {
+          "title": "MySQL 复制",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/replication.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>MySQL 复制的大致流程是什么，异步复制与半同步复制有哪些区别？</p><p>如何判断复制延迟的来源，并处理刚写入后从副本读不到数据的问题？</p>"
+    },
+    {
+      "order": 20,
+      "id": "MYSQL20",
+      "slug": "mysql-large-table-change",
+      "title": "大表变更与数据拆分",
+      "englishTitle": "MySQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "MySQL · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "MySQL",
+        "面试考点"
+      ],
+      "source": "https://dev.mysql.com/doc/refman/8.4/en/partitioning.html",
+      "references": [
+        {
+          "title": "MySQL 8.4 分区",
+          "url": "https://dev.mysql.com/doc/refman/8.4/en/partitioning.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>如何评估大表加索引或改字段时的锁、耗时和磁盘风险？</p><p>分区表与应用层分库分表有什么区别，分别适合解决什么问题？</p>"
+    },
+    {
+      "order": 21,
+      "id": "REDIS01",
+      "slug": "redis-data-types",
+      "title": "常用数据类型与场景",
+      "englishTitle": "Redis",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Redis · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Redis",
+        "基础知识"
+      ],
+      "source": "https://redis.io/docs/latest/develop/data-types/",
+      "references": [
+        {
+          "title": "Redis 数据类型",
+          "url": "https://redis.io/docs/latest/develop/data-types/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>String、Hash、List、Set 和 Sorted Set 各适合哪些业务场景？</p><p>做计数器、购物车、去重和排行榜时，你会如何建模？</p>"
+    },
+    {
+      "order": 22,
+      "id": "REDIS02",
+      "slug": "redis-encodings",
+      "title": "数据类型与底层编码",
+      "englishTitle": "Redis",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Redis · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Redis",
+        "基础知识"
+      ],
+      "source": "https://redis.io/docs/latest/develop/data-types/",
+      "references": [
+        {
+          "title": "Redis 数据类型",
+          "url": "https://redis.io/docs/latest/develop/data-types/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Redis 的数据类型与内部编码是什么关系？</p><p>如何查看一个键的编码，为什么相同数据类型可能采用不同的内部结构？</p>"
+    },
+    {
+      "order": 23,
+      "id": "REDIS03",
+      "slug": "redis-threading",
+      "title": "Redis 的线程模型",
+      "englishTitle": "Redis",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Redis · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Redis",
+        "基础知识"
+      ],
+      "source": "https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/latency/",
+      "references": [
+        {
+          "title": "Redis 延迟诊断",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/latency/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>“Redis 是单线程的”准确吗？</p><p>命令执行、网络 I/O 与后台任务分别可能使用哪些线程或进程，慢命令会产生什么影响？</p>"
+    },
+    {
+      "order": 24,
+      "id": "REDIS04",
+      "slug": "redis-expiry",
+      "title": "过期时间与键的删除",
+      "englishTitle": "Redis",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Redis · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Redis",
+        "基础知识"
+      ],
+      "source": "https://redis.io/docs/latest/commands/expire/",
+      "references": [
+        {
+          "title": "Redis EXPIRE",
+          "url": "https://redis.io/docs/latest/commands/expire/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>TTL、EXPIRE、SET 的过期选项各有什么作用？</p><p>过期键什么时候被清理，过期删除与内存淘汰有什么区别？</p>"
+    },
+    {
+      "order": 25,
+      "id": "REDIS05",
+      "slug": "redis-rdb-aof",
+      "title": "RDB 与 AOF",
+      "englishTitle": "Redis",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Redis · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Redis",
+        "基础知识"
+      ],
+      "source": "https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/",
+      "references": [
+        {
+          "title": "Redis 持久化",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>RDB 和 AOF 的实现方式、恢复速度和数据丢失窗口有哪些区别？</p><p>同时开启两者时，恢复过程如何选择数据来源？</p>"
+    },
+    {
+      "order": 26,
+      "id": "REDIS06",
+      "slug": "redis-transactions",
+      "title": "事务、WATCH 与 Lua",
+      "englishTitle": "Redis",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Redis · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Redis",
+        "基础知识"
+      ],
+      "source": "https://redis.io/docs/latest/develop/using-commands/transactions/",
+      "references": [
+        {
+          "title": "Redis 事务",
+          "url": "https://redis.io/docs/latest/develop/using-commands/transactions/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>MULTI/EXEC、WATCH 与 Lua 脚本分别提供什么能力？</p><p>Redis 事务或脚本遇到错误会自动回滚吗，使用时有哪些边界？</p>"
+    },
+    {
+      "order": 27,
+      "id": "REDIS07",
+      "slug": "redis-pipeline",
+      "title": "Pipeline 与批量操作",
+      "englishTitle": "Redis",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Redis · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Redis",
+        "基础知识"
+      ],
+      "source": "https://redis.io/docs/latest/develop/",
+      "references": [
+        {
+          "title": "Redis 开发文档",
+          "url": "https://redis.io/docs/latest/develop/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Pipeline 为什么能提升吞吐，它是否提供事务或原子性保证？</p><p>请求过大时有哪些风险，它与批量命令、Lua 脚本如何选择？</p>"
+    },
+    {
+      "order": 28,
+      "id": "REDIS08",
+      "slug": "redis-replication-basics",
+      "title": "复制、Sentinel 与 Cluster",
+      "englishTitle": "Redis",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Redis · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Redis",
+        "基础知识"
+      ],
+      "source": "https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/",
+      "references": [
+        {
+          "title": "Redis Cluster 规范",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>主从复制、Sentinel 和 Redis Cluster 分别解决什么问题？</p><p>它们在读写入口、故障切换和数据分布上有什么区别？</p>"
+    },
+    {
+      "order": 29,
+      "id": "REDIS09",
+      "slug": "redis-cache-misses",
+      "title": "缓存穿透、击穿与雪崩",
+      "englishTitle": "Redis",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Redis · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Redis",
+        "面试考点"
+      ],
+      "source": "https://redis.io/docs/latest/develop/",
+      "references": [
+        {
+          "title": "Redis 开发文档",
+          "url": "https://redis.io/docs/latest/develop/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>缓存穿透、击穿和雪崩分别是什么，流量与后端负载有什么特征？</p><p>对不存在的键、热点键失效和大面积失效，你会分别怎样处理？</p>"
+    },
+    {
+      "order": 30,
+      "id": "REDIS10",
+      "slug": "redis-cache-consistency",
+      "title": "缓存与数据库一致性",
+      "englishTitle": "Redis",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Redis · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Redis",
+        "面试考点"
+      ],
+      "source": "https://redis.io/docs/latest/develop/",
+      "references": [
+        {
+          "title": "Redis 开发文档",
+          "url": "https://redis.io/docs/latest/develop/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>更新数据库与删除缓存的先后顺序会产生哪些并发问题？</p><p>缓存失效失败、消息重试或乱序时，如何避免旧值长期覆盖新值？</p>"
+    },
+    {
+      "order": 31,
+      "id": "REDIS11",
+      "slug": "redis-distributed-lock",
+      "title": "分布式锁与租约失效",
+      "englishTitle": "Redis",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Redis · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Redis",
+        "面试考点"
+      ],
+      "source": "https://redis.io/docs/latest/develop/clients/patterns/distributed-locks/",
+      "references": [
+        {
+          "title": "Redis 分布式锁及适用假设",
+          "url": "https://redis.io/docs/latest/develop/clients/patterns/distributed-locks/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>用 Redis 实现互斥锁时，如何处理原子加锁、超时和安全解锁？</p><p>持锁线程长时间暂停或主从切换后，还能否保证业务互斥？</p>"
+    },
+    {
+      "order": 32,
+      "id": "REDIS12",
+      "slug": "redis-eviction",
+      "title": "内存淘汰策略",
+      "englishTitle": "Redis",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Redis · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Redis",
+        "面试考点"
+      ],
+      "source": "https://redis.io/docs/latest/develop/reference/eviction/",
+      "references": [
+        {
+          "title": "Redis 内存淘汰",
+          "url": "https://redis.io/docs/latest/develop/reference/eviction/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Redis 的 maxmemory 与淘汰策略如何配合工作？</p><p>allkeys 与 volatile、LRU 与 LFU 各适合什么场景，没有可淘汰键时会发生什么？</p>"
+    },
+    {
+      "order": 33,
+      "id": "REDIS13",
+      "slug": "redis-hot-big-keys",
+      "title": "热点键与大键",
+      "englishTitle": "Redis",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Redis · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Redis",
+        "面试考点"
+      ],
+      "source": "https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/latency/",
+      "references": [
+        {
+          "title": "Redis 延迟诊断",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/latency/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>热点键和大键分别会造成哪些瓶颈？</p><p>如何在尽量不影响业务的前提下发现它们，并设计拆分、限流或删除方案？</p>"
+    },
+    {
+      "order": 34,
+      "id": "REDIS14",
+      "slug": "redis-cluster-slots",
+      "title": "Cluster 槽位与重定向",
+      "englishTitle": "Redis",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Redis · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Redis",
+        "面试考点"
+      ],
+      "source": "https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/",
+      "references": [
+        {
+          "title": "Redis Cluster 规范",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Redis Cluster 为什么使用哈希槽？</p><p>MOVED 与 ASK 有什么区别，扩缩容期间客户端需要处理什么，跨槽多键操作受到哪些限制？</p>"
+    },
+    {
+      "order": 35,
+      "id": "REDIS15",
+      "slug": "redis-replication-loss",
+      "title": "复制与故障切换的数据安全",
+      "englishTitle": "Redis",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Redis · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Redis",
+        "面试考点"
+      ],
+      "source": "https://redis.io/docs/latest/operate/oss_and_stack/management/replication/",
+      "references": [
+        {
+          "title": "Redis 复制",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/replication/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Redis 全量同步与部分重同步分别在什么情况下发生？</p><p>异步复制、故障切换与 WAIT 各会怎样影响写入成功后的数据安全？</p>"
+    },
+    {
+      "order": 36,
+      "id": "REDIS16",
+      "slug": "redis-fork-memory",
+      "title": "持久化抖动与内存放大",
+      "englishTitle": "Redis",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Redis · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Redis",
+        "面试考点"
+      ],
+      "source": "https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/",
+      "references": [
+        {
+          "title": "Redis 持久化",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>RDB 快照或 AOF 重写期间，为什么可能出现延迟升高和内存增加？</p><p>你会如何结合 fork、写时复制、磁盘与写入流量进行排查？</p>"
+    },
+    {
+      "order": 37,
+      "id": "REDIS17",
+      "slug": "redis-rate-limiter",
+      "title": "限流算法的原子实现",
+      "englishTitle": "Redis",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Redis · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Redis",
+        "面试考点"
+      ],
+      "source": "https://redis.io/docs/latest/develop/programmability/",
+      "references": [
+        {
+          "title": "Redis 可编程能力",
+          "url": "https://redis.io/docs/latest/develop/programmability/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>固定窗口、滑动窗口和令牌桶各有什么取舍？</p><p>用 Redis 支撑多实例限流时，如何保证并发正确性并控制键数量？</p>"
+    },
+    {
+      "order": 38,
+      "id": "REDIS18",
+      "slug": "redis-latency",
+      "title": "Redis 延迟突然升高",
+      "englishTitle": "Redis",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Redis · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "Redis",
+        "面试考点"
+      ],
+      "source": "https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/latency/",
+      "references": [
+        {
+          "title": "Redis 延迟诊断",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/latency/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>客户端请求 Redis 的延迟突然升高，但 CPU 并未持续打满，你会如何定位？</p><p>如何区分慢命令、网络、连接池、持久化与主机资源问题？</p>"
+    },
+    {
+      "order": 39,
+      "id": "REDIS19",
+      "slug": "redis-message-delivery",
+      "title": "Pub/Sub 与 Streams",
+      "englishTitle": "Redis",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Redis · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "Redis",
+        "面试考点"
+      ],
+      "source": "https://redis.io/docs/latest/develop/data-types/",
+      "references": [
+        {
+          "title": "Redis 数据类型",
+          "url": "https://redis.io/docs/latest/develop/data-types/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Redis Pub/Sub 与 Streams 在消息留存、确认、消费进度和故障恢复上有什么区别？</p><p>使用消费组时如何处理积压、待确认消息与重复消费？</p>"
+    },
+    {
+      "order": 40,
+      "id": "REDIS20",
+      "slug": "redis-multi-region-cache",
+      "title": "跨区域缓存与故障降级",
+      "englishTitle": "Redis",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Redis · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "Redis",
+        "面试考点"
+      ],
+      "source": "https://redis.io/docs/latest/operate/oss_and_stack/management/replication/",
+      "references": [
+        {
+          "title": "Redis 复制",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/replication/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>跨区域部署缓存时，如何权衡延迟、一致性和故障隔离？</p><p>某一区域缓存不可用或缓存全部丢失后，如何避免回源请求压垮数据库？</p>"
+    },
+    {
+      "order": 41,
+      "id": "ES01",
+      "slug": "es-concepts",
+      "title": "索引、文档与分片",
+      "englishTitle": "Elasticsearch ES",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Elasticsearch · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Elasticsearch",
+        "ES",
+        "基础知识"
+      ],
+      "source": "https://www.elastic.co/docs/reference/elasticsearch",
+      "references": [
+        {
+          "title": "Elasticsearch 官方参考",
+          "url": "https://www.elastic.co/docs/reference/elasticsearch"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Elasticsearch 的 index、document、primary shard 和 replica shard 分别是什么？</p><p>这些概念与关系型数据库中的表、记录之间有哪些不能直接类比的地方？</p>"
+    },
+    {
+      "order": 42,
+      "id": "ES02",
+      "slug": "es-inverted-index",
+      "title": "倒排索引与全文检索",
+      "englishTitle": "Elasticsearch ES",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Elasticsearch · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Elasticsearch",
+        "ES",
+        "基础知识"
+      ],
+      "source": "https://www.elastic.co/docs/manage-data/data-store/text-analysis",
+      "references": [
+        {
+          "title": "Elasticsearch 文本分析",
+          "url": "https://www.elastic.co/docs/manage-data/data-store/text-analysis"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>倒排索引保存哪些信息，如何支持全文检索？</p><p>它与数据库常见的 B+ 树索引在查询方式和适用场景上有什么区别？</p>"
+    },
+    {
+      "order": 43,
+      "id": "ES03",
+      "slug": "es-text-keyword",
+      "title": "text 与 keyword",
+      "englishTitle": "Elasticsearch ES",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Elasticsearch · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Elasticsearch",
+        "ES",
+        "基础知识"
+      ],
+      "source": "https://www.elastic.co/docs/manage-data/data-store/mapping",
+      "references": [
+        {
+          "title": "Elasticsearch Mapping",
+          "url": "https://www.elastic.co/docs/manage-data/data-store/mapping"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>text 和 keyword 字段在索引、查询、排序与聚合上有什么区别？</p><p>同一业务字段既要全文检索又要精确匹配时，如何设计 mapping？</p>"
+    },
+    {
+      "order": 44,
+      "id": "ES04",
+      "slug": "es-analyzers",
+      "title": "分词器的组成",
+      "englishTitle": "Elasticsearch ES",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Elasticsearch · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Elasticsearch",
+        "ES",
+        "基础知识"
+      ],
+      "source": "https://www.elastic.co/docs/manage-data/data-store/text-analysis",
+      "references": [
+        {
+          "title": "Elasticsearch 文本分析",
+          "url": "https://www.elastic.co/docs/manage-data/data-store/text-analysis"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Analyzer 中的 character filter、tokenizer 和 token filter 各负责什么？</p><p>索引时与查询时的分析器不一致，会对搜索结果产生什么影响？</p>"
+    },
+    {
+      "order": 45,
+      "id": "ES05",
+      "slug": "es-mapping",
+      "title": "Mapping 与动态字段",
+      "englishTitle": "Elasticsearch ES",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Elasticsearch · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Elasticsearch",
+        "ES",
+        "基础知识"
+      ],
+      "source": "https://www.elastic.co/docs/manage-data/data-store/mapping",
+      "references": [
+        {
+          "title": "Elasticsearch Mapping",
+          "url": "https://www.elastic.co/docs/manage-data/data-store/mapping"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>显式 mapping、动态 mapping 和 dynamic templates 各适合什么场景？</p><p>字段类型已经确定后能否直接修改，任意动态字段可能带来哪些问题？</p>"
+    },
+    {
+      "order": 46,
+      "id": "ES06",
+      "slug": "es-query-filter",
+      "title": "Query 与 Filter",
+      "englishTitle": "Elasticsearch ES",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Elasticsearch · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Elasticsearch",
+        "ES",
+        "基础知识"
+      ],
+      "source": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-filter-context",
+      "references": [
+        {
+          "title": "Elasticsearch 查询与过滤上下文",
+          "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-filter-context"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>查询上下文与过滤上下文有什么区别？</p><p>bool 中的 must、filter、should 和 must_not 如何组合，哪些条件应当参与相关性评分？</p>"
+    },
+    {
+      "order": 47,
+      "id": "ES07",
+      "slug": "es-match-term",
+      "title": "match、term 与相关性",
+      "englishTitle": "Elasticsearch ES",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Elasticsearch · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Elasticsearch",
+        "ES",
+        "基础知识"
+      ],
+      "source": "https://www.elastic.co/docs/reference/query-languages/querydsl",
+      "references": [
+        {
+          "title": "Elasticsearch Query DSL",
+          "url": "https://www.elastic.co/docs/reference/query-languages/querydsl"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>match 与 term 查询有什么区别？</p><p>为什么对 text 字段使用 term 有时查不到预期结果，BM25 评分大致考虑哪些因素？</p>"
+    },
+    {
+      "order": 48,
+      "id": "ES08",
+      "slug": "es-near-real-time",
+      "title": "写入成功与搜索可见性",
+      "englishTitle": "Elasticsearch ES",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Elasticsearch · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Elasticsearch",
+        "ES",
+        "基础知识"
+      ],
+      "source": "https://www.elastic.co/docs/manage-data/data-store/near-real-time-search",
+      "references": [
+        {
+          "title": "Elasticsearch 近实时搜索",
+          "url": "https://www.elastic.co/docs/manage-data/data-store/near-real-time-search"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>为什么 Elasticsearch 写入成功后，搜索可能暂时查不到新文档？</p><p>GET 文档与搜索的可见性有什么区别，refresh 参数有哪些取舍？</p>"
+    },
+    {
+      "order": 49,
+      "id": "ES09",
+      "slug": "es-write-flow",
+      "title": "分布式写入流程",
+      "englishTitle": "Elasticsearch ES",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Elasticsearch · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Elasticsearch",
+        "ES",
+        "面试考点"
+      ],
+      "source": "https://www.elastic.co/docs/deploy-manage/distributed-architecture/reading-and-writing-documents",
+      "references": [
+        {
+          "title": "Elasticsearch 分布式读写",
+          "url": "https://www.elastic.co/docs/deploy-manage/distributed-architecture/reading-and-writing-documents"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>文档如何路由到主分片并复制到副本？</p><p>写入响应、主分片故障与副本确认之间有什么关系，哪些情况需要客户端重试？</p>"
+    },
+    {
+      "order": 50,
+      "id": "ES10",
+      "slug": "es-segment-translog",
+      "title": "Refresh、Flush 与 Merge",
+      "englishTitle": "Elasticsearch ES",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Elasticsearch · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Elasticsearch",
+        "ES",
+        "面试考点"
+      ],
+      "source": "https://www.elastic.co/docs/manage-data/data-store/near-real-time-search",
+      "references": [
+        {
+          "title": "Elasticsearch 近实时搜索",
+          "url": "https://www.elastic.co/docs/manage-data/data-store/near-real-time-search"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Lucene segment、translog、refresh、flush 和 merge 分别承担什么职责？</p><p>它们如何影响搜索可见性、故障恢复、磁盘空间与写入性能？</p>"
+    },
+    {
+      "order": 51,
+      "id": "ES11",
+      "slug": "es-shard-sizing",
+      "title": "分片数量与容量规划",
+      "englishTitle": "Elasticsearch ES",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Elasticsearch · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Elasticsearch",
+        "ES",
+        "面试考点"
+      ],
+      "source": "https://www.elastic.co/docs/deploy-manage/production-guidance/optimize-performance/size-shards",
+      "references": [
+        {
+          "title": "Elasticsearch 分片规划",
+          "url": "https://www.elastic.co/docs/deploy-manage/production-guidance/optimize-performance/size-shards"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>如何根据数据量、查询并发和节点资源规划主分片与副本数？</p><p>过多小分片和过大的单分片分别有什么风险，如何调整已有索引？</p>"
+    },
+    {
+      "order": 52,
+      "id": "ES12",
+      "slug": "es-deep-pagination",
+      "title": "深分页与一致性视图",
+      "englishTitle": "Elasticsearch ES",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Elasticsearch · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Elasticsearch",
+        "ES",
+        "面试考点"
+      ],
+      "source": "https://www.elastic.co/docs/reference/elasticsearch/rest-apis/paginate-search-results",
+      "references": [
+        {
+          "title": "Elasticsearch 搜索分页",
+          "url": "https://www.elastic.co/docs/reference/elasticsearch/rest-apis/paginate-search-results"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>为什么 from/size 深分页会消耗大量资源？</p><p>search_after、PIT 和 scroll 分别适合什么场景，如何处理排序值重复和翻页期间的数据变化？</p>"
+    },
+    {
+      "order": 53,
+      "id": "ES13",
+      "slug": "es-aggregations",
+      "title": "聚合、排序与内存",
+      "englishTitle": "Elasticsearch ES",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Elasticsearch · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Elasticsearch",
+        "ES",
+        "面试考点"
+      ],
+      "source": "https://www.elastic.co/docs/explore-analyze/query-filter/aggregations",
+      "references": [
+        {
+          "title": "Elasticsearch 聚合",
+          "url": "https://www.elastic.co/docs/explore-analyze/query-filter/aggregations"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>doc values 与 fielddata 分别用于什么，为什么直接聚合 text 字段需要谨慎？</p><p>高基数字段的 terms 聚合为什么可能耗费大量内存，结果准确性如何评估？</p>"
+    },
+    {
+      "order": 54,
+      "id": "ES14",
+      "slug": "es-nested",
+      "title": "对象数组与 nested",
+      "englishTitle": "Elasticsearch ES",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Elasticsearch · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Elasticsearch",
+        "ES",
+        "面试考点"
+      ],
+      "source": "https://www.elastic.co/docs/manage-data/data-store/mapping",
+      "references": [
+        {
+          "title": "Elasticsearch Mapping",
+          "url": "https://www.elastic.co/docs/manage-data/data-store/mapping"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>普通 object 数组为什么可能出现跨对象字段组合匹配？</p><p>nested 与 parent-child 模型有什么区别，你会如何选择关联数据的建模方式？</p>"
+    },
+    {
+      "order": 55,
+      "id": "ES15",
+      "slug": "es-bulk-ingestion",
+      "title": "批量写入性能与重试",
+      "englishTitle": "Elasticsearch ES",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Elasticsearch · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Elasticsearch",
+        "ES",
+        "面试考点"
+      ],
+      "source": "https://www.elastic.co/docs/deploy-manage/distributed-architecture/reading-and-writing-documents",
+      "references": [
+        {
+          "title": "Elasticsearch 分布式读写",
+          "url": "https://www.elastic.co/docs/deploy-manage/distributed-architecture/reading-and-writing-documents"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>如何选择 bulk 的批次大小、并发度和 refresh 策略？</p><p>一个 bulk 请求中部分条目失败时，如何重试并防止数据丢失或重复覆盖？</p>"
+    },
+    {
+      "order": 56,
+      "id": "ES16",
+      "slug": "es-optimistic-concurrency",
+      "title": "并发更新与乐观锁",
+      "englishTitle": "Elasticsearch ES",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Elasticsearch · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Elasticsearch",
+        "ES",
+        "面试考点"
+      ],
+      "source": "https://www.elastic.co/docs/deploy-manage/distributed-architecture/reading-and-writing-documents",
+      "references": [
+        {
+          "title": "Elasticsearch 分布式读写",
+          "url": "https://www.elastic.co/docs/deploy-manage/distributed-architecture/reading-and-writing-documents"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>两个客户端同时更新同一文档时，如何防止较旧数据覆盖较新数据？</p><p>if_seq_no、if_primary_term 与外部版本号分别适合解决什么问题？</p>"
+    },
+    {
+      "order": 57,
+      "id": "ES17",
+      "slug": "es-slow-search",
+      "title": "慢查询与资源排查",
+      "englishTitle": "Elasticsearch ES",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Elasticsearch · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Elasticsearch",
+        "ES",
+        "面试考点"
+      ],
+      "source": "https://www.elastic.co/docs/reference/elasticsearch",
+      "references": [
+        {
+          "title": "Elasticsearch 官方参考",
+          "url": "https://www.elastic.co/docs/reference/elasticsearch"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>搜索延迟升高时，你会如何区分查询语句、分片分布、线程池、堆内存和磁盘瓶颈？</p><p>慢日志、Profile API 与集群监控各能提供什么证据？</p>"
+    },
+    {
+      "order": 58,
+      "id": "ES18",
+      "slug": "es-cluster-health",
+      "title": "集群变黄、变红与分片恢复",
+      "englishTitle": "Elasticsearch ES",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Elasticsearch · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "Elasticsearch",
+        "ES",
+        "面试考点"
+      ],
+      "source": "https://www.elastic.co/docs/deploy-manage/distributed-architecture/shard-allocation-relocation-recovery",
+      "references": [
+        {
+          "title": "Elasticsearch 分片分配与恢复",
+          "url": "https://www.elastic.co/docs/deploy-manage/distributed-architecture/shard-allocation-relocation-recovery"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Elasticsearch 集群的 green、yellow、red 分别表示什么？</p><p>节点下线或磁盘水位过高导致分片未分配时，如何定位并恢复服务？</p>"
+    },
+    {
+      "order": 59,
+      "id": "ES19",
+      "slug": "es-index-lifecycle",
+      "title": "索引生命周期与无停机重建",
+      "englishTitle": "Elasticsearch ES",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Elasticsearch · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "Elasticsearch",
+        "ES",
+        "面试考点"
+      ],
+      "source": "https://www.elastic.co/docs/manage-data/lifecycle/index-lifecycle-management",
+      "references": [
+        {
+          "title": "Elasticsearch 索引生命周期",
+          "url": "https://www.elastic.co/docs/manage-data/lifecycle/index-lifecycle-management"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>持续增长的日志索引如何设计 rollover、保留周期与数据层级？</p><p>业务索引需要变更 mapping 并 reindex 时，如何通过别名切换并处理增量写入？</p>"
+    },
+    {
+      "order": 60,
+      "id": "ES20",
+      "slug": "es-database-sync",
+      "title": "MySQL 到 ES 的数据同步",
+      "englishTitle": "Elasticsearch ES",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Elasticsearch · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "Elasticsearch",
+        "ES",
+        "面试考点"
+      ],
+      "source": "https://www.elastic.co/docs/deploy-manage/distributed-architecture/reading-and-writing-documents",
+      "references": [
+        {
+          "title": "Elasticsearch 分布式读写",
+          "url": "https://www.elastic.co/docs/deploy-manage/distributed-architecture/reading-and-writing-documents"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>如何把 MySQL 的存量与增量数据同步到 Elasticsearch，并控制重复、乱序和删除事件的影响？</p><p>同步中断后如何恢复，如何验证两端最终一致？</p>"
+    },
+    {
+      "order": 61,
+      "id": "KAFKA01",
+      "slug": "kafka-concepts",
+      "title": "Topic、Partition 与 Broker",
+      "englishTitle": "Kafka",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Kafka · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Kafka",
+        "基础知识"
+      ],
+      "source": "https://kafka.apache.org/41/design/design/",
+      "references": [
+        {
+          "title": "Apache Kafka 4.1 设计文档",
+          "url": "https://kafka.apache.org/41/design/design/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Topic、Partition、Broker 和 Record 各是什么？</p><p>为什么需要分区，分区内的 offset 与消费组提交的 offset 分别表示什么？</p>"
+    },
+    {
+      "order": 62,
+      "id": "KAFKA02",
+      "slug": "kafka-consumer-groups",
+      "title": "消费组与并行度",
+      "englishTitle": "Kafka",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Kafka · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Kafka",
+        "基础知识"
+      ],
+      "source": "https://kafka.apache.org/41/configuration/consumer-configs/",
+      "references": [
+        {
+          "title": "Apache Kafka 4.1 Consumer 配置",
+          "url": "https://kafka.apache.org/41/configuration/consumer-configs/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>同一个消费组与不同消费组订阅同一 Topic 时，消息如何分配？</p><p>在经典消费组模型下，消费者数量多于分区数会怎样？</p>"
+    },
+    {
+      "order": 63,
+      "id": "KAFKA03",
+      "slug": "kafka-partitioning",
+      "title": "消息分区与 Key",
+      "englishTitle": "Kafka",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Kafka · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Kafka",
+        "基础知识"
+      ],
+      "source": "https://kafka.apache.org/41/configuration/producer-configs/",
+      "references": [
+        {
+          "title": "Apache Kafka 4.1 Producer 配置",
+          "url": "https://kafka.apache.org/41/configuration/producer-configs/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Producer 如何决定一条消息进入哪个分区？</p><p>指定 Key、不指定 Key 或自定义分区器各有什么影响，增加分区后原有 Key 的映射是否保持不变？</p>"
+    },
+    {
+      "order": 64,
+      "id": "KAFKA04",
+      "slug": "kafka-log-storage",
+      "title": "日志存储与高吞吐",
+      "englishTitle": "Kafka",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Kafka · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Kafka",
+        "基础知识"
+      ],
+      "source": "https://kafka.apache.org/41/design/design/",
+      "references": [
+        {
+          "title": "Apache Kafka 4.1 设计文档",
+          "url": "https://kafka.apache.org/41/design/design/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Kafka 如何利用分区日志、分段文件、页缓存和批处理提高吞吐？</p><p>读写模式与磁盘、网络之间有什么关系？</p>"
+    },
+    {
+      "order": 65,
+      "id": "KAFKA05",
+      "slug": "kafka-replicas",
+      "title": "Leader、Follower 与 ISR",
+      "englishTitle": "Kafka",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Kafka · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Kafka",
+        "基础知识"
+      ],
+      "source": "https://kafka.apache.org/41/design/design/",
+      "references": [
+        {
+          "title": "Apache Kafka 4.1 设计文档",
+          "url": "https://kafka.apache.org/41/design/design/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>分区的 Leader、Follower 和 ISR 分别是什么？</p><p>副本因为什么离开或重新加入 ISR，副本数量与可用性有什么关系？</p>"
+    },
+    {
+      "order": 66,
+      "id": "KAFKA06",
+      "slug": "kafka-acks",
+      "title": "acks 与生产可靠性",
+      "englishTitle": "Kafka",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Kafka · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Kafka",
+        "基础知识"
+      ],
+      "source": "https://kafka.apache.org/41/configuration/producer-configs/",
+      "references": [
+        {
+          "title": "Apache Kafka 4.1 Producer 配置",
+          "url": "https://kafka.apache.org/41/configuration/producer-configs/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>acks=0、acks=1 和 acks=all 分别意味着什么？</p><p>acks=all 是否表示所有已配置副本都已确认，min.insync.replicas 又起什么作用？</p>"
+    },
+    {
+      "order": 67,
+      "id": "KAFKA07",
+      "slug": "kafka-offsets",
+      "title": "消费位点与提交时机",
+      "englishTitle": "Kafka",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Kafka · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Kafka",
+        "基础知识"
+      ],
+      "source": "https://kafka.apache.org/41/configuration/consumer-configs/",
+      "references": [
+        {
+          "title": "Apache Kafka 4.1 Consumer 配置",
+          "url": "https://kafka.apache.org/41/configuration/consumer-configs/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>消费者当前拉取位置与已提交位点有什么区别？</p><p>自动提交、同步提交和异步提交各有哪些取舍，提交早于或晚于业务处理会怎样？</p>"
+    },
+    {
+      "order": 68,
+      "id": "KAFKA08",
+      "slug": "kafka-retention",
+      "title": "保留策略与日志压缩",
+      "englishTitle": "Kafka",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Kafka · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Kafka",
+        "基础知识"
+      ],
+      "source": "https://kafka.apache.org/41/configuration/topic-configs/",
+      "references": [
+        {
+          "title": "Apache Kafka 4.1 Topic 配置",
+          "url": "https://kafka.apache.org/41/configuration/topic-configs/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>按时间或大小删除日志与 log compaction 有什么区别？</p><p>compaction 如何处理相同 Key 与删除标记，是否保证日志中始终只剩一条记录？</p>"
+    },
+    {
+      "order": 69,
+      "id": "KAFKA09",
+      "slug": "kafka-delivery-semantics",
+      "title": "至多一次、至少一次与恰好一次",
+      "englishTitle": "Kafka",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Kafka · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Kafka",
+        "面试考点"
+      ],
+      "source": "https://kafka.apache.org/41/design/design/",
+      "references": [
+        {
+          "title": "Apache Kafka 4.1 设计文档",
+          "url": "https://kafka.apache.org/41/design/design/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>At-most-once、at-least-once 和 exactly-once 分别约束什么？</p><p>从生产、存储到消费处理的不同环节，应当如何界定交付语义？</p>"
+    },
+    {
+      "order": 70,
+      "id": "KAFKA10",
+      "slug": "kafka-idempotent-producer",
+      "title": "幂等生产者与重复消息",
+      "englishTitle": "Kafka",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Kafka · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Kafka",
+        "面试考点"
+      ],
+      "source": "https://kafka.apache.org/41/configuration/producer-configs/",
+      "references": [
+        {
+          "title": "Apache Kafka 4.1 Producer 配置",
+          "url": "https://kafka.apache.org/41/configuration/producer-configs/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Kafka 幂等生产者如何识别重试造成的重复写入？</p><p>它能否去重应用主动重复发送的业务事件，如何与 acks、重试和并发请求配置配合？</p>"
+    },
+    {
+      "order": 71,
+      "id": "KAFKA11",
+      "slug": "kafka-transactions",
+      "title": "事务消息与 EOS 边界",
+      "englishTitle": "Kafka",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Kafka · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Kafka",
+        "面试考点"
+      ],
+      "source": "https://kafka.apache.org/41/design/design/",
+      "references": [
+        {
+          "title": "Apache Kafka 4.1 设计文档",
+          "url": "https://kafka.apache.org/41/design/design/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Kafka 事务如何协调多分区写入和消费位点提交？</p><p>read_committed 消费者能看到哪些消息，Kafka 的 exactly-once 能否直接覆盖外部数据库写入？</p>"
+    },
+    {
+      "order": 72,
+      "id": "KAFKA12",
+      "slug": "kafka-ordering",
+      "title": "消息顺序与业务顺序",
+      "englishTitle": "Kafka",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Kafka · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Kafka",
+        "面试考点"
+      ],
+      "source": "https://kafka.apache.org/41/design/design/",
+      "references": [
+        {
+          "title": "Apache Kafka 4.1 设计文档",
+          "url": "https://kafka.apache.org/41/design/design/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Kafka 在什么范围内提供顺序保证？</p><p>重试、分区扩容和消费者内部并发如何影响业务处理顺序，同一订单事件如何保持有序？</p>"
+    },
+    {
+      "order": 73,
+      "id": "KAFKA13",
+      "slug": "kafka-rebalance",
+      "title": "Rebalance 与消费停顿",
+      "englishTitle": "Kafka",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Kafka · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Kafka",
+        "面试考点"
+      ],
+      "source": "https://kafka.apache.org/41/operations/consumer-rebalance-protocol/",
+      "references": [
+        {
+          "title": "Apache Kafka 4.1 消费组协议",
+          "url": "https://kafka.apache.org/41/operations/consumer-rebalance-protocol/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>哪些事件会触发消费组 rebalance？</p><p>Kafka 4.1 的 classic 与 consumer 协议在再均衡和心跳配置上有什么区别，如何减少长耗时处理造成的消费抖动？</p>"
+    },
+    {
+      "order": 74,
+      "id": "KAFKA14",
+      "slug": "kafka-lag",
+      "title": "消费积压排查",
+      "englishTitle": "Kafka",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Kafka · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Kafka",
+        "面试考点"
+      ],
+      "source": "https://kafka.apache.org/41/configuration/consumer-configs/",
+      "references": [
+        {
+          "title": "Apache Kafka 4.1 Consumer 配置",
+          "url": "https://kafka.apache.org/41/configuration/consumer-configs/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>发现 consumer lag 持续增长时，你会先检查什么？</p><p>如何区分流量上涨、分区倾斜、消费处理变慢和故障重试，扩容消费者何时无效？</p>"
+    },
+    {
+      "order": 75,
+      "id": "KAFKA15",
+      "slug": "kafka-business-idempotency",
+      "title": "重复消费与业务幂等",
+      "englishTitle": "Kafka",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Kafka · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Kafka",
+        "面试考点"
+      ],
+      "source": "https://kafka.apache.org/41/design/design/",
+      "references": [
+        {
+          "title": "Apache Kafka 4.1 设计文档",
+          "url": "https://kafka.apache.org/41/design/design/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>业务处理成功后提交位点前宕机，会有什么后果？</p><p>如何为扣款、发券或状态变更设计幂等处理，并处理去重记录自身的一致性问题？</p>"
+    },
+    {
+      "order": 76,
+      "id": "KAFKA16",
+      "slug": "kafka-retry-dead-letter",
+      "title": "失败重试与死信处理",
+      "englishTitle": "Kafka",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Kafka · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Kafka",
+        "面试考点"
+      ],
+      "source": "https://kafka.apache.org/41/design/design/",
+      "references": [
+        {
+          "title": "Apache Kafka 4.1 设计文档",
+          "url": "https://kafka.apache.org/41/design/design/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>消费失败时，原地重试、重试 Topic 和死信 Topic 各有什么取舍？</p><p>如何控制重试次数、保留诊断信息，并兼顾同一业务 Key 的顺序？</p>"
+    },
+    {
+      "order": 77,
+      "id": "KAFKA17",
+      "slug": "kafka-throughput-tuning",
+      "title": "吞吐、延迟与背压",
+      "englishTitle": "Kafka",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Kafka · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Kafka",
+        "面试考点"
+      ],
+      "source": "https://kafka.apache.org/41/configuration/producer-configs/",
+      "references": [
+        {
+          "title": "Apache Kafka 4.1 Producer 配置",
+          "url": "https://kafka.apache.org/41/configuration/producer-configs/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>batch.size、linger.ms、压缩和缓冲区配置如何影响生产吞吐与延迟？</p><p>Broker 或下游处理能力不足时，如何实施背压而不是无限堆积内存？</p>"
+    },
+    {
+      "order": 78,
+      "id": "KAFKA18",
+      "slug": "kafka-leader-failure",
+      "title": "Leader 故障与数据丢失",
+      "englishTitle": "Kafka",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Kafka · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "Kafka",
+        "面试考点"
+      ],
+      "source": "https://kafka.apache.org/41/design/design/",
+      "references": [
+        {
+          "title": "Apache Kafka 4.1 设计文档",
+          "url": "https://kafka.apache.org/41/design/design/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>分区 Leader 故障后，Kafka 如何选择新 Leader？</p><p>unclean leader election 在可用性与数据安全之间做了什么取舍，写入成功为什么仍需要说明故障条件？</p>"
+    },
+    {
+      "order": 79,
+      "id": "KAFKA19",
+      "slug": "kafka-kraft",
+      "title": "KRaft 与元数据仲裁",
+      "englishTitle": "Kafka",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Kafka · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "Kafka",
+        "面试考点"
+      ],
+      "source": "https://kafka.apache.org/41/operations/kraft/",
+      "references": [
+        {
+          "title": "Apache Kafka 4.1 KRaft",
+          "url": "https://kafka.apache.org/41/operations/kraft/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>在 Kafka 4.1 中，KRaft controller quorum 如何管理元数据，controller 与 broker 各负责什么？</p><p>元数据仲裁不可用与单个数据分区故障有什么区别？</p>"
+    },
+    {
+      "order": 80,
+      "id": "KAFKA20",
+      "slug": "kafka-database-events",
+      "title": "数据库事务与消息一致性",
+      "englishTitle": "Kafka",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Kafka · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "Kafka",
+        "面试考点"
+      ],
+      "source": "https://kafka.apache.org/41/design/design/",
+      "references": [
+        {
+          "title": "Apache Kafka 4.1 设计文档",
+          "url": "https://kafka.apache.org/41/design/design/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>数据库写入和 Kafka 消息发送之间如何避免一边成功一边失败？</p><p>事务发件箱、CDC 与消费者幂等分别解决什么问题，如何处理补发和乱序？</p>"
+    }
+  ]
+}

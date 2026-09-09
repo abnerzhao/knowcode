@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <title>一题一会 · 一字印章</title>
+  <rect x="1" y="1" width="30" height="30" rx="4" fill="#294e40"/>
+  <rect x="4.5" y="4.5" width="23" height="23" rx="1.5" fill="none" stroke="#f0ebdf" stroke-width="1.5"/>
+  <!-- A single horizontal stroke forms the Chinese monogram 一, without fonts. -->
+  <path d="M9 17 Q16 16.7 23 15.5" fill="none" stroke="#f0ebdf" stroke-width="3.5" stroke-linecap="square"/>
+</svg>

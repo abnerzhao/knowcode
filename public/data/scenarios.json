@@ -1,0 +1,568 @@
+{
+  "version": 1,
+  "name": "场景实战",
+  "kind": "discussion",
+  "source": "https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md",
+  "fetchedAt": "2026-09-08T00:00:00.000Z",
+  "editorialNote": "公开面经仅为发帖人自述。题目为本站根据主题原创整理；参数、示例、追问与难度均为练习设定，不提供唯一标准答案。",
+  "groups": [
+    {
+      "name": "缓存与一致性",
+      "count": 6
+    },
+    {
+      "name": "消息与可靠性",
+      "count": 4
+    },
+    {
+      "name": "调用与稳定性",
+      "count": 3
+    },
+    {
+      "name": "交易与并发",
+      "count": 3
+    },
+    {
+      "name": "数据与排障",
+      "count": 4
+    }
+  ],
+  "questions": [
+    {
+      "order": 1,
+      "id": "S01",
+      "slug": "hot-product-expiry",
+      "title": "热点商品缓存过期，数据库被打满",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "缓存与一致性",
+      "difficulty": "medium",
+      "tags": [
+        "Redis",
+        "热点",
+        "缓存击穿"
+      ],
+      "source": "https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md",
+      "references": [
+        {
+          "title": "GitHub · JavaGuide：Redis 面试主题",
+          "url": "https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md"
+        },
+        {
+          "title": "牛客 · 后端面试自述：性能、并发与扩容",
+          "url": "https://www.nowcoder.com/discuss/353157951986802688"
+        }
+      ],
+      "answerTemplate": "现象与目标\n\n排查证据\n\n处理方案与时序\n\n失败、恢复与取舍\n\n验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>热门商品的详情页平时命中缓存。缓存过期后，请求同时回源，数据库连接耗尽。</p><h3>范围与约束</h3><p>练习假设：详情读取峰值每秒 2 万次；数据库最多承受每秒 800 次查询；库存与价格不能直接当作长期静态数据。</p><h3>示例情境</h3><p>12:00 缓存失效；12:00:01 数千个请求都读到空值并查询数据库。请描述你希望替换成的处理时序。</p><h3>请回答</h3><ol><li>先如何止损？哪些指标能确认是单个热点失效，而非整体缓存故障？</li><li>如何限制同一数据的回源并发？等待中的请求与刷新失败分别如何处理？</li><li>哪些字段可以返回旧值，哪些必须保持正确性？给出降级边界。</li></ol><h3>面试追问</h3><ol><li>负责刷新缓存的实例宕机怎么办？热点从一个商品变成一百个商品时，方案如何调整？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md\">GitHub · JavaGuide：Redis 面试主题</a></li><li><a href=\"https://www.nowcoder.com/discuss/353157951986802688\">牛客 · 后端面试自述：性能、并发与扩容</a></li></ul>"
+    },
+    {
+      "order": 2,
+      "id": "S02",
+      "slug": "invalid-product-ids",
+      "title": "不存在的商品持续打穿缓存",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "缓存与一致性",
+      "difficulty": "easy",
+      "tags": [
+        "Redis",
+        "缓存穿透",
+        "防滥用"
+      ],
+      "source": "https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md",
+      "references": [
+        {
+          "title": "GitHub · JavaGuide：Redis 面试主题",
+          "url": "https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md"
+        }
+      ],
+      "answerTemplate": "现象与目标\n\n排查证据\n\n处理方案与时序\n\n失败、恢复与取舍\n\n验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>商品查询接口收到大量随机 ID。数据库都返回不存在，但缓存命中率接近零。</p><h3>范围与约束</h3><p>练习假设：商品会持续新增，非法 ID 与刚创建的合法 ID 混杂；不能永久拒绝新商品。</p><h3>示例情境</h3><p>请求 A 查询不存在的 ID 9001；稍后商品 9001 创建成功。说明此前的防护会不会让它一直不可见。</p><h3>请回答</h3><ol><li>区分参数校验、空值缓存与存在性过滤各自解决的问题。</li><li>怎样安排更新顺序与过期时间，使新商品能及时被查询？</li><li>如何衡量误拒绝、回源比例与新增商品可见延迟？</li></ol><h3>面试追问</h3><ol><li>过滤结构丢失或需要重建时，如何避免所有流量同时落到数据库？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md\">GitHub · JavaGuide：Redis 面试主题</a></li></ul>"
+    },
+    {
+      "order": 3,
+      "id": "S03",
+      "slug": "cache-expiry-wave",
+      "title": "大批缓存同时失效，如何恢复",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "缓存与一致性",
+      "difficulty": "medium",
+      "tags": [
+        "缓存雪崩",
+        "降级",
+        "容量"
+      ],
+      "source": "https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md",
+      "references": [
+        {
+          "title": "GitHub · JavaGuide：Redis 面试主题",
+          "url": "https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md"
+        },
+        {
+          "title": "GitHub · JavaGuide：超时与重试",
+          "url": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-availability/timeout-and-retry.md"
+        }
+      ],
+      "answerTemplate": "现象与目标\n\n排查证据\n\n处理方案与时序\n\n失败、恢复与取舍\n\n验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>一次批量预热让大量缓存使用同样的过期时间。到期后，缓存节点正常，业务却大量超时。</p><h3>范围与约束</h3><p>练习假设：首页依赖商品、评论和推荐三类数据；只能保住其中的关键链路；恢复期间仍有正常写入。</p><h3>示例情境</h3><p>缓存批量失效 → 回源上升 → 连接池排队 → 客户端重试。请标出在哪些位置切断放大链路。</p><h3>请回答</h3><ol><li>首轮应观察哪些指标，如何区分缓存失效与缓存服务不可达？</li><li>哪些请求可拒绝、返回旧数据或降级？如何限制恢复时的回源速度？</li><li>后续如何改变过期与预热策略，验证不会再次集中失效？</li></ol><h3>面试追问</h3><ol><li>如果缓存服务完全不可用，原来的防护措施还有哪些能生效？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md\">GitHub · JavaGuide：Redis 面试主题</a></li><li><a href=\"https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-availability/timeout-and-retry.md\">GitHub · JavaGuide：超时与重试</a></li></ul>"
+    },
+    {
+      "order": 4,
+      "id": "S04",
+      "slug": "stale-cache-after-write",
+      "title": "更新成功，为什么仍然读到旧数据",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "缓存与一致性",
+      "difficulty": "hard",
+      "tags": [
+        "双写一致性",
+        "并发",
+        "版本"
+      ],
+      "source": "https://www.nowcoder.com/discuss/353158377981288448",
+      "references": [
+        {
+          "title": "牛客 · WXG 面试复盘：缓存一致性",
+          "url": "https://www.nowcoder.com/discuss/353158377981288448"
+        },
+        {
+          "title": "GitHub · JavaGuide：Redis 面试主题",
+          "url": "https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md"
+        }
+      ],
+      "answerTemplate": "现象与目标\n\n排查证据\n\n处理方案与时序\n\n失败、恢复与取舍\n\n验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>用户修改昵称后刷新页面，昵称偶尔又变回旧值。服务采用数据库加缓存，读取未命中会回填。</p><h3>范围与约束</h3><p>练习假设：数据库是事实来源；普通读取允许最多 3 秒延迟，但用户希望立刻看到自己刚提交的修改。</p><h3>示例情境</h3><p>读请求 A 查到旧昵称但暂未回填；写请求 B 提交新昵称并删除缓存；A 随后把旧昵称写回缓存。</p><h3>请回答</h3><ol><li>画出读写时序，说明只讨论“先更新数据库还是缓存”为什么不够。</li><li>给出满足上述可见性要求的方案，并区分一般读取与写后读。</li><li>失效通知丢失、缓存删除失败和回填乱序如何检测与修复？</li></ol><h3>面试追问</h3><ol><li>若涉及多个地区的缓存，如何给出可解释、可监控的一致性承诺？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://www.nowcoder.com/discuss/353158377981288448\">牛客 · WXG 面试复盘：缓存一致性</a></li><li><a href=\"https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md\">GitHub · JavaGuide：Redis 面试主题</a></li></ul>"
+    },
+    {
+      "order": 5,
+      "id": "S05",
+      "slug": "single-hot-key",
+      "title": "一个热门 Key 压满了缓存实例",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "缓存与一致性",
+      "difficulty": "medium",
+      "tags": [
+        "Hot Key",
+        "本地缓存",
+        "分片"
+      ],
+      "source": "https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md",
+      "references": [
+        {
+          "title": "GitHub · JavaGuide：Redis 面试主题",
+          "url": "https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md"
+        }
+      ],
+      "answerTemplate": "现象与目标\n\n排查证据\n\n处理方案与时序\n\n失败、恢复与取舍\n\n验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>活动期间，总体缓存容量充足，但承载某个商品 Key 的节点 CPU 和网络持续满载。</p><h3>范围与约束</h3><p>练习假设：该 Key 占读取流量的 60%；商品文案更新较少，但售卖状态需要及时生效。</p><h3>示例情境</h3><p>新增三个缓存节点后，热门 Key 仍落在原来的分片，延迟没有明显改善。</p><h3>请回答</h3><ol><li>怎样定位热点 Key，并判断瓶颈是请求次数、值大小还是网络？</li><li>普通分片扩容为何未必有效？比较本地缓存、读副本和热点副本的代价。</li><li>复制热点数据后，如何处理更新、失效及热点迁移？</li></ol><h3>面试追问</h3><ol><li>如果热点每隔几分钟变化，如何避免预热和失效机制本身成为新的压力源？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md\">GitHub · JavaGuide：Redis 面试主题</a></li></ul>"
+    },
+    {
+      "order": 6,
+      "id": "S06",
+      "slug": "oversized-cache-value",
+      "title": "大 Key 让其他请求也变慢",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "缓存与一致性",
+      "difficulty": "easy",
+      "tags": [
+        "Big Key",
+        "延迟",
+        "数据拆分"
+      ],
+      "source": "https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md",
+      "references": [
+        {
+          "title": "GitHub · JavaGuide：Redis 面试主题",
+          "url": "https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md"
+        }
+      ],
+      "answerTemplate": "现象与目标\n\n排查证据\n\n处理方案与时序\n\n失败、恢复与取舍\n\n验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>用户资料缓存中混入完整的历史行为列表。少数值越来越大，读取、更新和删除时出现明显卡顿。</p><h3>范围与约束</h3><p>练习假设：历史行为有千万条，只需展示最近 50 条；线上不能停机整体清空缓存。</p><h3>示例情境</h3><p>一次更新传输 20 MB 数据，紧接着同实例上的小 Key 请求也开始超时。</p><h3>请回答</h3><ol><li>如何在低风险下找到大 Key，验证耗时分布？</li><li>怎样拆分数据结构并限制单次操作量，而不破坏用户查询？</li><li>设计迁移、灰度、校验与回滚步骤，避免同时重建所有数据。</li></ol><h3>面试追问</h3><ol><li>删除旧大 Key 或进行批量扫描时，有哪些额外风险需要监控？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md\">GitHub · JavaGuide：Redis 面试主题</a></li></ul>"
+    },
+    {
+      "order": 7,
+      "id": "S07",
+      "slug": "duplicate-message-consumption",
+      "title": "消息重复投递，如何避免重复发券",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "消息与可靠性",
+      "difficulty": "easy",
+      "tags": [
+        "消息队列",
+        "幂等",
+        "事务"
+      ],
+      "source": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-performance/message-queue/message-queue.md",
+      "references": [
+        {
+          "title": "GitHub · JavaGuide：消息队列",
+          "url": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-performance/message-queue/message-queue.md"
+        },
+        {
+          "title": "牛客 · 后端面试自述：性能、并发与扩容",
+          "url": "https://www.nowcoder.com/discuss/353157951986802688"
+        }
+      ],
+      "answerTemplate": "现象与目标\n\n排查证据\n\n处理方案与时序\n\n失败、恢复与取舍\n\n验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>订单付款后发送发券事件。消费者已写入优惠券，但确认消息前宕机，重启后又收到相同事件。</p><h3>范围与约束</h3><p>练习假设：一个订单最多发一张活动券；消息允许重复；请求重试可能持续一天。</p><h3>示例情境</h3><p>事件 E 到达 → 发券成功 → 消费者宕机 → E 再次到达。最终用户只能获得一张券。</p><h3>请回答</h3><ol><li>幂等键应来自哪个业务动作，如何避免把两次合法领取误判成同一事件？</li><li>幂等记录与业务变更如何保持一致？先标记后处理会有什么风险？</li><li>并发重复消费、记录过期和历史重放怎样处理？</li></ol><h3>面试追问</h3><ol><li>如果发券变成调用外部服务，无法使用本地事务，你会增加什么协议或补偿？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-performance/message-queue/message-queue.md\">GitHub · JavaGuide：消息队列</a></li><li><a href=\"https://www.nowcoder.com/discuss/353157951986802688\">牛客 · 后端面试自述：性能、并发与扩容</a></li></ul>"
+    },
+    {
+      "order": 8,
+      "id": "S08",
+      "slug": "missing-order-event",
+      "title": "订单已落库，下游却没收到事件",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "消息与可靠性",
+      "difficulty": "hard",
+      "tags": [
+        "可靠投递",
+        "本地事务",
+        "补偿"
+      ],
+      "source": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-performance/message-queue/message-queue.md",
+      "references": [
+        {
+          "title": "GitHub · JavaGuide：消息队列",
+          "url": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-performance/message-queue/message-queue.md"
+        }
+      ],
+      "answerTemplate": "现象与目标\n\n排查证据\n\n处理方案与时序\n\n失败、恢复与取舍\n\n验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>订单服务提交订单后发送消息，通知仓库备货。偶发订单存在，但仓库一直没有任务。</p><h3>范围与约束</h3><p>练习假设：不能把数据库事务直接扩展到消息系统；允许短暂延迟，不允许订单永远漏处理。</p><h3>示例情境</h3><p>订单数据库提交成功；发送消息时网络断开。客户端不知道消息是否进入了消息系统。</p><h3>请回答</h3><ol><li>列出数据库提交、消息发送与确认的失败窗口。</li><li>给出可恢复的事件发布方案，说明消息在重试中重复时怎么办。</li><li>如何查出漏发和长期失败，如何安全补发并形成审计记录？</li></ol><h3>面试追问</h3><ol><li>生产者重放三天前的事件时，下游已经取消订单，应该怎样判断事件是否还适用？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-performance/message-queue/message-queue.md\">GitHub · JavaGuide：消息队列</a></li></ul>"
+    },
+    {
+      "order": 9,
+      "id": "S09",
+      "slug": "out-of-order-events",
+      "title": "同一订单的状态事件乱序到达",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "消息与可靠性",
+      "difficulty": "medium",
+      "tags": [
+        "消息顺序",
+        "状态机",
+        "版本"
+      ],
+      "source": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-performance/message-queue/message-queue.md",
+      "references": [
+        {
+          "title": "GitHub · JavaGuide：消息队列",
+          "url": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-performance/message-queue/message-queue.md"
+        },
+        {
+          "title": "LeetCode · 客户端限流与有序处理讨论",
+          "url": "https://leetcode.com/discuss/post/637402/Design-a-efficient-client-side-rate-limit-handler/"
+        }
+      ],
+      "answerTemplate": "现象与目标\n\n排查证据\n\n处理方案与时序\n\n失败、恢复与取舍\n\n验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>订单取消事件先被消费，之前的已支付事件随后才到。用户看到订单状态被旧事件覆盖。</p><h3>范围与约束</h3><p>练习假设：同一订单内需要维持业务因果顺序；不同订单之间可以并行；消费者可能重试。</p><h3>示例情境</h3><p>订单 O 的版本 8 先到、版本 7 后到。另一个订单 P 不应该被 O 的失败无限阻塞。</p><h3>请回答</h3><ol><li>如何定义状态迁移与事件版本，判断重复、过期和非法迁移？</li><li>队列分区键、消费并发及失败重试分别会怎样影响顺序？</li><li>版本出现缺口时等待、补查还是拒绝，如何选择？</li></ol><h3>面试追问</h3><ol><li>若一个业务动作来自多个系统，没有统一递增版本，如何处理冲突与对账？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-performance/message-queue/message-queue.md\">GitHub · JavaGuide：消息队列</a></li><li><a href=\"https://leetcode.com/discuss/post/637402/Design-a-efficient-client-side-rate-limit-handler/\">LeetCode · 客户端限流与有序处理讨论</a></li></ul>"
+    },
+    {
+      "order": 10,
+      "id": "S10",
+      "slug": "consumer-backlog",
+      "title": "消息积压，扩容消费者为何没用",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "消息与可靠性",
+      "difficulty": "medium",
+      "tags": [
+        "消费积压",
+        "分区",
+        "背压"
+      ],
+      "source": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-performance/message-queue/message-queue.md",
+      "references": [
+        {
+          "title": "GitHub · JavaGuide：消息队列",
+          "url": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-performance/message-queue/message-queue.md"
+        },
+        {
+          "title": "牛客 · Web 后端面试自述：限流与消息积压",
+          "url": "https://www.nowcoder.com/discuss/732675514812370944"
+        }
+      ],
+      "answerTemplate": "现象与目标\n\n排查证据\n\n处理方案与时序\n\n失败、恢复与取舍\n\n验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>队列积压从几千条涨到数百万条。你把消费者从 8 个扩到 32 个，吞吐几乎不变。</p><h3>范围与约束</h3><p>练习假设：队列只有 8 个分区；消费时还要调用限额为每秒 500 次的下游；业务峰值为每秒 900 条。</p><h3>示例情境</h3><p>输入每秒 900 条，实际处理每秒 500 条。估算 30 分钟的新增积压，并说明峰值结束后如何估算清空时间。</p><h3>请回答</h3><ol><li>如何定位是分区并行度、慢消费逻辑还是下游容量限制？</li><li>在不能丢关键消息的情况下，如何控制生产、隔离非关键任务和恢复处理？</li><li>扩分区或迁移消费任务时，如何保护顺序与避免重复副作用？</li></ol><h3>面试追问</h3><ol><li>如果部分旧消息已超过业务时效，如何区分可丢弃任务与必须补偿的任务？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-performance/message-queue/message-queue.md\">GitHub · JavaGuide：消息队列</a></li><li><a href=\"https://www.nowcoder.com/discuss/732675514812370944\">牛客 · Web 后端面试自述：限流与消息积压</a></li></ul>"
+    },
+    {
+      "order": 11,
+      "id": "S11",
+      "slug": "timeout-but-succeeded",
+      "title": "接口超时了，是否可以直接重试",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "调用与稳定性",
+      "difficulty": "easy",
+      "tags": [
+        "RPC",
+        "幂等",
+        "结果查询"
+      ],
+      "source": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-availability/timeout-and-retry.md",
+      "references": [
+        {
+          "title": "GitHub · JavaGuide：超时与重试",
+          "url": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-availability/timeout-and-retry.md"
+        },
+        {
+          "title": "牛客 · 后端面试自述：性能、并发与扩容",
+          "url": "https://www.nowcoder.com/discuss/353157951986802688"
+        }
+      ],
+      "answerTemplate": "现象与目标\n\n排查证据\n\n处理方案与时序\n\n失败、恢复与取舍\n\n验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>客户端调用创建订单接口超时。服务端可能已经创建成功，客户端再次提交可能生成两个订单。</p><h3>范围与约束</h3><p>练习假设：调用方能生成稳定的请求标识；网络超时不能证明服务端失败；订单结果需要可查询。</p><h3>示例情境</h3><p>第一次请求已提交数据库但响应丢失；用户点击重试。你希望两次请求拿到同一个业务结果。</p><h3>请回答</h3><ol><li>怎样区分明确失败、仍在处理中和结果未知？</li><li>定义幂等键的作用域、参数校验和保留时间；相同键携带不同参数如何处理？</li><li>哪些错误适合自动重试，何时应转为查询状态或人工处理？</li></ol><h3>面试追问</h3><ol><li>第一次请求持续处理中，而重试已到达另一个实例，怎样协调且不无限等待？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-availability/timeout-and-retry.md\">GitHub · JavaGuide：超时与重试</a></li><li><a href=\"https://www.nowcoder.com/discuss/353157951986802688\">牛客 · 后端面试自述：性能、并发与扩容</a></li></ul>"
+    },
+    {
+      "order": 12,
+      "id": "S12",
+      "slug": "retry-storm",
+      "title": "下游变慢，重试把整条链路拖垮",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "调用与稳定性",
+      "difficulty": "medium",
+      "tags": [
+        "超时预算",
+        "重试风暴",
+        "隔离"
+      ],
+      "source": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-availability/timeout-and-retry.md",
+      "references": [
+        {
+          "title": "GitHub · JavaGuide：超时与重试",
+          "url": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-availability/timeout-and-retry.md"
+        },
+        {
+          "title": "LeetCode · 客户端限流与有序处理讨论",
+          "url": "https://leetcode.com/discuss/post/637402/Design-a-efficient-client-side-rate-limit-handler/"
+        }
+      ],
+      "answerTemplate": "现象与目标\n\n排查证据\n\n处理方案与时序\n\n失败、恢复与取舍\n\n验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>订单调用库存，库存再调用依赖服务。每层都自行重试三次，下游一变慢，上游线程就被占满。</p><h3>范围与约束</h3><p>练习假设：用户请求总预算 1 秒；库存结果是创建订单的前提；推荐信息可以省略。</p><h3>示例情境</h3><p>请求经过三层服务，每层都重新发起三次调用。画出重试如何放大请求，并计算一种最坏放大量。</p><h3>请回答</h3><ol><li>如何分配端到端时限并取消已经无意义的下游工作？</li><li>在哪层重试、如何退避与限制重试总量？处理 Retry-After 时要注意什么？</li><li>怎样隔离关键依赖，区分可降级推荐与不能伪造成功的库存操作？</li></ol><h3>面试追问</h3><ol><li>故障恢复后如何逐步恢复流量，防止瞬时重试再次压垮下游？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-availability/timeout-and-retry.md\">GitHub · JavaGuide：超时与重试</a></li><li><a href=\"https://leetcode.com/discuss/post/637402/Design-a-efficient-client-side-rate-limit-handler/\">LeetCode · 客户端限流与有序处理讨论</a></li></ul>"
+    },
+    {
+      "order": 13,
+      "id": "S13",
+      "slug": "sms-endpoint-abuse",
+      "title": "短信接口被滥用，怎样保护正常用户",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "调用与稳定性",
+      "difficulty": "medium",
+      "tags": [
+        "限流",
+        "安全",
+        "成本控制"
+      ],
+      "source": "https://www.nowcoder.com/discuss/732675514812370944",
+      "references": [
+        {
+          "title": "牛客 · Web 后端面试自述：限流与消息积压",
+          "url": "https://www.nowcoder.com/discuss/732675514812370944"
+        },
+        {
+          "title": "LeetCode · 客户端限流与有序处理讨论",
+          "url": "https://leetcode.com/discuss/post/637402/Design-a-efficient-client-side-rate-limit-handler/"
+        }
+      ],
+      "answerTemplate": "现象与目标\n\n排查证据\n\n处理方案与时序\n\n失败、恢复与取舍\n\n验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>短信验证码接口出现异常调用，费用快速上升。攻击流量与公司、校园等共享出口的正常用户混在一起。</p><h3>范围与约束</h3><p>练习假设：需要限制手机号、账号、设备和 IP 的滥用；不能简单封禁一个出口 IP 下的所有人。</p><h3>示例情境</h3><p>同一手机号被多个 IP 反复请求；另一个共享 IP 下有上百名真实用户同时登录。</p><h3>请回答</h3><ol><li>按哪些维度限频，如何处理分布式计数与突发请求？</li><li>如何避免短信内容、验证码和完整手机号进入日志，怎样做安全审计？</li><li>拒绝请求时如何减少账号枚举、误封和绕过，并控制每日成本？</li></ol><h3>面试追问</h3><ol><li>限流存储故障时放行还是拒绝？不同风险等级的请求是否采用同一种策略？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://www.nowcoder.com/discuss/732675514812370944\">牛客 · Web 后端面试自述：限流与消息积压</a></li><li><a href=\"https://leetcode.com/discuss/post/637402/Design-a-efficient-client-side-rate-limit-handler/\">LeetCode · 客户端限流与有序处理讨论</a></li></ul>"
+    },
+    {
+      "order": 14,
+      "id": "S14",
+      "slug": "last-stock-race",
+      "title": "多人争抢最后一份库存",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "交易与并发",
+      "difficulty": "medium",
+      "tags": [
+        "秒杀",
+        "库存",
+        "并发控制"
+      ],
+      "source": "https://www.nowcoder.com/discuss/526459193570639872",
+      "references": [
+        {
+          "title": "牛客 · 快手面试自述：秒杀流程",
+          "url": "https://www.nowcoder.com/discuss/526459193570639872"
+        }
+      ],
+      "answerTemplate": "现象与目标\n\n排查证据\n\n处理方案与时序\n\n失败、恢复与取舍\n\n验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>某商品只剩一件，多台服务实例同时收到下单请求。简单的“先查库存再扣减”出现了超卖。</p><h3>范围与约束</h3><p>练习假设：库存以数据库记录为准；一个用户最多买一件；库存不足必须明确失败。</p><h3>示例情境</h3><p>A、B 都读到库存为 1，然后分别创建订单并扣减。请给出阻止超卖的原子性边界。</p><h3>请回答</h3><ol><li>库存检查、扣减、订单创建之间需要怎样的事务与约束？</li><li>如何处理同一个用户的重复提交，以及扣减成功但下单失败？</li><li>高并发下怎样减少无效请求，并设计业务结果的查询方式？</li></ol><h3>面试追问</h3><ol><li>若使用缓存预扣库存，缓存与数据库出现差异时如何核对和修复？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://www.nowcoder.com/discuss/526459193570639872\">牛客 · 快手面试自述：秒杀流程</a></li></ul>"
+    },
+    {
+      "order": 15,
+      "id": "S15",
+      "slug": "payment-close-race",
+      "title": "关单任务与支付回调同时发生",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "交易与并发",
+      "difficulty": "hard",
+      "tags": [
+        "订单状态机",
+        "延迟任务",
+        "补偿"
+      ],
+      "source": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/system-design/schedule-task.md",
+      "references": [
+        {
+          "title": "GitHub · JavaGuide：定时与延迟任务",
+          "url": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/system-design/schedule-task.md"
+        },
+        {
+          "title": "GitHub · JavaGuide：Redis 面试主题",
+          "url": "https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md"
+        }
+      ],
+      "answerTemplate": "现象与目标\n\n排查证据\n\n处理方案与时序\n\n失败、恢复与取舍\n\n验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>订单未支付超过时限会自动取消。关单任务刚开始执行，支付渠道又送来成功回调。</p><h3>范围与约束</h3><p>练习假设：支付渠道回调可能延迟和重复；已经收款不能仅因本地超时就当作未支付。</p><h3>示例情境</h3><p>10:30:00 关单任务读取待支付；10:30:01 收到支付成功；10:30:02 关单写入取消状态。</p><h3>请回答</h3><ol><li>哪些状态允许迁移，哪些更新需要条件检查或版本控制？</li><li>如何协调本地订单、支付渠道事实与库存释放，避免状态覆盖？</li><li>遇到已关单但已收款时，如何处理退款、重试与对账？</li></ol><h3>面试追问</h3><ol><li>延迟消息丢失或延迟数小时，还能靠什么找出漏关订单？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/Snailclimb/JavaGuide/blob/main/docs/system-design/schedule-task.md\">GitHub · JavaGuide：定时与延迟任务</a></li><li><a href=\"https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md\">GitHub · JavaGuide：Redis 面试主题</a></li></ul>"
+    },
+    {
+      "order": 16,
+      "id": "S16",
+      "slug": "expired-lock-owner",
+      "title": "锁过期了，旧任务还在执行",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "交易与并发",
+      "difficulty": "hard",
+      "tags": [
+        "分布式锁",
+        "租约",
+        "旧持有者"
+      ],
+      "source": "https://www.nowcoder.com/discuss/353157951986802688",
+      "references": [
+        {
+          "title": "牛客 · 后端面试自述：性能、并发与扩容",
+          "url": "https://www.nowcoder.com/discuss/353157951986802688"
+        },
+        {
+          "title": "GitHub · JavaGuide：Redis 面试主题",
+          "url": "https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md"
+        }
+      ],
+      "answerTemplate": "现象与目标\n\n排查证据\n\n处理方案与时序\n\n失败、恢复与取舍\n\n验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>任务 A 持有一把带过期时间的锁。长时间停顿后锁失效，任务 B 获得锁开始处理；A 恢复后仍继续写数据。</p><h3>范围与约束</h3><p>练习假设：锁服务和业务存储是独立系统；业务操作不能重复生效；进程停顿时间无法可靠预测。</p><h3>示例情境</h3><p>A 获锁 → A 停顿 → 锁过期 → B 获锁并写入 → A 恢复并覆盖 B 的结果。</p><h3>请回答</h3><ol><li>为什么仅续租或校验锁的归属不一定阻止最后一次陈旧写入？</li><li>如何让被保护的资源识别并拒绝过期持有者的操作？</li><li>锁释放、网络分区与超时未知状态各应如何处理？</li></ol><h3>面试追问</h3><ol><li>业务资源不支持版本校验或幂等写时，应怎样缩小风险、改变设计或补偿？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://www.nowcoder.com/discuss/353157951986802688\">牛客 · 后端面试自述：性能、并发与扩容</a></li><li><a href=\"https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md\">GitHub · JavaGuide：Redis 面试主题</a></li></ul>"
+    },
+    {
+      "order": 17,
+      "id": "S17",
+      "slug": "slow-query-growth",
+      "title": "数据增长后，列表接口越来越慢",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "数据与排障",
+      "difficulty": "easy",
+      "tags": [
+        "MySQL",
+        "慢查询",
+        "分页"
+      ],
+      "source": "https://www.nowcoder.com/discuss/353157951986802688",
+      "references": [
+        {
+          "title": "牛客 · 后端面试自述：性能、并发与扩容",
+          "url": "https://www.nowcoder.com/discuss/353157951986802688"
+        },
+        {
+          "title": "牛客 · 技术中台面试复盘：数据与扩容",
+          "url": "https://www.nowcoder.com/discuss/353158217398165504"
+        }
+      ],
+      "answerTemplate": "现象与目标\n\n排查证据\n\n处理方案与时序\n\n失败、恢复与取舍\n\n验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>订单列表接口原来很快，表从百万行增长到数亿行后，翻到后面的页数就明显变慢。</p><h3>范围与约束</h3><p>练习假设：按用户、状态与创建时间查询；有租户隔离要求；需要稳定翻页，但不要求任意跳到第百万页。</p><h3>示例情境</h3><p>查询某用户第 20 万页时，返回仍只有 20 条，扫描与排序耗时却持续增长。</p><h3>请回答</h3><ol><li>拿到怎样的执行计划、慢查询与资源指标，才能判断是扫描、排序、锁等待还是连接排队？</li><li>如何结合过滤条件与排序设计索引，并验证写入成本？</li><li>如何改进分页协议，避免插入新订单时重复或跳过数据？</li></ol><h3>面试追问</h3><ol><li>如果数据库副本落后，如何处理用户刚下的订单在列表里不可见？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://www.nowcoder.com/discuss/353157951986802688\">牛客 · 后端面试自述：性能、并发与扩容</a></li><li><a href=\"https://www.nowcoder.com/discuss/353158217398165504\">牛客 · 技术中台面试复盘：数据与扩容</a></li></ul>"
+    },
+    {
+      "order": 18,
+      "id": "S18",
+      "slug": "online-shard-migration",
+      "title": "不停服迁移分片，怎样验证与回退",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "数据与排障",
+      "difficulty": "hard",
+      "tags": [
+        "分库分表",
+        "在线迁移",
+        "校验"
+      ],
+      "source": "https://www.nowcoder.com/discuss/353157951986802688",
+      "references": [
+        {
+          "title": "牛客 · 后端面试自述：性能、并发与扩容",
+          "url": "https://www.nowcoder.com/discuss/353157951986802688"
+        },
+        {
+          "title": "牛客 · 技术中台面试复盘：数据与扩容",
+          "url": "https://www.nowcoder.com/discuss/353158217398165504"
+        }
+      ],
+      "answerTemplate": "现象与目标\n\n排查证据\n\n处理方案与时序\n\n失败、恢复与取舍\n\n验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>订单数据分布不均，某分片已接近容量上限，需要迁移部分用户的数据，但业务不能整体停机。</p><h3>范围与约束</h3><p>练习假设：迁移中旧数据仍会被修改；读写路由可灰度切换；关键记录不能重复或遗漏。</p><h3>示例情境</h3><p>历史订单复制到新分片后，旧分片上又产生退款更新；如果立即切读，新库会返回过时状态。</p><h3>请回答</h3><ol><li>描述全量复制、增量追赶、校验、切换与回滚的完整阶段。</li><li>如何确定迁移水位，处理增量重复和乱序，证明新旧数据足够一致？</li><li>切换过程中怎样防止双写冲突、重复订单与路由不一致？</li></ol><h3>面试追问</h3><ol><li>新分片已经接受新写入后发现问题，回退前需要额外做什么？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://www.nowcoder.com/discuss/353157951986802688\">牛客 · 后端面试自述：性能、并发与扩容</a></li><li><a href=\"https://www.nowcoder.com/discuss/353158217398165504\">牛客 · 技术中台面试复盘：数据与扩容</a></li></ul>"
+    },
+    {
+      "order": 19,
+      "id": "S19",
+      "slug": "thread-pool-queueing",
+      "title": "CPU 不高，线程池却一直排队",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "数据与排障",
+      "difficulty": "medium",
+      "tags": [
+        "线程池",
+        "资源隔离",
+        "排队"
+      ],
+      "source": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-availability/timeout-and-retry.md",
+      "references": [
+        {
+          "title": "GitHub · JavaGuide：超时与重试",
+          "url": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-availability/timeout-and-retry.md"
+        },
+        {
+          "title": "牛客 · 后端面试自述：性能、并发与扩容",
+          "url": "https://www.nowcoder.com/discuss/353157951986802688"
+        }
+      ],
+      "answerTemplate": "现象与目标\n\n排查证据\n\n处理方案与时序\n\n失败、恢复与取舍\n\n验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>接口响应时间上涨，CPU 只有三成。线程池队列越来越长，大部分任务在等待远程接口返回。</p><h3>范围与约束</h3><p>练习假设：同一线程池承载订单确认和批量导出；下游连接数有限；不能无限增加线程。</p><h3>示例情境</h3><p>批量导出占住工作线程，少量订单确认也排在队尾，最终一起超时。</p><h3>请回答</h3><ol><li>用哪些指标区分 CPU 计算瓶颈、阻塞等待、连接池不足和队列配置问题？</li><li>如何隔离任务、限制排队、设置拒绝策略与超时预算？</li><li>调整线程数前需要验证哪些约束，怎样压测并逐步放量？</li></ol><h3>面试追问</h3><ol><li>取消超时请求后，后台任务仍在执行，怎样防止资源持续被占用？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-availability/timeout-and-retry.md\">GitHub · JavaGuide：超时与重试</a></li><li><a href=\"https://www.nowcoder.com/discuss/353157951986802688\">牛客 · 后端面试自述：性能、并发与扩容</a></li></ul>"
+    },
+    {
+      "order": 20,
+      "id": "S20",
+      "slug": "cpu-spike-investigation",
+      "title": "线上 CPU 突然升高，如何定位",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "数据与排障",
+      "difficulty": "medium",
+      "tags": [
+        "可观测性",
+        "性能分析",
+        "故障止损"
+      ],
+      "source": "https://www.nowcoder.com/discuss/353157951986802688",
+      "references": [
+        {
+          "title": "牛客 · 后端面试自述：性能、并发与扩容",
+          "url": "https://www.nowcoder.com/discuss/353157951986802688"
+        }
+      ],
+      "answerTemplate": "现象与目标\n\n排查证据\n\n处理方案与时序\n\n失败、恢复与取舍\n\n验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>发布后部分实例 CPU 接近满载，P99 延迟升高，但错误率暂时不高。你需要决定回滚还是进一步排查。</p><h3>范围与约束</h3><p>练习假设：可以查看发布记录、实例指标和短时间性能采样；不允许无差别收集用户敏感数据。</p><h3>示例情境</h3><p>新旧版本流量相近，新版本少数实例 CPU 明显更高；重启能暂时缓解，但问题稍后重现。</p><h3>请回答</h3><ol><li>先看哪些对照指标，怎样确认是业务热点、循环、GC 压力或资源限制？</li><li>怎样把线程栈或火焰图与请求、代码路径及发布差异关联起来？</li><li>如何选取低风险止损措施，并证明修复后延迟和吞吐都恢复？</li></ol><h3>面试追问</h3><ol><li>CPU 降低但 P99 仍然很差，下一步排查顺序如何调整？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://www.nowcoder.com/discuss/353157951986802688\">牛客 · 后端面试自述：性能、并发与扩容</a></li></ul>"
+    }
+  ]
+}

@@ -1,0 +1,1504 @@
+{
+  "version": 1,
+  "name": "操作系统与网络",
+  "kind": "discussion",
+  "source": "https://docs.kernel.org/admin-guide/mm/concepts.html",
+  "fetchedAt": "2026-09-09T00:00:00.000Z",
+  "editorialNote": "本站原创复习问题，操作系统、Linux 常用命令、计算机网络各 20 题，分别含 8 道基础知识与 12 道面试考点。仅提供问题，不附答案、命令解法或提示。命令以 Linux/GNU 环境为主，涉及 Bash、systemd、cgroup v2 或特定协议版本时需按题干范围作答。参考内核文档、上游手册与 IETF RFC；难度为本站练习分级，不代表企业真题或面试频率统计。",
+  "groups": [
+    {
+      "name": "操作系统 · 基础知识",
+      "count": 8
+    },
+    {
+      "name": "操作系统 · 面试考点",
+      "count": 12
+    },
+    {
+      "name": "Linux 常用命令 · 基础知识",
+      "count": 8
+    },
+    {
+      "name": "Linux 常用命令 · 面试考点",
+      "count": 12
+    },
+    {
+      "name": "计算机网络 · 基础知识",
+      "count": 8
+    },
+    {
+      "name": "计算机网络 · 面试考点",
+      "count": 12
+    }
+  ],
+  "questions": [
+    {
+      "order": 1,
+      "id": "OS01",
+      "slug": "os-process-thread",
+      "title": "进程、线程与协程",
+      "englishTitle": "Operating System",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "操作系统 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "操作系统",
+        "基础知识"
+      ],
+      "source": "https://man7.org/linux/man-pages/man7/pthreads.7.html",
+      "references": [
+        {
+          "title": "pthreads(7) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man7/pthreads.7.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>进程、线程与协程分别是什么，共享和隔离哪些资源？</p><p>在并发服务中，如何比较它们的创建、切换与通信成本？</p>"
+    },
+    {
+      "order": 2,
+      "id": "OS02",
+      "slug": "os-syscall",
+      "title": "用户态、内核态与系统调用",
+      "englishTitle": "Operating System",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "操作系统 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "操作系统",
+        "基础知识"
+      ],
+      "source": "https://man7.org/linux/man-pages/man2/syscalls.2.html",
+      "references": [
+        {
+          "title": "syscalls(2) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man2/syscalls.2.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>为什么需要区分用户态与内核态？</p><p>系统调用、异常和硬件中断有什么区别，调用库函数是否一定会进入内核？</p>"
+    },
+    {
+      "order": 3,
+      "id": "OS03",
+      "slug": "os-scheduling",
+      "title": "调度与上下文切换",
+      "englishTitle": "Operating System",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "操作系统 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "操作系统",
+        "基础知识"
+      ],
+      "source": "https://man7.org/linux/man-pages/man7/sched.7.html",
+      "references": [
+        {
+          "title": "sched(7) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man7/sched.7.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>进程或线程在什么情况下会被切换？</p><p>调度器需要权衡哪些目标，时间片用完、主动阻塞与抢占分别意味着什么？</p>"
+    },
+    {
+      "order": 4,
+      "id": "OS04",
+      "slug": "os-process-state",
+      "title": "进程状态与僵尸进程",
+      "englishTitle": "Operating System",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "操作系统 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "操作系统",
+        "基础知识"
+      ],
+      "source": "https://man7.org/linux/man-pages/man2/wait.2.html",
+      "references": [
+        {
+          "title": "wait(2) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man2/wait.2.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>运行、睡眠、停止和僵尸状态分别意味着什么？</p><p>僵尸进程与孤儿进程有什么区别，父进程为什么需要回收子进程？</p>"
+    },
+    {
+      "order": 5,
+      "id": "OS05",
+      "slug": "os-ipc",
+      "title": "进程间通信方式",
+      "englishTitle": "Operating System",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "操作系统 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "操作系统",
+        "基础知识"
+      ],
+      "source": "https://man7.org/linux/man-pages/man7/unix.7.html",
+      "references": [
+        {
+          "title": "unix(7) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man7/unix.7.html"
+        },
+        {
+          "title": "pipe(7)",
+          "url": "https://man7.org/linux/man-pages/man7/pipe.7.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>管道、消息队列、共享内存和 Unix domain socket 分别适合什么场景？</p><p>选择通信方式时，如何权衡数据复制、同步和进程关系？</p>"
+    },
+    {
+      "order": 6,
+      "id": "OS06",
+      "slug": "os-synchronization",
+      "title": "互斥锁、信号量与条件变量",
+      "englishTitle": "Operating System",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "操作系统 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "操作系统",
+        "基础知识"
+      ],
+      "source": "https://man7.org/linux/man-pages/man7/pthreads.7.html",
+      "references": [
+        {
+          "title": "pthreads(7) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man7/pthreads.7.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>互斥锁、信号量和条件变量分别解决什么问题？</p><p>线程等待条件变量时为什么需要配合互斥锁，并重新检查条件？</p>"
+    },
+    {
+      "order": 7,
+      "id": "OS07",
+      "slug": "os-virtual-memory",
+      "title": "虚拟内存与地址转换",
+      "englishTitle": "Operating System",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "操作系统 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "操作系统",
+        "基础知识"
+      ],
+      "source": "https://docs.kernel.org/admin-guide/mm/concepts.html",
+      "references": [
+        {
+          "title": "Linux 内存管理概念",
+          "url": "https://docs.kernel.org/admin-guide/mm/concepts.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>为什么进程使用虚拟地址而不是直接使用物理地址？</p><p>分页、页表和 TLB 分别承担什么职责，虚拟内存是否必须依赖 swap？</p>"
+    },
+    {
+      "order": 8,
+      "id": "OS08",
+      "slug": "os-file-descriptor",
+      "title": "文件描述符与打开的文件",
+      "englishTitle": "Operating System",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "操作系统 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "操作系统",
+        "基础知识"
+      ],
+      "source": "https://man7.org/linux/man-pages/man2/open.2.html",
+      "references": [
+        {
+          "title": "open(2) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man2/open.2.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>文件描述符、打开文件描述和 inode 分别是什么？</p><p>一个进程两次 open 同一文件，与使用 dup 复制描述符，在文件偏移量上有什么区别？</p>"
+    },
+    {
+      "order": 9,
+      "id": "OS09",
+      "slug": "os-deadlock",
+      "title": "死锁、活锁与饥饿",
+      "englishTitle": "Operating System",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "操作系统 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "操作系统",
+        "面试考点"
+      ],
+      "source": "https://man7.org/linux/man-pages/man3/pthread_mutex_lock.3p.html",
+      "references": [
+        {
+          "title": "pthread_mutex_lock(3p) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man3/pthread_mutex_lock.3p.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>死锁产生需要哪些条件，死锁、活锁和饥饿如何区分？</p><p>预防、避免、检测与恢复分别有什么取舍？</p>"
+    },
+    {
+      "order": 10,
+      "id": "OS10",
+      "slug": "os-atomicity",
+      "title": "原子性、可见性与竞态",
+      "englishTitle": "Operating System",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "操作系统 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "操作系统",
+        "面试考点"
+      ],
+      "source": "https://docs.kernel.org/core-api/wrappers/memory-barriers.html",
+      "references": [
+        {
+          "title": "Linux 内存屏障",
+          "url": "https://docs.kernel.org/core-api/wrappers/memory-barriers.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>原子性、可见性和有序性分别约束什么？</p><p>为什么单个原子操作不一定能保证一组业务操作线程安全，多核下应怎样分析竞态？</p>"
+    },
+    {
+      "order": 11,
+      "id": "OS11",
+      "slug": "os-fork-exec",
+      "title": "fork、exec 与写时复制",
+      "englishTitle": "Operating System",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "操作系统 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "操作系统",
+        "面试考点"
+      ],
+      "source": "https://man7.org/linux/man-pages/man2/fork.2.html",
+      "references": [
+        {
+          "title": "fork(2) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man2/fork.2.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>fork 与 exec 分别改变进程的哪些内容？</p><p>写时复制在什么时候复制内存，多线程进程 fork 后子进程有哪些使用限制？</p>"
+    },
+    {
+      "order": 12,
+      "id": "OS12",
+      "slug": "os-page-fault",
+      "title": "缺页异常与内存抖动",
+      "englishTitle": "Operating System",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "操作系统 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "操作系统",
+        "面试考点"
+      ],
+      "source": "https://docs.kernel.org/admin-guide/mm/concepts.html",
+      "references": [
+        {
+          "title": "Linux 内存管理概念",
+          "url": "https://docs.kernel.org/admin-guide/mm/concepts.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>缺页异常为什么不一定是程序错误，也不一定需要磁盘 I/O？</p><p>工作集超过可用内存时会发生什么，如何区分正常按需分页与内存抖动？</p>"
+    },
+    {
+      "order": 13,
+      "id": "OS13",
+      "slug": "os-heap-stack",
+      "title": "栈、堆与内存分配",
+      "englishTitle": "Operating System",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "操作系统 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "操作系统",
+        "面试考点"
+      ],
+      "source": "https://man7.org/linux/man-pages/man3/malloc.3.html",
+      "references": [
+        {
+          "title": "malloc(3) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man3/malloc.3.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>线程栈、进程堆和 mmap 分配的内存有什么区别？</p><p>释放堆对象后进程 RSS 为什么可能不下降，如何区分泄漏、碎片和分配器缓存？</p>"
+    },
+    {
+      "order": 14,
+      "id": "OS14",
+      "slug": "os-links",
+      "title": "硬链接、软链接与文件删除",
+      "englishTitle": "Operating System",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "操作系统 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "操作系统",
+        "面试考点"
+      ],
+      "source": "https://man7.org/linux/man-pages/man2/unlink.2.html",
+      "references": [
+        {
+          "title": "unlink(2) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man2/unlink.2.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>硬链接与符号链接在 inode、跨文件系统和删除行为上有什么区别？</p><p>删除一个仍被进程打开的文件后，目录项、内容和磁盘空间分别会怎样？</p>"
+    },
+    {
+      "order": 15,
+      "id": "OS15",
+      "slug": "os-durable-write",
+      "title": "缓冲写入与持久化",
+      "englishTitle": "Operating System",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "操作系统 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "操作系统",
+        "面试考点"
+      ],
+      "source": "https://man7.org/linux/man-pages/man2/fsync.2.html",
+      "references": [
+        {
+          "title": "fsync(2) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man2/fsync.2.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>write 返回成功、数据进入页缓存与数据落盘有什么区别？</p><p>fsync、fdatasync 与目录同步分别解决哪些崩溃恢复问题？</p>"
+    },
+    {
+      "order": 16,
+      "id": "OS16",
+      "slug": "os-io-models",
+      "title": "阻塞、非阻塞与 I/O 多路复用",
+      "englishTitle": "Operating System",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "操作系统 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "操作系统",
+        "面试考点"
+      ],
+      "source": "https://man7.org/linux/man-pages/man7/epoll.7.html",
+      "references": [
+        {
+          "title": "epoll(7) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man7/epoll.7.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>阻塞与非阻塞、同步与异步分别在描述什么？</p><p>select、poll 和 epoll 有哪些差异，为什么“使用非阻塞 socket”不等于“业务不会阻塞”？</p>"
+    },
+    {
+      "order": 17,
+      "id": "OS17",
+      "slug": "os-epoll-edge",
+      "title": "epoll 的水平触发与边缘触发",
+      "englishTitle": "Operating System",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "操作系统 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "操作系统",
+        "面试考点"
+      ],
+      "source": "https://man7.org/linux/man-pages/man7/epoll.7.html",
+      "references": [
+        {
+          "title": "epoll(7) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man7/epoll.7.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>epoll 的水平触发与边缘触发有什么区别？</p><p>在边缘触发模式下，如何处理读写未完成、EAGAIN、连接关闭与事件重新注册？</p>"
+    },
+    {
+      "order": 18,
+      "id": "OS18",
+      "slug": "os-zero-copy",
+      "title": "零拷贝与 mmap",
+      "englishTitle": "Operating System",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "操作系统 · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "操作系统",
+        "面试考点"
+      ],
+      "source": "https://man7.org/linux/man-pages/man2/sendfile.2.html",
+      "references": [
+        {
+          "title": "sendfile(2) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man2/sendfile.2.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>传统文件发送、mmap 和 sendfile 的数据路径有什么区别？</p><p>“零拷贝”减少了哪些复制或切换，是否意味着任何场景都没有数据复制？</p>"
+    },
+    {
+      "order": 19,
+      "id": "OS19",
+      "slug": "os-oom",
+      "title": "内存不足、swap 与 OOM",
+      "englishTitle": "Operating System",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "操作系统 · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "操作系统",
+        "面试考点"
+      ],
+      "source": "https://docs.kernel.org/admin-guide/cgroup-v2.html",
+      "references": [
+        {
+          "title": "Linux Control Group v2",
+          "url": "https://docs.kernel.org/admin-guide/cgroup-v2.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>在使用 cgroup v2 的 Linux 上，系统还有 available 内存时，某个进程为什么仍可能被 OOM 杀死？</p><p>如何区分进程地址空间限制、cgroup 限额、内存回收和整机内存压力？</p>"
+    },
+    {
+      "order": 20,
+      "id": "OS20",
+      "slug": "os-containers",
+      "title": "Namespace、cgroup 与容器隔离",
+      "englishTitle": "Operating System",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "操作系统 · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "操作系统",
+        "面试考点"
+      ],
+      "source": "https://man7.org/linux/man-pages/man7/namespaces.7.html",
+      "references": [
+        {
+          "title": "namespaces(7) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man7/namespaces.7.html"
+        },
+        {
+          "title": "Linux Control Group v2",
+          "url": "https://docs.kernel.org/admin-guide/cgroup-v2.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Linux namespace 与 cgroup 分别提供什么能力？</p><p>容器与虚拟机的隔离边界有什么区别，CPU 限额、内存限额和 PID 隔离如何影响应用观察到的资源？</p>"
+    },
+    {
+      "order": 21,
+      "id": "LINUX01",
+      "slug": "linux-paths",
+      "title": "pwd、cd、ls 与路径",
+      "englishTitle": "Linux Commands",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Linux 常用命令 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Linux 常用命令",
+        "基础知识"
+      ],
+      "source": "https://www.gnu.org/software/coreutils/manual/coreutils.html",
+      "references": [
+        {
+          "title": "GNU Coreutils 手册",
+          "url": "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>pwd、cd、ls 分别用于什么，绝对路径与相对路径有什么区别？</p><p>如何列出隐藏文件、识别软链接，并处理名称包含空格或以短横线开头的文件？</p>"
+    },
+    {
+      "order": 22,
+      "id": "LINUX02",
+      "slug": "linux-read-files",
+      "title": "cat、less、head 与 tail",
+      "englishTitle": "Linux Commands",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Linux 常用命令 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Linux 常用命令",
+        "基础知识"
+      ],
+      "source": "https://www.gnu.org/software/coreutils/manual/coreutils.html",
+      "references": [
+        {
+          "title": "GNU Coreutils 手册",
+          "url": "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>查看小文件、大文件和持续增长的日志时，cat、less、head 与 tail 应如何选择？</p><p>tail -f 与 tail -F 在日志轮转时有什么区别？</p>"
+    },
+    {
+      "order": 23,
+      "id": "LINUX03",
+      "slug": "linux-grep",
+      "title": "grep 与文本匹配",
+      "englishTitle": "Linux Commands",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Linux 常用命令 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Linux 常用命令",
+        "基础知识"
+      ],
+      "source": "https://www.gnu.org/s/grep/manual/html_node/index.html",
+      "references": [
+        {
+          "title": "GNU Grep 手册",
+          "url": "https://www.gnu.org/s/grep/manual/html_node/index.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>如何使用 grep 按关键字或正则表达式检索日志，并保留行号和上下文？</p><p>固定字符串、整词、整行、忽略大小写与反向匹配有什么区别？</p>"
+    },
+    {
+      "order": 24,
+      "id": "LINUX04",
+      "slug": "linux-find",
+      "title": "find 与文件查找",
+      "englishTitle": "Linux Commands",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Linux 常用命令 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Linux 常用命令",
+        "基础知识"
+      ],
+      "source": "https://www.gnu.org/software/findutils/manual/html_mono/find.html",
+      "references": [
+        {
+          "title": "GNU Findutils 手册",
+          "url": "https://www.gnu.org/software/findutils/manual/html_mono/find.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>如何使用 find 按文件类型、名称、大小和修改时间查找文件？</p><p>多个条件的优先级如何影响结果，文件名包含换行时该怎样安全地传递结果？</p>"
+    },
+    {
+      "order": 25,
+      "id": "LINUX05",
+      "slug": "linux-awk-sed",
+      "title": "awk、sed 与结构化文本",
+      "englishTitle": "Linux Commands",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Linux 常用命令 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Linux 常用命令",
+        "基础知识"
+      ],
+      "source": "https://www.gnu.org/software/gawk/manual/gawk.html",
+      "references": [
+        {
+          "title": "GNU Awk 手册",
+          "url": "https://www.gnu.org/software/gawk/manual/gawk.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>awk 与 sed 各适合哪些文本处理任务？</p><p>如何按分隔符筛选字段、统计某列或替换匹配文本，为什么处理 CSV 时不能总依赖简单分隔？</p>"
+    },
+    {
+      "order": 26,
+      "id": "LINUX06",
+      "slug": "linux-pipes",
+      "title": "管道、重定向与 tee",
+      "englishTitle": "Linux Commands",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Linux 常用命令 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Linux 常用命令",
+        "基础知识"
+      ],
+      "source": "https://www.gnu.org/software/bash/manual/bash.html",
+      "references": [
+        {
+          "title": "GNU Bash 手册",
+          "url": "https://www.gnu.org/software/bash/manual/bash.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>标准输入、标准输出和标准错误是什么？</p><p>管道、追加与覆盖重定向、tee 分别如何工作，重定向顺序为什么会改变结果？</p>"
+    },
+    {
+      "order": 27,
+      "id": "LINUX07",
+      "slug": "linux-permissions",
+      "title": "chmod、chown 与 umask",
+      "englishTitle": "Linux Commands",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Linux 常用命令 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Linux 常用命令",
+        "基础知识"
+      ],
+      "source": "https://www.gnu.org/software/coreutils/manual/coreutils.html",
+      "references": [
+        {
+          "title": "GNU Coreutils 手册",
+          "url": "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>chmod、chown 与 umask 分别改变什么？</p><p>文件和目录的读、写、执行权限有什么不同，为什么拥有文件写权限却不一定能删除它？</p>"
+    },
+    {
+      "order": 28,
+      "id": "LINUX08",
+      "slug": "linux-processes",
+      "title": "ps、top 与线程查看",
+      "englishTitle": "Linux Commands",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Linux 常用命令 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Linux 常用命令",
+        "基础知识"
+      ],
+      "source": "https://man7.org/linux/man-pages/man1/top.1.html",
+      "references": [
+        {
+          "title": "top(1) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man1/top.1.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>ps 与 top 分别适合观察什么，如何找到某个服务的进程和高 CPU 线程？</p><p>进程 CPU 百分比、线程数与系统 load average 是否表达同一件事？</p>"
+    },
+    {
+      "order": 29,
+      "id": "LINUX09",
+      "slug": "linux-signals",
+      "title": "kill 与进程终止",
+      "englishTitle": "Linux Commands",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Linux 常用命令 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Linux 常用命令",
+        "面试考点"
+      ],
+      "source": "https://man7.org/linux/man-pages/man7/signal.7.html",
+      "references": [
+        {
+          "title": "signal(7) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man7/signal.7.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>kill、pkill 和 killall 的目标选择有什么区别？</p><p>SIGTERM、SIGKILL 和 SIGSTOP 分别用于什么，终止服务前如何确认进程身份并避免误杀？</p>"
+    },
+    {
+      "order": 30,
+      "id": "LINUX10",
+      "slug": "linux-jobs",
+      "title": "前后台任务与 nohup",
+      "englishTitle": "Linux Commands",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Linux 常用命令 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Linux 常用命令",
+        "面试考点"
+      ],
+      "source": "https://www.gnu.org/software/bash/manual/bash.html",
+      "references": [
+        {
+          "title": "GNU Bash 手册",
+          "url": "https://www.gnu.org/software/bash/manual/bash.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>命令末尾的 &amp;、jobs、fg、bg、nohup 分别有什么作用？</p><p>终端断开后任务能否继续运行取决于什么，它们与 systemd 托管服务有什么区别？</p>"
+    },
+    {
+      "order": 31,
+      "id": "LINUX11",
+      "slug": "linux-quoting",
+      "title": "引号、变量展开与命令替换",
+      "englishTitle": "Linux Commands",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Linux 常用命令 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Linux 常用命令",
+        "面试考点"
+      ],
+      "source": "https://www.gnu.org/software/bash/manual/bash.html",
+      "references": [
+        {
+          "title": "GNU Bash 手册",
+          "url": "https://www.gnu.org/software/bash/manual/bash.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>单引号、双引号和未加引号的变量展开有什么区别？</p><p>命令替换、通配符和单词分割在哪些场景会改变参数，如何可靠传递包含空格的路径？</p>"
+    },
+    {
+      "order": 32,
+      "id": "LINUX12",
+      "slug": "linux-log-statistics",
+      "title": "sort、uniq、wc 与日志统计",
+      "englishTitle": "Linux Commands",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Linux 常用命令 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Linux 常用命令",
+        "面试考点"
+      ],
+      "source": "https://www.gnu.org/software/coreutils/manual/coreutils.html",
+      "references": [
+        {
+          "title": "GNU Coreutils 手册",
+          "url": "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>如何从访问日志中统计请求最多的客户端 IP 和状态码分布？</p><p>sort、uniq、wc 各承担什么职责，排序规则和 uniq 的输入顺序如何影响结果？</p>"
+    },
+    {
+      "order": 33,
+      "id": "LINUX13",
+      "slug": "linux-archives",
+      "title": "tar、gzip 与归档解压",
+      "englishTitle": "Linux Commands",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Linux 常用命令 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Linux 常用命令",
+        "面试考点"
+      ],
+      "source": "https://www.gnu.org/software/tar/manual/tar.html",
+      "references": [
+        {
+          "title": "GNU tar 手册",
+          "url": "https://www.gnu.org/software/tar/manual/tar.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>归档与压缩有什么区别，如何查看归档内容、压缩目录并只解出指定文件？</p><p>解压来源不可信的归档前，需要检查哪些路径、权限和覆盖风险？</p>"
+    },
+    {
+      "order": 34,
+      "id": "LINUX14",
+      "slug": "linux-disk-space",
+      "title": "df、du 与磁盘空间排查",
+      "englishTitle": "Linux Commands",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Linux 常用命令 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Linux 常用命令",
+        "面试考点"
+      ],
+      "source": "https://www.gnu.org/software/coreutils/manual/coreutils.html",
+      "references": [
+        {
+          "title": "GNU Coreutils 手册",
+          "url": "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>df 与 du 的统计口径有什么区别？</p><p>磁盘显示已满但目录占用不大时，你会如何排查已删除未关闭文件、挂载点和 inode 耗尽？</p>"
+    },
+    {
+      "order": 35,
+      "id": "LINUX15",
+      "slug": "linux-memory-cpu",
+      "title": "free、vmstat 与系统负载",
+      "englishTitle": "Linux Commands",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Linux 常用命令 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Linux 常用命令",
+        "面试考点"
+      ],
+      "source": "https://man7.org/linux/man-pages/man1/free.1.html",
+      "references": [
+        {
+          "title": "free(1) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man1/free.1.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>free 中的 free、available 与 buff/cache 应如何理解？</p><p>如何结合 vmstat、top 和进程状态区分 CPU 饱和、内存压力与等待 I/O？</p>"
+    },
+    {
+      "order": 36,
+      "id": "LINUX16",
+      "slug": "linux-disk-io",
+      "title": "iostat、pidstat 与 I/O 瓶颈",
+      "englishTitle": "Linux Commands",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Linux 常用命令 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Linux 常用命令",
+        "面试考点"
+      ],
+      "source": "https://man7.org/linux/man-pages/man1/iostat.1.html",
+      "references": [
+        {
+          "title": "iostat(1) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man1/iostat.1.html"
+        },
+        {
+          "title": "pidstat(1)",
+          "url": "https://man7.org/linux/man-pages/man1/pidstat.1.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>如何使用 iostat 和 pidstat 判断磁盘负载来自哪些设备和进程？</p><p>吞吐、延迟、队列长度和利用率各能说明什么，为什么不能只看一个百分比？</p>"
+    },
+    {
+      "order": 37,
+      "id": "LINUX17",
+      "slug": "linux-service-logs",
+      "title": "systemctl 与 journalctl",
+      "englishTitle": "Linux Commands",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Linux 常用命令 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "Linux 常用命令",
+        "面试考点"
+      ],
+      "source": "https://man7.org/linux/man-pages/man1/systemctl.1.html",
+      "references": [
+        {
+          "title": "systemctl(1) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man1/systemctl.1.html"
+        },
+        {
+          "title": "journalctl(1)",
+          "url": "https://man7.org/linux/man-pages/man1/journalctl.1.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>在使用 systemd 的 Linux 上，如何查看服务状态、失败原因和本次启动的日志？</p><p>start、enable、reload 与 daemon-reload 有什么区别，如何按时间与服务筛选日志？</p>"
+    },
+    {
+      "order": 38,
+      "id": "LINUX18",
+      "slug": "linux-sockets",
+      "title": "ip、ss 与监听端口",
+      "englishTitle": "Linux Commands",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Linux 常用命令 · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "Linux 常用命令",
+        "面试考点"
+      ],
+      "source": "https://man7.org/linux/man-pages/man8/ss.8.html",
+      "references": [
+        {
+          "title": "ss(8) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man8/ss.8.html"
+        },
+        {
+          "title": "ip(8)",
+          "url": "https://man7.org/linux/man-pages/man8/ip.8.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>如何使用 ip 查看地址、路由与邻居表，用 ss 查看监听端口和连接状态？</p><p>本机能访问服务但远端访问失败时，如何检查绑定地址、路由与连接状态？</p>"
+    },
+    {
+      "order": 39,
+      "id": "LINUX19",
+      "slug": "linux-dns-http",
+      "title": "dig 与 curl 的连通性排查",
+      "englishTitle": "Linux Commands",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Linux 常用命令 · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "Linux 常用命令",
+        "面试考点"
+      ],
+      "source": "https://curl.se/docs/manpage.html",
+      "references": [
+        {
+          "title": "curl 官方手册",
+          "url": "https://curl.se/docs/manpage.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>域名访问失败时，如何用 dig 和 curl 区分 DNS、TCP 建连、TLS 握手与 HTTP 错误？</p><p>如何指定解析目标或请求头进行对比，而不把跳过证书校验当作修复？</p>"
+    },
+    {
+      "order": 40,
+      "id": "LINUX20",
+      "slug": "linux-capture",
+      "title": "tcpdump 与报文分析",
+      "englishTitle": "Linux Commands",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Linux 常用命令 · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "Linux 常用命令",
+        "面试考点"
+      ],
+      "source": "https://man7.org/linux/man-pages/man8/tcpdump.8.html",
+      "references": [
+        {
+          "title": "tcpdump(8) · 上游手册",
+          "url": "https://man7.org/linux/man-pages/man8/tcpdump.8.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>如何使用 tcpdump 按主机、端口和协议限定抓包范围，并保存用于离线分析？</p><p>如何识别重传或连接重置，同时控制抓包大小、权限和敏感数据暴露？</p>"
+    },
+    {
+      "order": 41,
+      "id": "NET01",
+      "slug": "net-layers",
+      "title": "网络分层与封装",
+      "englishTitle": "Computer Network",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "计算机网络 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "计算机网络",
+        "基础知识"
+      ],
+      "source": "https://datatracker.ietf.org/doc/html/rfc1122",
+      "references": [
+        {
+          "title": "RFC 1122 · 互联网主机要求",
+          "url": "https://datatracker.ietf.org/doc/html/rfc1122"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>OSI 与 TCP/IP 分层模型分别是什么？</p><p>以太网、IP、TCP、UDP、HTTP 各处于什么位置，一次请求的数据在各层如何封装与解封装？</p>"
+    },
+    {
+      "order": 42,
+      "id": "NET02",
+      "slug": "net-address-routing",
+      "title": "IP、子网与路由",
+      "englishTitle": "Computer Network",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "计算机网络 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "计算机网络",
+        "基础知识"
+      ],
+      "source": "https://datatracker.ietf.org/doc/html/rfc1122",
+      "references": [
+        {
+          "title": "RFC 1122 · 互联网主机要求",
+          "url": "https://datatracker.ietf.org/doc/html/rfc1122"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>IP 地址、子网掩码、默认网关和路由表分别起什么作用？</p><p>主机如何判断目标是否在同一链路，ARP 与 IPv6 邻居发现有什么区别？</p>"
+    },
+    {
+      "order": 43,
+      "id": "NET03",
+      "slug": "net-tcp-udp",
+      "title": "TCP 与 UDP",
+      "englishTitle": "Computer Network",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "计算机网络 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "计算机网络",
+        "基础知识"
+      ],
+      "source": "https://www.rfc-editor.org/rfc/rfc9293.html",
+      "references": [
+        {
+          "title": "RFC 9293 · TCP",
+          "url": "https://www.rfc-editor.org/rfc/rfc9293.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>TCP 与 UDP 在连接状态、可靠性、顺序和消息边界上有什么区别？</p><p>直播、DNS 查询和业务 RPC 应如何结合应用需求选择传输方式？</p>"
+    },
+    {
+      "order": 44,
+      "id": "NET04",
+      "slug": "net-dns",
+      "title": "DNS 解析过程",
+      "englishTitle": "Computer Network",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "计算机网络 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "计算机网络",
+        "基础知识"
+      ],
+      "source": "https://www.rfc-editor.org/rfc/rfc1034.html",
+      "references": [
+        {
+          "title": "RFC 1034 · DNS",
+          "url": "https://www.rfc-editor.org/rfc/rfc1034.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>浏览器访问一个域名时，可能经过哪些 DNS 缓存与查询步骤？</p><p>递归查询、迭代查询、A、AAAA、CNAME 与 TTL 分别是什么？</p>"
+    },
+    {
+      "order": 45,
+      "id": "NET05",
+      "slug": "net-http-methods",
+      "title": "HTTP 方法与幂等性",
+      "englishTitle": "Computer Network",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "计算机网络 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "计算机网络",
+        "基础知识"
+      ],
+      "source": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "references": [
+        {
+          "title": "RFC 9110 · HTTP 语义",
+          "url": "https://www.rfc-editor.org/rfc/rfc9110.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>GET、POST、PUT、PATCH 和 DELETE 的语义有什么区别？</p><p>安全方法与幂等方法分别指什么，接口方法本身能否保证业务操作幂等？</p>"
+    },
+    {
+      "order": 46,
+      "id": "NET06",
+      "slug": "net-http-status",
+      "title": "HTTP 状态码与重定向",
+      "englishTitle": "Computer Network",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "计算机网络 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "计算机网络",
+        "基础知识"
+      ],
+      "source": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "references": [
+        {
+          "title": "RFC 9110 · HTTP 语义",
+          "url": "https://www.rfc-editor.org/rfc/rfc9110.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>常见的 2xx、3xx、4xx 和 5xx 状态码分别表示什么？</p><p>301、302、307、308 在重定向语义上有什么区别，502、503、504 又该如何区分？</p>"
+    },
+    {
+      "order": 47,
+      "id": "NET07",
+      "slug": "net-http-cache",
+      "title": "HTTP 缓存与条件请求",
+      "englishTitle": "Computer Network",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "计算机网络 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "计算机网络",
+        "基础知识"
+      ],
+      "source": "https://www.rfc-editor.org/rfc/rfc9111.html",
+      "references": [
+        {
+          "title": "RFC 9111 · HTTP 缓存",
+          "url": "https://www.rfc-editor.org/rfc/rfc9111.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>强缓存与条件请求分别如何工作？</p><p>Cache-Control、Expires、ETag、Last-Modified 和 304 如何配合，no-cache 与 no-store 有什么区别？</p>"
+    },
+    {
+      "order": 48,
+      "id": "NET08",
+      "slug": "net-https",
+      "title": "HTTPS、证书与 TLS",
+      "englishTitle": "Computer Network",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "计算机网络 · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "计算机网络",
+        "基础知识"
+      ],
+      "source": "https://www.rfc-editor.org/rfc/rfc8446.html",
+      "references": [
+        {
+          "title": "RFC 8446 · TLS 1.3",
+          "url": "https://www.rfc-editor.org/rfc/rfc8446.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>HTTPS 在 HTTP 之外提供哪些安全能力？</p><p>浏览器如何验证证书与主机名，公钥密码、对称加密和密钥协商分别承担什么角色？</p>"
+    },
+    {
+      "order": 49,
+      "id": "NET09",
+      "slug": "net-handshake",
+      "title": "TCP 三次握手",
+      "englishTitle": "Computer Network",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "计算机网络 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "计算机网络",
+        "面试考点"
+      ],
+      "source": "https://www.rfc-editor.org/rfc/rfc9293.html",
+      "references": [
+        {
+          "title": "RFC 9293 · TCP",
+          "url": "https://www.rfc-editor.org/rfc/rfc9293.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>TCP 建立连接为什么需要三次握手，而不是只交换两次报文？</p><p>初始序列号、确认号与旧连接报文有什么关系，服务端半连接状态可能带来哪些风险？</p>"
+    },
+    {
+      "order": 50,
+      "id": "NET10",
+      "slug": "net-connection-close",
+      "title": "TCP 关闭与 TIME_WAIT",
+      "englishTitle": "Computer Network",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "计算机网络 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "计算机网络",
+        "面试考点"
+      ],
+      "source": "https://www.rfc-editor.org/rfc/rfc9293.html",
+      "references": [
+        {
+          "title": "RFC 9293 · TCP",
+          "url": "https://www.rfc-editor.org/rfc/rfc9293.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>TCP 的双向关闭过程如何进行，关闭报文是否一定表现为四个独立报文段？</p><p>TIME_WAIT 与 CLOSE_WAIT 分别出现在什么阶段，大量出现时应怎样区分原因？</p>"
+    },
+    {
+      "order": 51,
+      "id": "NET11",
+      "slug": "net-tcp-reliability",
+      "title": "TCP 可靠传输与消息边界",
+      "englishTitle": "Computer Network",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "计算机网络 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "计算机网络",
+        "面试考点"
+      ],
+      "source": "https://www.rfc-editor.org/rfc/rfc9293.html",
+      "references": [
+        {
+          "title": "RFC 9293 · TCP",
+          "url": "https://www.rfc-editor.org/rfc/rfc9293.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>TCP 如何处理丢包、重复和乱序？</p><p>为什么应用一次 write 不对应对端一次 read，设计应用层协议时如何界定消息边界？</p>"
+    },
+    {
+      "order": 52,
+      "id": "NET12",
+      "slug": "net-flow-congestion",
+      "title": "流量控制与拥塞控制",
+      "englishTitle": "Computer Network",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "计算机网络 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "计算机网络",
+        "面试考点"
+      ],
+      "source": "https://www.rfc-editor.org/rfc/rfc5681.html",
+      "references": [
+        {
+          "title": "RFC 5681 · TCP 拥塞控制",
+          "url": "https://www.rfc-editor.org/rfc/rfc5681.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>TCP 的接收窗口与拥塞窗口分别限制什么？</p><p>慢启动、拥塞避免与重传如何影响吞吐，高带宽高延迟链路上还需要考虑哪些因素？</p>"
+    },
+    {
+      "order": 53,
+      "id": "NET13",
+      "slug": "net-http-versions",
+      "title": "HTTP/1.1、HTTP/2 与 HTTP/3",
+      "englishTitle": "Computer Network",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "计算机网络 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "计算机网络",
+        "面试考点"
+      ],
+      "source": "https://www.rfc-editor.org/rfc/rfc9113.html",
+      "references": [
+        {
+          "title": "RFC 9113 · HTTP/2",
+          "url": "https://www.rfc-editor.org/rfc/rfc9113.html"
+        },
+        {
+          "title": "RFC 9114 · HTTP/3",
+          "url": "https://www.rfc-editor.org/rfc/rfc9114.html"
+        },
+        {
+          "title": "RFC 9000 · QUIC",
+          "url": "https://www.rfc-editor.org/rfc/rfc9000.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>HTTP/1.1 长连接、HTTP/2 多路复用与 HTTP/3 分别解决什么问题？</p><p>应用层与传输层的队头阻塞有什么区别，为什么多路复用不意味着所有阻塞都消失？</p>"
+    },
+    {
+      "order": 54,
+      "id": "NET14",
+      "slug": "net-tls-handshake",
+      "title": "TLS 1.3 握手与会话恢复",
+      "englishTitle": "Computer Network",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "计算机网络 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "计算机网络",
+        "面试考点"
+      ],
+      "source": "https://www.rfc-editor.org/rfc/rfc8446.html",
+      "references": [
+        {
+          "title": "RFC 8446 · TLS 1.3",
+          "url": "https://www.rfc-editor.org/rfc/rfc8446.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>TLS 1.3 如何协商密钥并验证服务端身份，会话恢复能减少什么开销？</p><p>0-RTT 数据有哪些重放风险，哪些业务请求不适合直接使用？</p>"
+    },
+    {
+      "order": 55,
+      "id": "NET15",
+      "slug": "net-browser-request",
+      "title": "从输入 URL 到页面返回",
+      "englishTitle": "Computer Network",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "计算机网络 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "计算机网络",
+        "面试考点"
+      ],
+      "source": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "references": [
+        {
+          "title": "RFC 9110 · HTTP 语义",
+          "url": "https://www.rfc-editor.org/rfc/rfc9110.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>在浏览器输入 HTTPS URL 后，从解析域名到收到响应通常经历哪些阶段？</p><p>缓存、代理和连接复用会让哪些阶段被跳过，如何定位各阶段耗时？</p>"
+    },
+    {
+      "order": 56,
+      "id": "NET16",
+      "slug": "net-timeouts",
+      "title": "超时、重置与重试",
+      "englishTitle": "Computer Network",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "计算机网络 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "计算机网络",
+        "面试考点"
+      ],
+      "source": "https://www.rfc-editor.org/rfc/rfc9293.html",
+      "references": [
+        {
+          "title": "RFC 9293 · TCP",
+          "url": "https://www.rfc-editor.org/rfc/rfc9293.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>连接超时、读取超时、connection refused 和 connection reset 各可能发生在哪个阶段？</p><p>请求超时后为什么不能直接断定服务端未执行，重试时如何避免重复副作用？</p>"
+    },
+    {
+      "order": 57,
+      "id": "NET17",
+      "slug": "net-nat-proxy",
+      "title": "NAT、代理与负载均衡",
+      "englishTitle": "Computer Network",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "计算机网络 · 面试考点",
+      "difficulty": "medium",
+      "tags": [
+        "计算机网络",
+        "面试考点"
+      ],
+      "source": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "references": [
+        {
+          "title": "RFC 9110 · HTTP 语义",
+          "url": "https://www.rfc-editor.org/rfc/rfc9110.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>NAT、正向代理、反向代理及四层与七层负载均衡有什么区别？</p><p>经过多层代理后，如何传递并可信地识别客户端地址，连接复用会改变什么？</p>"
+    },
+    {
+      "order": 58,
+      "id": "NET18",
+      "slug": "net-mtu",
+      "title": "MTU、MSS 与路径发现",
+      "englishTitle": "Computer Network",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "计算机网络 · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "计算机网络",
+        "面试考点"
+      ],
+      "source": "https://www.rfc-editor.org/rfc/rfc1191.html",
+      "references": [
+        {
+          "title": "RFC 1191 · IPv4 路径 MTU 发现",
+          "url": "https://www.rfc-editor.org/rfc/rfc1191.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>MTU 与 TCP MSS 有什么区别，IPv4 路径 MTU 发现如何工作？</p><p>为什么可能出现小请求成功、大响应卡住的现象，ICMP 被过滤会有什么影响？</p>"
+    },
+    {
+      "order": 59,
+      "id": "NET19",
+      "slug": "net-dns-debug",
+      "title": "DNS 缓存与解析故障",
+      "englishTitle": "Computer Network",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "计算机网络 · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "计算机网络",
+        "面试考点"
+      ],
+      "source": "https://www.rfc-editor.org/rfc/rfc1034.html",
+      "references": [
+        {
+          "title": "RFC 1034 · DNS",
+          "url": "https://www.rfc-editor.org/rfc/rfc1034.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>同一域名在不同机器或网络中解析结果不同，可能有哪些原因？</p><p>如何区分权威记录、递归缓存、负缓存与客户端缓存，并分析 NXDOMAIN 或 SERVFAIL？</p>"
+    },
+    {
+      "order": 60,
+      "id": "NET20",
+      "slug": "net-end-to-end-debug",
+      "title": "网络故障的分层定位",
+      "englishTitle": "Computer Network",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "计算机网络 · 面试考点",
+      "difficulty": "hard",
+      "tags": [
+        "计算机网络",
+        "面试考点"
+      ],
+      "source": "https://www.rfc-editor.org/rfc/rfc9293.html",
+      "references": [
+        {
+          "title": "RFC 9293 · TCP",
+          "url": "https://www.rfc-editor.org/rfc/rfc9293.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>服务出现间歇性高延迟或请求失败时，如何逐层区分本地资源、DNS、路由、TCP、TLS、代理与应用问题？</p><p>ping 正常为什么不足以证明业务连接正常，怎样用双端证据判断问题位置？</p>"
+    }
+  ]
+}

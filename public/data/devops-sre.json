@@ -1,0 +1,1795 @@
+{
+  "version": 1,
+  "name": "DevOps / SRE",
+  "kind": "discussion",
+  "source": "https://sre.google/workbook/implementing-slos/",
+  "fetchedAt": "2026-09-09T00:00:00.000Z",
+  "editorialNote": "12 道故障场景、10 道系统设计、14 道知识考点。依据官方资料选题，情境、规模与追问原创；不代表大厂真题或高频排名。 2026-09-09 追加 25 道 SRE 日常工作题，覆盖 SLO 治理、可观测性、应急响应、容量规划与容灾演练；仅提供原创问题，不附答案或提纲，原有 36 道题的编号、链接及内容保持不变。",
+  "groups": [
+    {
+      "name": "故障场景",
+      "count": 12
+    },
+    {
+      "name": "系统设计",
+      "count": 10
+    },
+    {
+      "name": "知识考点",
+      "count": 14
+    },
+    {
+      "name": "SRE 日常 · SLO 治理",
+      "count": 5
+    },
+    {
+      "name": "SRE 日常 · 可观测性",
+      "count": 5
+    },
+    {
+      "name": "SRE 日常 · 应急响应",
+      "count": 5
+    },
+    {
+      "name": "SRE 日常 · 容量规划",
+      "count": 5
+    },
+    {
+      "name": "SRE 日常 · 容灾演练",
+      "count": 5
+    }
+  ],
+  "questions": [
+    {
+      "order": 1,
+      "id": "OPS01",
+      "slug": "release-errors",
+      "title": "发布后 5xx 上涨，先排查还是回滚",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "故障场景",
+      "difficulty": "medium",
+      "tags": [
+        "发布",
+        "事故响应",
+        "回滚"
+      ],
+      "source": "https://sre.google/workbook/incident-response/",
+      "references": [
+        {
+          "title": "Google SRE · 事故响应",
+          "url": "https://sre.google/workbook/incident-response/"
+        },
+        {
+          "title": "Kubernetes · Pod 探针",
+          "url": "https://kubernetes.io/docs/concepts/workloads/pods/probes/"
+        },
+        {
+          "title": "Google SRE · SLO 与错误预算",
+          "url": "https://sre.google/workbook/implementing-slos/"
+        }
+      ],
+      "answerTemplate": "现象、影响面与目标\n\n排查证据与假设\n\n止损与处理步骤\n\n权限、风险与回退\n\n恢复验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>新版本上线十分钟后，部分用户提交订单失败。发布系统显示成功，业务告警却开始持续触发。</p><h3>范围与约束</h3><p>练习假设：只有一个地域发布了新版本；存在数据库结构变更；值班只有两人，不能未经验证直接回滚所有组件。</p><h3>示例情境</h3><p>旧版本错误率正常，新版本部分接口返回 5xx；开发建议重启，业务要求立即恢复。</p><h3>请回答</h3><ol><li>如何确定影响面、事故级别与负责人，并安排沟通和操作？</li><li>如何对照流量、版本、日志和依赖指标，快速判断可逆的止损方案？</li><li>回滚镜像能否撤销数据库变更？如何确认恢复而非只是告警暂时消失？</li></ol><h3>面试追问</h3><ol><li>若错误率恢复但订单数据已产生差异，后续怎样核对、补偿与复盘？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://sre.google/workbook/incident-response/\">Google SRE · 事故响应</a></li><li><a href=\"https://kubernetes.io/docs/concepts/workloads/pods/probes/\">Kubernetes · Pod 探针</a></li><li><a href=\"https://sre.google/workbook/implementing-slos/\">Google SRE · SLO 与错误预算</a></li></ul>"
+    },
+    {
+      "order": 2,
+      "id": "OPS02",
+      "slug": "pod-crash-loop",
+      "title": "Pod 不断重启，怎样定位 CrashLoopBackOff",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "故障场景",
+      "difficulty": "easy",
+      "tags": [
+        "Kubernetes",
+        "日志",
+        "探针"
+      ],
+      "source": "https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/",
+      "references": [
+        {
+          "title": "Kubernetes · Pod 排障",
+          "url": "https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/"
+        },
+        {
+          "title": "Kubernetes · Pod 探针",
+          "url": "https://kubernetes.io/docs/concepts/workloads/pods/probes/"
+        }
+      ],
+      "answerTemplate": "现象、影响面与目标\n\n排查证据与假设\n\n止损与处理步骤\n\n权限、风险与回退\n\n恢复验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>一个服务更新配置后持续重启。Pod 名称一直存在，但始终无法稳定提供服务。</p><h3>范围与约束</h3><p>练习假设：有权限只读查看 Pod、事件、上一次容器日志和部署变更；没有证据前不删除资源。</p><h3>示例情境</h3><p>当前日志只有启动信息，上一次退出发生在启动后 40 秒；事件中还出现探针失败。</p><h3>请回答</h3><ol><li>如何建立启动、探针、退出和重启的时间线，区分现象与根因？</li><li>如何验证是启动参数、配置缺失、应用退出还是探针导致的重启？</li><li>采取什么最小修复，如何保留日志与验证新实例能持续接流量？</li></ol><h3>面试追问</h3><ol><li>容器还没启动就拉取镜像失败，排查路径与本题有什么不同？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/\">Kubernetes · Pod 排障</a></li><li><a href=\"https://kubernetes.io/docs/concepts/workloads/pods/probes/\">Kubernetes · Pod 探针</a></li></ul>"
+    },
+    {
+      "order": 3,
+      "id": "OPS03",
+      "slug": "pod-pending",
+      "title": "节点有空闲，Pod 为什么一直 Pending",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "故障场景",
+      "difficulty": "easy",
+      "tags": [
+        "调度",
+        "requests",
+        "容量"
+      ],
+      "source": "https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/",
+      "references": [
+        {
+          "title": "Kubernetes · Pod 排障",
+          "url": "https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/"
+        },
+        {
+          "title": "Kubernetes · 容器资源管理",
+          "url": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/"
+        }
+      ],
+      "answerTemplate": "现象、影响面与目标\n\n排查证据与假设\n\n止损与处理步骤\n\n权限、风险与回退\n\n恢复验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>扩容创建了十个 Pod，但有一半一直 Pending。监控上集群平均 CPU 使用率只有 35%。</p><h3>范围与约束</h3><p>练习假设：Pod 有较大的内存 request，使用持久卷且配置了亲和性；不能删除约束碰运气。</p><h3>示例情境</h3><p>三个节点 CPU 都空闲，但可用内存、卷所在区域和节点标签并不相同。</p><h3>请回答</h3><ol><li>应读取哪些调度事件与约束，为什么平均 CPU 不能证明一定能调度？</li><li>区分资源请求不足、污点/容忍、亲和性、配额与卷绑定问题。</li><li>如何选择调整请求、增加节点或修改约束，并评估可用性影响？</li></ol><h3>面试追问</h3><ol><li>新增节点后仍无法调度，怎样验证是扩容方向不对而非扩容失败？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/\">Kubernetes · Pod 排障</a></li><li><a href=\"https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/\">Kubernetes · 容器资源管理</a></li></ul>"
+    },
+    {
+      "order": 4,
+      "id": "OPS04",
+      "slug": "container-oom",
+      "title": "容器 OOMKilled，就一定是内存泄漏吗",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "故障场景",
+      "difficulty": "medium",
+      "tags": [
+        "内存",
+        "OOM",
+        "cgroup"
+      ],
+      "source": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+      "references": [
+        {
+          "title": "Kubernetes · 容器资源管理",
+          "url": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/"
+        },
+        {
+          "title": "Linux Kernel · cgroup v2",
+          "url": "https://cdn.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html"
+        }
+      ],
+      "answerTemplate": "现象、影响面与目标\n\n排查证据与假设\n\n止损与处理步骤\n\n权限、风险与回退\n\n恢复验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>导出任务偶尔被终止，容器状态记录 OOMKilled。宿主机监控显示仍有较多空闲内存。</p><h3>范围与约束</h3><p>练习假设：容器有内存上限；导出并发与文件大小不同；需要先区分瞬时峰值、长期增长和节点压力。</p><h3>示例情境</h3><p>小文件成功，大文件并行导出时失败；任务结束后内存回落情况还没有采样数据。</p><h3>请回答</h3><ol><li>如何结合容器限制、进程内存、cgroup 事件与时间线确认触发条件？</li><li>如何区分峰值分配、缓存、泄漏和并发放大，避免只靠一次快照判断？</li><li>降低并发、改为流式处理或调整上限各有什么前提？如何压测验证？</li></ol><h3>面试追问</h3><ol><li>如果被驱逐而不是容器 OOM，应该增加哪些节点层面的证据？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/\">Kubernetes · 容器资源管理</a></li><li><a href=\"https://cdn.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html\">Linux Kernel · cgroup v2</a></li></ul>"
+    },
+    {
+      "order": 5,
+      "id": "OPS05",
+      "slug": "latency-resource-pressure",
+      "title": "延迟升高但 CPU 不满，Linux 应该看什么",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "故障场景",
+      "difficulty": "medium",
+      "tags": [
+        "Linux",
+        "PSI",
+        "CPU 限流"
+      ],
+      "source": "https://docs.kernel.org/accounting/psi.html",
+      "references": [
+        {
+          "title": "Linux Kernel · 资源压力 PSI",
+          "url": "https://docs.kernel.org/accounting/psi.html"
+        },
+        {
+          "title": "Linux Kernel · cgroup v2",
+          "url": "https://cdn.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html"
+        },
+        {
+          "title": "Kubernetes · 容器资源管理",
+          "url": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/"
+        }
+      ],
+      "answerTemplate": "现象、影响面与目标\n\n排查证据与假设\n\n止损与处理步骤\n\n权限、风险与回退\n\n恢复验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>服务 P99 延迟翻倍，主机 CPU 平均使用率却不高。容器和宿主机指标给出的印象互相矛盾。</p><h3>范围与约束</h3><p>练习假设：服务可能受 CPU 配额、IO 等待或内存回收影响；允许低开销只读采样，不能直接修改内核参数。</p><h3>示例情境</h3><p>主机 CPU 只有 40%，部分容器的限流计数上升，同时磁盘延迟也有波动。</p><h3>请回答</h3><ol><li>如何区分主机利用率、容器配额、任务排队与资源停顿？</li><li>如何用 cgroup、PSI、磁盘与进程指标建立证据链，确认主要瓶颈？</li><li>如何设计一次只改变一个因素的验证，避免调参后无法判断收益来源？</li></ol><h3>面试追问</h3><ol><li>平均指标正常但只有一个实例慢，如何缩小采样范围和对照组？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://docs.kernel.org/accounting/psi.html\">Linux Kernel · 资源压力 PSI</a></li><li><a href=\"https://cdn.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html\">Linux Kernel · cgroup v2</a></li><li><a href=\"https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/\">Kubernetes · 容器资源管理</a></li></ul>"
+    },
+    {
+      "order": 6,
+      "id": "OPS06",
+      "slug": "cluster-dns-timeout",
+      "title": "部分 Pod 解析域名超时",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "故障场景",
+      "difficulty": "medium",
+      "tags": [
+        "DNS",
+        "CoreDNS",
+        "网络"
+      ],
+      "source": "https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/",
+      "references": [
+        {
+          "title": "Kubernetes · DNS 排障",
+          "url": "https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/"
+        }
+      ],
+      "answerTemplate": "现象、影响面与目标\n\n排查证据与假设\n\n止损与处理步骤\n\n权限、风险与回退\n\n恢复验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>集群中部分业务间歇性解析失败，直接访问已知服务 IP 有时正常。重启应用只能短暂缓解。</p><h3>范围与约束</h3><p>练习假设：失败与节点、命名空间、域名类型可能相关；禁止把固定 IP 写进代码当长期修复。</p><h3>示例情境</h3><p>同一域名在节点 A 上成功、B 上超时；短域名和完整域名的成功率也不同。</p><h3>请回答</h3><ol><li>怎样逐层检查客户端解析配置、DNS 请求、CoreDNS 与上游服务器？</li><li>如何对比成功与失败样本，区分 NXDOMAIN、超时和连接被拒绝？</li><li>怎样验证缓存、转发链路或网络规则变更，安排低风险修复和回退？</li></ol><h3>面试追问</h3><ol><li>如果 DNS 恢复后旧客户端仍失败，如何检查客户端缓存及长连接行为？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/\">Kubernetes · DNS 排障</a></li></ul>"
+    },
+    {
+      "order": 7,
+      "id": "OPS07",
+      "slug": "tls-rotation-failure",
+      "title": "证书更新后，部分客户端无法握手",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "故障场景",
+      "difficulty": "medium",
+      "tags": [
+        "TLS",
+        "证书",
+        "SNI"
+      ],
+      "source": "https://docs.openssl.org/master/man1/openssl-s_client/",
+      "references": [
+        {
+          "title": "OpenSSL · TLS 客户端诊断",
+          "url": "https://docs.openssl.org/master/man1/openssl-s_client/"
+        }
+      ],
+      "answerTemplate": "现象、影响面与目标\n\n排查证据与假设\n\n止损与处理步骤\n\n权限、风险与回退\n\n恢复验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>入口网关更新证书后，浏览器大多正常，部分旧客户端和内部任务却开始报 TLS 错误。</p><h3>范围与约束</h3><p>练习假设：证书部署在多个网关实例；不能关闭证书验证；私钥和客户端令牌不得出现在排障记录中。</p><h3>示例情境</h3><p>同一域名连不同入口 IP 得到的证书链不完全相同，部分工具只显示连接建立成功。</p><h3>请回答</h3><ol><li>如何区分 DNS、TCP、TLS 与 HTTP 层，验证 SNI、主机名、证书链、有效期与信任根？</li><li>为什么测试工具连通并不等于证书校验通过？要记录哪些验证结果？</li><li>如何排查滚动分发不一致，并安排安全回退与续期验证？</li></ol><h3>面试追问</h3><ol><li>若旧客户端不支持新算法，如何制定兼容迁移计划而非降低所有客户端的安全性？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://docs.openssl.org/master/man1/openssl-s_client/\">OpenSSL · TLS 客户端诊断</a></li></ul>"
+    },
+    {
+      "order": 8,
+      "id": "OPS08",
+      "slug": "autoscaling-oscillation",
+      "title": "HPA 扩容滞后，还不停缩回去",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "故障场景",
+      "difficulty": "medium",
+      "tags": [
+        "HPA",
+        "扩缩容",
+        "容量"
+      ],
+      "source": "https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/",
+      "references": [
+        {
+          "title": "Kubernetes · 水平自动扩缩容",
+          "url": "https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/"
+        },
+        {
+          "title": "Kubernetes · 容器资源管理",
+          "url": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/"
+        },
+        {
+          "title": "Kubernetes · Pod 探针",
+          "url": "https://kubernetes.io/docs/concepts/workloads/pods/probes/"
+        }
+      ],
+      "answerTemplate": "现象、影响面与目标\n\n排查证据与假设\n\n止损与处理步骤\n\n权限、风险与回退\n\n恢复验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>流量上升时用户先超时，Pod 随后才扩出来。峰值结束后，副本数又在两个值之间反复波动。</p><h3>范围与约束</h3><p>练习假设：应用启动需要 90 秒；CPU request 与实际消耗差异较大；下游数据库连接数有限。</p><h3>示例情境</h3><p>指标上涨 → 创建 Pod → 等待调度与预热 → 可用容量增加，此时指标已下降并触发缩容。</p><h3>请回答</h3><ol><li>如何检查指标口径、资源请求、采样延迟与稳定窗口？</li><li>怎样区分副本扩容、节点扩容和应用真正可接流量的时间？</li><li>设计预热、容量余量与缩容策略，并说明怎样避免把数据库压垮。</li></ol><h3>面试追问</h3><ol><li>对 IO 密集服务，只按 CPU 扩容会遗漏哪些信号？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/\">Kubernetes · 水平自动扩缩容</a></li><li><a href=\"https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/\">Kubernetes · 容器资源管理</a></li><li><a href=\"https://kubernetes.io/docs/concepts/workloads/pods/probes/\">Kubernetes · Pod 探针</a></li></ul>"
+    },
+    {
+      "order": 9,
+      "id": "OPS09",
+      "slug": "metrics-cardinality",
+      "title": "加了一个指标，Prometheus 内存爆了",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "故障场景",
+      "difficulty": "medium",
+      "tags": [
+        "Prometheus",
+        "高基数",
+        "监控"
+      ],
+      "source": "https://prometheus.io/docs/practices/instrumentation/",
+      "references": [
+        {
+          "title": "Prometheus · 指标设计",
+          "url": "https://prometheus.io/docs/practices/instrumentation/"
+        },
+        {
+          "title": "Google SRE · 事故响应",
+          "url": "https://sre.google/workbook/incident-response/"
+        }
+      ],
+      "answerTemplate": "现象、影响面与目标\n\n排查证据与假设\n\n止损与处理步骤\n\n权限、风险与回退\n\n恢复验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>新版本在请求指标中添加用户 ID 和原始 URL 标签。监控内存快速增长，查询和告警都开始延迟。</p><h3>范围与约束</h3><p>练习假设：真实 URL 包含订单号；监控不能停机全部重建；故障期间还必须保留关键业务告警。</p><h3>示例情境</h3><p>原来只有几个路由模板，发布后出现数百万种标签组合，采集总量也显著增加。</p><h3>请回答</h3><ol><li>怎样验证时序数量、标签组合和新增版本的关系，避免先扩容掩盖问题？</li><li>如何止损、保留低基数关键指标，并用日志或链路承载高维明细？</li><li>如何清理影响、规划保留期，并给指标变更加上线前检查？</li></ol><h3>面试追问</h3><ol><li>监控系统自身失效时，哪些独立信号能让值班人员知道？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://prometheus.io/docs/practices/instrumentation/\">Prometheus · 指标设计</a></li><li><a href=\"https://sre.google/workbook/incident-response/\">Google SRE · 事故响应</a></li></ul>"
+    },
+    {
+      "order": 10,
+      "id": "OPS10",
+      "slug": "terraform-conflicting-changes",
+      "title": "Terraform 锁住了，线上还有人工漂移",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "故障场景",
+      "difficulty": "hard",
+      "tags": [
+        "Terraform",
+        "状态锁",
+        "漂移"
+      ],
+      "source": "https://developer.hashicorp.com/terraform/language/state/locking",
+      "references": [
+        {
+          "title": "HashiCorp · Terraform 状态锁",
+          "url": "https://developer.hashicorp.com/terraform/language/state/locking"
+        },
+        {
+          "title": "HashiCorp · 基础设施漂移",
+          "url": "https://developer.hashicorp.com/terraform/tutorials/state/resource-drift"
+        }
+      ],
+      "answerTemplate": "现象、影响面与目标\n\n排查证据与假设\n\n止损与处理步骤\n\n权限、风险与回退\n\n恢复验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>两条流水线同时修改基础设施，其中一条失败后留下锁。另一位工程师又在控制台修改了生产配置。</p><h3>范围与约束</h3><p>练习假设：state 使用远程存储；尚未确认第一条任务是否彻底停止；禁止直接强制解锁后继续 apply。</p><h3>示例情境</h3><p>配置文件、state 和真实资源出现三种不同状态，计划中还包含可能导致替换的操作。</p><h3>请回答</h3><ol><li>如何确认锁持有者、任务存活和 state 版本，保留现场与备份？</li><li>普通 plan 与 refresh-only plan 各回答什么问题，哪些变化应回写配置？</li><li>如何评审、串行化并恢复执行，避免把人工应急措施意外覆盖？</li></ol><h3>面试追问</h3><ol><li>若资源已建好但 state 写入失败，应如何核对与恢复管理关系？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://developer.hashicorp.com/terraform/language/state/locking\">HashiCorp · Terraform 状态锁</a></li><li><a href=\"https://developer.hashicorp.com/terraform/tutorials/state/resource-drift\">HashiCorp · 基础设施漂移</a></li></ul>"
+    },
+    {
+      "order": 11,
+      "id": "OPS11",
+      "slug": "ci-secret-exposure",
+      "title": "流水线密钥泄露，怎样止损",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "故障场景",
+      "difficulty": "hard",
+      "tags": [
+        "CI/CD",
+        "凭据",
+        "供应链"
+      ],
+      "source": "https://docs.github.com/en/actions/reference/security/secure-use",
+      "references": [
+        {
+          "title": "GitHub Actions · 安全使用",
+          "url": "https://docs.github.com/en/actions/reference/security/secure-use"
+        },
+        {
+          "title": "GitHub Actions · OIDC",
+          "url": "https://docs.github.com/en/actions/concepts/security/openid-connect"
+        },
+        {
+          "title": "Google SRE · 事故响应",
+          "url": "https://sre.google/workbook/incident-response/"
+        }
+      ],
+      "answerTemplate": "现象、影响面与目标\n\n排查证据与假设\n\n止损与处理步骤\n\n权限、风险与回退\n\n恢复验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>外部贡献者提交的变更触发构建后，安全审计发现异常云访问。流水线曾使用长期部署密钥和共享 Runner。</p><h3>范围与约束</h3><p>练习假设：仅做授权环境的防守推演；不能把泄露密钥粘贴进工单；还要追查是否发布了不可信制品。</p><h3>示例情境</h3><p>一个构建任务获得了超出测试需求的权限，随后出现非预期资源操作。</p><h3>请回答</h3><ol><li>怎样撤销凭据、限制影响面、保全审计记录，并排查 Runner 与制品？</li><li>如何重新划分不可信 PR、构建、签发身份与生产部署之间的信任边界？</li><li>采用短期身份、最小权限和第三方依赖固定版本后，还有哪些风险需要验证？</li></ol><h3>面试追问</h3><ol><li>轮换密钥后服务中断，如何兼顾恢复与阻止旧凭据继续被使用？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://docs.github.com/en/actions/reference/security/secure-use\">GitHub Actions · 安全使用</a></li><li><a href=\"https://docs.github.com/en/actions/concepts/security/openid-connect\">GitHub Actions · OIDC</a></li><li><a href=\"https://sre.google/workbook/incident-response/\">Google SRE · 事故响应</a></li></ul>"
+    },
+    {
+      "order": 12,
+      "id": "OPS12",
+      "slug": "backup-restore-failed",
+      "title": "备份一直成功，恢复演练却失败",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "故障场景",
+      "difficulty": "hard",
+      "tags": [
+        "备份",
+        "PITR",
+        "灾备"
+      ],
+      "source": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html",
+      "references": [
+        {
+          "title": "AWS · 灾难恢复方案",
+          "url": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html"
+        },
+        {
+          "title": "PostgreSQL 17 · 归档与时间点恢复",
+          "url": "https://www.postgresql.org/docs/17/continuous-archiving.html"
+        }
+      ],
+      "answerTemplate": "现象、影响面与目标\n\n排查证据与假设\n\n止损与处理步骤\n\n权限、风险与回退\n\n恢复验证与复盘\n",
+      "content": "<h3>场景背景</h3><p>数据库每天的备份任务都显示成功，但恢复演练无法到达指定时间点，应用启动后还缺少对象文件。</p><h3>范围与约束</h3><p>练习假设：目标 RPO 为 15 分钟、RTO 为 1 小时；数据库与对象存储分别备份；在隔离环境演练，不能覆盖生产数据。</p><h3>示例情境</h3><p>基础备份存在，中间一段 WAL 缺失；配置和解密密钥也未纳入恢复清单。</p><h3>请回答</h3><ol><li>如何定义“可恢复”证据，检查备份链、时间点、密钥及跨存储一致性？</li><li>如何测量从宣布事故到业务可用的全流程时间，而非仅数据库启动时间？</li><li>如何补齐演练、校验、隔离与审计机制，并确认新备份确实可用？</li></ol><h3>面试追问</h3><ol><li>误删被实时复制到备用库时，为什么主从复制不能代替历史恢复能力？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html\">AWS · 灾难恢复方案</a></li><li><a href=\"https://www.postgresql.org/docs/17/continuous-archiving.html\">PostgreSQL 17 · 归档与时间点恢复</a></li></ul>"
+    },
+    {
+      "order": 13,
+      "id": "OPS13",
+      "slug": "delivery-platform",
+      "title": "设计统一 CI/CD 交付平台",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "系统设计",
+      "difficulty": "medium",
+      "tags": [
+        "CI/CD",
+        "环境晋级",
+        "制品"
+      ],
+      "source": "https://docs.github.com/en/actions/reference/security/secure-use",
+      "references": [
+        {
+          "title": "GitHub Actions · 安全使用",
+          "url": "https://docs.github.com/en/actions/reference/security/secure-use"
+        },
+        {
+          "title": "GitHub Actions · OIDC",
+          "url": "https://docs.github.com/en/actions/concepts/security/openid-connect"
+        },
+        {
+          "title": "Google SRE · SLO 与错误预算",
+          "url": "https://sre.google/workbook/implementing-slos/"
+        }
+      ],
+      "answerTemplate": "需求、边界与目标\n\n容量与成本估算\n\n架构、接口与流程\n\n权限、隔离与审计\n\n故障恢复与取舍\n\n验证与演进\n",
+      "content": "<h3>场景背景</h3><p>公司有 80 个服务，团队希望统一测试、构建、预发布和生产发布，同时保留各服务的特殊流程。</p><h3>范围与约束</h3><p>练习假设：每天 200 次发布；同一制品需要跨环境晋级；生产发布可审批、暂停和回退。</p><h3>示例情境</h3><p>测试通过后生成制品 A，预发布通过；生产需要部署同一个 A，而不是重新构建出未知制品 B。</p><h3>请回答</h3><ol><li>设计代码、测试报告、制品、部署记录之间的关联与可信链。</li><li>怎样实现可复用流水线、环境隔离、并发控制与最小权限？</li><li>如何做分批发布、健康判断、回退及数据库兼容性检查？</li></ol><h3>面试追问</h3><ol><li>平台自身不可用时，怎样提供受审计的紧急发布通道并随后补齐状态？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://docs.github.com/en/actions/reference/security/secure-use\">GitHub Actions · 安全使用</a></li><li><a href=\"https://docs.github.com/en/actions/concepts/security/openid-connect\">GitHub Actions · OIDC</a></li><li><a href=\"https://sre.google/workbook/implementing-slos/\">Google SRE · SLO 与错误预算</a></li></ul>"
+    },
+    {
+      "order": 14,
+      "id": "OPS14",
+      "slug": "multi-cluster-gitops",
+      "title": "设计多集群 GitOps 交付",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "系统设计",
+      "difficulty": "hard",
+      "tags": [
+        "GitOps",
+        "多集群",
+        "调谐"
+      ],
+      "source": "https://opengitops.dev/",
+      "references": [
+        {
+          "title": "OpenGitOps · GitOps 原则",
+          "url": "https://opengitops.dev/"
+        },
+        {
+          "title": "GitHub Actions · 安全使用",
+          "url": "https://docs.github.com/en/actions/reference/security/secure-use"
+        }
+      ],
+      "answerTemplate": "需求、边界与目标\n\n容量与成本估算\n\n架构、接口与流程\n\n权限、隔离与审计\n\n故障恢复与取舍\n\n验证与演进\n",
+      "content": "<h3>场景背景</h3><p>几十个集群分布在不同地域，应用配置分散，人工操作经常与仓库声明不一致。</p><h3>范围与约束</h3><p>练习假设：集群独立拉取声明；环境差异必须可审计；一个错误提交不能同时破坏全部集群。</p><h3>示例情境</h3><p>主仓库合并了一次资源配置变更，先在测试集群验证，再逐步进入各生产地域。</p><h3>请回答</h3><ol><li>设计仓库、环境配置、审批与部署身份的边界，避免密钥进入明文 Git 历史。</li><li>怎样安排分批同步、健康门禁、差异检测与错误配置的回退？</li><li>控制器不可用、仓库不可用及人工应急修改时，调谐如何恢复？</li></ol><h3>面试追问</h3><ol><li>有人手动修复线上参数，控制器又把它改回去，紧急变更流程应怎样设计？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://opengitops.dev/\">OpenGitOps · GitOps 原则</a></li><li><a href=\"https://docs.github.com/en/actions/reference/security/secure-use\">GitHub Actions · 安全使用</a></li></ul>"
+    },
+    {
+      "order": 15,
+      "id": "OPS15",
+      "slug": "observability-platform",
+      "title": "设计指标、日志和链路采集平台",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "系统设计",
+      "difficulty": "hard",
+      "tags": [
+        "OpenTelemetry",
+        "Prometheus",
+        "可观测性"
+      ],
+      "source": "https://prometheus.io/docs/practices/instrumentation/",
+      "references": [
+        {
+          "title": "Prometheus · 指标设计",
+          "url": "https://prometheus.io/docs/practices/instrumentation/"
+        },
+        {
+          "title": "OpenTelemetry · Collector 部署",
+          "url": "https://opentelemetry.io/docs/collector/deploy/"
+        }
+      ],
+      "answerTemplate": "需求、边界与目标\n\n容量与成本估算\n\n架构、接口与流程\n\n权限、隔离与审计\n\n故障恢复与取舍\n\n验证与演进\n",
+      "content": "<h3>场景背景</h3><p>公司希望统一采集三种观测信号，让一次用户请求能关联到指标、日志和调用链。</p><h3>范围与约束</h3><p>练习假设：每天 5 TB 日志；部分业务含敏感字段；不同租户有配额、保留期和访问权限。</p><h3>示例情境</h3><p>出口网络中断十分钟后恢复，采集端积压大量数据；不能因为补发把应用和存储一起拖垮。</p><h3>请回答</h3><ol><li>选择 Agent、Gateway 与存储查询的分工，估算正常和故障期间的容量。</li><li>如何关联信号、限制高基数、采样链路、清理敏感字段并做租户隔离？</li><li>怎样设计缓冲、背压、丢弃优先级与自身监控，明确哪些信号可丢？</li></ol><h3>面试追问</h3><ol><li>发生事故时刚好没采到关键请求，如何平衡采样成本与排障价值？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://prometheus.io/docs/practices/instrumentation/\">Prometheus · 指标设计</a></li><li><a href=\"https://opentelemetry.io/docs/collector/deploy/\">OpenTelemetry · Collector 部署</a></li></ul>"
+    },
+    {
+      "order": 16,
+      "id": "OPS16",
+      "slug": "slo-alerting-platform",
+      "title": "设计 SLO 告警与值班响应平台",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "系统设计",
+      "difficulty": "hard",
+      "tags": [
+        "SLO",
+        "告警",
+        "值班"
+      ],
+      "source": "https://sre.google/workbook/implementing-slos/",
+      "references": [
+        {
+          "title": "Google SRE · SLO 与错误预算",
+          "url": "https://sre.google/workbook/implementing-slos/"
+        },
+        {
+          "title": "Google SRE · 基于 SLO 的告警",
+          "url": "https://sre.google/workbook/alerting-on-slos/"
+        },
+        {
+          "title": "Google SRE · 事故响应",
+          "url": "https://sre.google/workbook/incident-response/"
+        }
+      ],
+      "answerTemplate": "需求、边界与目标\n\n容量与成本估算\n\n架构、接口与流程\n\n权限、隔离与审计\n\n故障恢复与取舍\n\n验证与演进\n",
+      "content": "<h3>场景背景</h3><p>各团队配置了数千条阈值告警，夜间噪声很多，却仍然漏掉真实用户故障。</p><h3>范围与约束</h3><p>练习假设：服务有明确负责人；按用户请求定义可用性与延迟目标；不同服务重要性不同。</p><h3>示例情境</h3><p>CPU 短时升高但请求正常不应总是叫醒人；低错误率持续数小时却可能消耗大量错误预算。</p><h3>请回答</h3><ol><li>如何统一 SLI 数据、窗口与错误预算口径，并校验指标缺失？</li><li>如何安排短窗与长窗判断、聚合去重、抑制、升级及恢复通知？</li><li>怎样关联责任人、操作手册和事件记录，并评估告警是否有行动价值？</li></ol><h3>面试追问</h3><ol><li>底层监控故障造成无数据时，怎样区分“服务正常”与“无法观测”？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://sre.google/workbook/implementing-slos/\">Google SRE · SLO 与错误预算</a></li><li><a href=\"https://sre.google/workbook/alerting-on-slos/\">Google SRE · 基于 SLO 的告警</a></li><li><a href=\"https://sre.google/workbook/incident-response/\">Google SRE · 事故响应</a></li></ul>"
+    },
+    {
+      "order": 17,
+      "id": "OPS17",
+      "slug": "iac-self-service",
+      "title": "设计基础设施自助交付平台",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "系统设计",
+      "difficulty": "medium",
+      "tags": [
+        "IaC",
+        "Terraform",
+        "审批"
+      ],
+      "source": "https://developer.hashicorp.com/terraform/language/state/locking",
+      "references": [
+        {
+          "title": "HashiCorp · Terraform 状态锁",
+          "url": "https://developer.hashicorp.com/terraform/language/state/locking"
+        },
+        {
+          "title": "HashiCorp · 基础设施漂移",
+          "url": "https://developer.hashicorp.com/terraform/tutorials/state/resource-drift"
+        },
+        {
+          "title": "GitHub Actions · OIDC",
+          "url": "https://docs.github.com/en/actions/concepts/security/openid-connect"
+        }
+      ],
+      "answerTemplate": "需求、边界与目标\n\n容量与成本估算\n\n架构、接口与流程\n\n权限、隔离与审计\n\n故障恢复与取舍\n\n验证与演进\n",
+      "content": "<h3>场景背景</h3><p>开发者想按模板申请数据库、缓存与计算资源，平台团队需要控制权限、成本和变更风险。</p><h3>范围与约束</h3><p>练习假设：有测试和生产环境；每个申请有所有者与过期策略；不允许使用一个管理员凭据处理所有租户。</p><h3>示例情境</h3><p>开发者重复提交同一申请；第一次执行已创建部分资源，之后平台进程退出。</p><h3>请回答</h3><ol><li>设计申请、审批、计划、执行和结果查询的状态机与幂等边界。</li><li>如何隔离 state、凭据、配额与执行器，并保护敏感计划输出？</li><li>怎样处理部分失败、并发变更、漂移检测和过期资源回收？</li></ol><h3>面试追问</h3><ol><li>模块升级导致替换数据库时，如何阻断危险变更并安排人工确认？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://developer.hashicorp.com/terraform/language/state/locking\">HashiCorp · Terraform 状态锁</a></li><li><a href=\"https://developer.hashicorp.com/terraform/tutorials/state/resource-drift\">HashiCorp · 基础设施漂移</a></li><li><a href=\"https://docs.github.com/en/actions/concepts/security/openid-connect\">GitHub Actions · OIDC</a></li></ul>"
+    },
+    {
+      "order": 18,
+      "id": "OPS18",
+      "slug": "elastic-capacity",
+      "title": "设计容量管理与弹性伸缩",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "系统设计",
+      "difficulty": "hard",
+      "tags": [
+        "容量",
+        "自动伸缩",
+        "成本"
+      ],
+      "source": "https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/",
+      "references": [
+        {
+          "title": "Kubernetes · 水平自动扩缩容",
+          "url": "https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/"
+        },
+        {
+          "title": "Kubernetes · 容器资源管理",
+          "url": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/"
+        },
+        {
+          "title": "Google SRE · SLO 与错误预算",
+          "url": "https://sre.google/workbook/implementing-slos/"
+        }
+      ],
+      "answerTemplate": "需求、边界与目标\n\n容量与成本估算\n\n架构、接口与流程\n\n权限、隔离与审计\n\n故障恢复与取舍\n\n验证与演进\n",
+      "content": "<h3>场景背景</h3><p>业务有稳定日峰和不可预测的突发流量，希望降低闲置成本，但不能频繁因为扩容太慢而超时。</p><h3>范围与约束</h3><p>练习假设：Pod 就绪需要 90 秒，节点就绪需要 5 分钟；数据库有硬吞吐上限；目标必须兼顾成本与 SLO。</p><h3>示例情境</h3><p>促销开始后请求在一分钟内翻倍；即便创建足够 Pod，数据库也不一定承受得住。</p><h3>请回答</h3><ol><li>如何测出单实例有效容量、瓶颈和余量，区分预测扩容与指标驱动扩容？</li><li>如何协调应用副本、节点、连接池和下游配额的增长？</li><li>设计突发保护、缩容稳定性、预算约束与演练验证。</li></ol><h3>面试追问</h3><ol><li>扩容因地域配额不足失败时，怎样优先保护关键路径？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/\">Kubernetes · 水平自动扩缩容</a></li><li><a href=\"https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/\">Kubernetes · 容器资源管理</a></li><li><a href=\"https://sre.google/workbook/implementing-slos/\">Google SRE · SLO 与错误预算</a></li></ul>"
+    },
+    {
+      "order": 19,
+      "id": "OPS19",
+      "slug": "regional-disaster-recovery",
+      "title": "设计跨地域灾备与恢复演练",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "系统设计",
+      "difficulty": "hard",
+      "tags": [
+        "RTO",
+        "RPO",
+        "多地域"
+      ],
+      "source": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html",
+      "references": [
+        {
+          "title": "AWS · 灾难恢复方案",
+          "url": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html"
+        },
+        {
+          "title": "PostgreSQL 17 · 归档与时间点恢复",
+          "url": "https://www.postgresql.org/docs/17/continuous-archiving.html"
+        }
+      ],
+      "answerTemplate": "需求、边界与目标\n\n容量与成本估算\n\n架构、接口与流程\n\n权限、隔离与审计\n\n故障恢复与取舍\n\n验证与演进\n",
+      "content": "<h3>场景背景</h3><p>关键业务部署在主地域，希望在地域故障时切到备用地域，但无法承担完整双活的长期成本。</p><h3>范围与约束</h3><p>练习假设：允许最多丢失 5 分钟数据，需在 30 分钟内恢复核心功能；对象、数据库、密钥和配置都要考虑。</p><h3>示例情境</h3><p>主地域失联，但无法确定它是否仍然接受部分写入。备用地域的数据有数分钟延迟。</p><h3>请回答</h3><ol><li>对比备份恢复、温备与更高成本的多站点方案，解释选择依据。</li><li>怎样编排故障确认、写入隔离、数据追赶、流量切换和业务校验？</li><li>如何测量真实 RPO/RTO，并安排回切、对账、审计与定期演练？</li></ol><h3>面试追问</h3><ol><li>只允许一个地域写入时，如何防止网络分区造成两个主站同时工作？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html\">AWS · 灾难恢复方案</a></li><li><a href=\"https://www.postgresql.org/docs/17/continuous-archiving.html\">PostgreSQL 17 · 归档与时间点恢复</a></li></ul>"
+    },
+    {
+      "order": 20,
+      "id": "OPS20",
+      "slug": "artifact-trust",
+      "title": "设计可信制品与部署身份体系",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "系统设计",
+      "difficulty": "hard",
+      "tags": [
+        "供应链",
+        "OIDC",
+        "制品追溯"
+      ],
+      "source": "https://docs.github.com/en/actions/reference/security/secure-use",
+      "references": [
+        {
+          "title": "GitHub Actions · 安全使用",
+          "url": "https://docs.github.com/en/actions/reference/security/secure-use"
+        },
+        {
+          "title": "GitHub Actions · OIDC",
+          "url": "https://docs.github.com/en/actions/concepts/security/openid-connect"
+        }
+      ],
+      "answerTemplate": "需求、边界与目标\n\n容量与成本估算\n\n架构、接口与流程\n\n权限、隔离与审计\n\n故障恢复与取舍\n\n验证与演进\n",
+      "content": "<h3>场景背景</h3><p>多个团队从不同仓库构建镜像，生产集群需要验证镜像来自可信代码和受控构建流程。</p><h3>范围与约束</h3><p>练习假设：第三方依赖可能被替换；标签可能可变；外部 PR 不应该直接拿到生产身份。</p><h3>示例情境</h3><p>有人把同名镜像标签指向新内容，发布清单没有变化，但实际运行的制品已经不同。</p><h3>请回答</h3><ol><li>设计源代码提交、依赖、构建过程、制品摘要与部署记录的可追溯关系。</li><li>怎样使用最小权限和短期身份，并限制谁能发布、批准及部署？</li><li>如何校验构建证据、隔离执行环境，处理泄露、撤销与历史制品追查？</li></ol><h3>面试追问</h3><ol><li>合法构建系统被攻陷后，仅有制品签名能证明什么、不能证明什么？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://docs.github.com/en/actions/reference/security/secure-use\">GitHub Actions · 安全使用</a></li><li><a href=\"https://docs.github.com/en/actions/concepts/security/openid-connect\">GitHub Actions · OIDC</a></li></ul>"
+    },
+    {
+      "order": 21,
+      "id": "OPS21",
+      "slug": "operations-automation",
+      "title": "设计安全的自动化运维平台",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "系统设计",
+      "difficulty": "medium",
+      "tags": [
+        "Toil",
+        "自动化",
+        "审计"
+      ],
+      "source": "https://sre.google/sre-book/eliminating-toil/",
+      "references": [
+        {
+          "title": "Google SRE · 消除重复运维劳动",
+          "url": "https://sre.google/sre-book/eliminating-toil/"
+        },
+        {
+          "title": "Google SRE · 事故响应",
+          "url": "https://sre.google/workbook/incident-response/"
+        }
+      ],
+      "answerTemplate": "需求、边界与目标\n\n容量与成本估算\n\n架构、接口与流程\n\n权限、隔离与审计\n\n故障恢复与取舍\n\n验证与演进\n",
+      "content": "<h3>场景背景</h3><p>值班人员每天手动处理重复告警、重跑任务和扩容请求，希望把常见操作变成自助或自动执行。</p><h3>范围与约束</h3><p>练习假设：部分操作涉及生产资源；自动化可失败；高风险动作必须审批且具备停止机制。</p><h3>示例情境</h3><p>同一告警重复到达十次，如果每次都执行扩容或重启，自动化反而可能制造事故。</p><h3>请回答</h3><ol><li>怎样识别值得自动化的 toil，估算节省的人力与引入的维护成本？</li><li>设计触发、诊断、审批、执行、验证和回退的流程，如何限制并发与影响面？</li><li>如何提供幂等、审计、权限隔离、人工接管和全局熔断？</li></ol><h3>面试追问</h3><ol><li>依赖监控误报导致自动修复反复触发，如何让系统及时停止？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://sre.google/sre-book/eliminating-toil/\">Google SRE · 消除重复运维劳动</a></li><li><a href=\"https://sre.google/workbook/incident-response/\">Google SRE · 事故响应</a></li></ul>"
+    },
+    {
+      "order": 22,
+      "id": "OPS22",
+      "slug": "production-readiness",
+      "title": "设计服务上线可靠性门禁",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "系统设计",
+      "difficulty": "medium",
+      "tags": [
+        "上线评审",
+        "SLO",
+        "复盘"
+      ],
+      "source": "https://sre.google/workbook/implementing-slos/",
+      "references": [
+        {
+          "title": "Google SRE · SLO 与错误预算",
+          "url": "https://sre.google/workbook/implementing-slos/"
+        },
+        {
+          "title": "Google SRE · 事故响应",
+          "url": "https://sre.google/workbook/incident-response/"
+        },
+        {
+          "title": "Google SRE · 无责复盘",
+          "url": "https://sre.google/sre-book/postmortem-culture/"
+        }
+      ],
+      "answerTemplate": "需求、边界与目标\n\n容量与成本估算\n\n架构、接口与流程\n\n权限、隔离与审计\n\n故障恢复与取舍\n\n验证与演进\n",
+      "content": "<h3>场景背景</h3><p>公司服务数量快速增加，上线质量差异很大。平台希望建立必要的可靠性标准，但不把发布流程变成纯审批。</p><h3>范围与约束</h3><p>练习假设：不同服务的重要性不同；团队交付频率高；门禁应提供明确原因与可追踪的例外流程。</p><h3>示例情境</h3><p>一个新服务有单元测试，却没有负责人、恢复手册和业务级指标；它即将承接重要请求。</p><h3>请回答</h3><ol><li>哪些上线条件应机器检查，哪些需要人工评审？如何按风险分级？</li><li>怎样把 SLO、容量、备份、依赖故障与回滚验证纳入交付流程？</li><li>事故复盘发现的问题如何转化为改进项、责任人、截止时间和验证证据？</li></ol><h3>面试追问</h3><ol><li>业务紧急上线需要绕过部分门禁时，如何记录风险、时限与补救责任？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://sre.google/workbook/implementing-slos/\">Google SRE · SLO 与错误预算</a></li><li><a href=\"https://sre.google/workbook/incident-response/\">Google SRE · 事故响应</a></li><li><a href=\"https://sre.google/sre-book/postmortem-culture/\">Google SRE · 无责复盘</a></li></ul>"
+    },
+    {
+      "order": 23,
+      "id": "OPS23",
+      "slug": "roles-toil-postmortem",
+      "title": "DevOps、SRE、Toil 与无责复盘",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "知识考点",
+      "difficulty": "easy",
+      "tags": [
+        "岗位职责",
+        "Toil",
+        "事故复盘"
+      ],
+      "source": "https://sre.google/sre-book/eliminating-toil/",
+      "references": [
+        {
+          "title": "Google SRE · 消除重复运维劳动",
+          "url": "https://sre.google/sre-book/eliminating-toil/"
+        },
+        {
+          "title": "Google SRE · 事故响应",
+          "url": "https://sre.google/workbook/incident-response/"
+        },
+        {
+          "title": "Google SRE · 无责复盘",
+          "url": "https://sre.google/sre-book/postmortem-culture/"
+        }
+      ],
+      "answerTemplate": "概念与原理\n\n示例分析\n\n适用边界与误区\n\n验证方法与资料补充\n",
+      "knowledgePoints": [
+        "交付与运行的共同责任",
+        "Toil 的重复性、可自动化与增长特征",
+        "事故指挥、事实时间线与改进闭环"
+      ],
+      "content": "<h3>知识考点</h3><ol><li>交付与运行的共同责任</li><li>Toil 的重复性、可自动化与增长特征</li><li>事故指挥、事实时间线与改进闭环</li></ol><p>团队把所有发布和告警都交给“运维”，开发不参与故障处理，值班人员每天忙于相同操作。</p><h3>范围与约束</h3><p>练习假设：需要解释工作方式与责任边界，不用背一个适用于所有公司的岗位定义。</p><h3>示例情境</h3><p>每周花 20 小时重跑固定任务，但从未改善失败机制；事故复盘只记录“工程师操作失误”。</p><h3>请回答</h3><ol><li>怎样区分交付协作、可靠性工程和单纯手工操作，说明 DevOps 与 SRE 如何相互配合？</li><li>哪些工作符合 toil 特征，自动化应该先算哪些收益与风险？</li><li>无责复盘怎样分析系统因素，同时追踪可验证的改进项？</li></ol><h3>面试追问</h3><ol><li>若自动化脚本本身频繁故障，怎样判断是否真正降低了 toil？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://sre.google/sre-book/eliminating-toil/\">Google SRE · 消除重复运维劳动</a></li><li><a href=\"https://sre.google/workbook/incident-response/\">Google SRE · 事故响应</a></li><li><a href=\"https://sre.google/sre-book/postmortem-culture/\">Google SRE · 无责复盘</a></li></ul>"
+    },
+    {
+      "order": 24,
+      "id": "OPS24",
+      "slug": "linux-resource-basics",
+      "title": "Linux CPU、内存与 IO 的排障考点",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "知识考点",
+      "difficulty": "easy",
+      "tags": [
+        "Linux",
+        "资源压力",
+        "性能"
+      ],
+      "source": "https://docs.kernel.org/accounting/psi.html",
+      "references": [
+        {
+          "title": "Linux Kernel · 资源压力 PSI",
+          "url": "https://docs.kernel.org/accounting/psi.html"
+        },
+        {
+          "title": "Linux Kernel · cgroup v2",
+          "url": "https://cdn.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html"
+        }
+      ],
+      "answerTemplate": "概念与原理\n\n示例分析\n\n适用边界与误区\n\n验证方法与资料补充\n",
+      "knowledgePoints": [
+        "CPU、内存与 IO 的资源范围",
+        "PSI 与等待证据",
+        "采样、对照组与避免盲目调参"
+      ],
+      "content": "<h3>知识考点</h3><ol><li>CPU、内存与 IO 的资源范围</li><li>PSI 与等待证据</li><li>采样、对照组与避免盲目调参</li></ol><p>面试官要求你解释“机器很慢”，但只给出了 CPU 使用率、负载和剩余内存三个数字。</p><h3>范围与约束</h3><p>练习假设：只讨论 Linux，具体内核版本应先确认；不能仅凭单一指标下结论。</p><h3>示例情境</h3><p>CPU 使用率较低，IO 停顿却升高，应用请求主要在等待数据读写。</p><h3>请回答</h3><ol><li>利用率、等待、任务压力和业务延迟有什么区别，为什么需要联合观察？</li><li>如何区分匿名内存、缓存与回收压力，避免把缓存占用当作泄漏？</li><li>列出一套低开销的只读检查顺序，并说明每项证据能排除什么假设。</li></ol><h3>面试追问</h3><ol><li>容器指标与宿主机指标不同步，如何识别统计范围和采样窗口差异？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://docs.kernel.org/accounting/psi.html\">Linux Kernel · 资源压力 PSI</a></li><li><a href=\"https://cdn.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html\">Linux Kernel · cgroup v2</a></li></ul>"
+    },
+    {
+      "order": 25,
+      "id": "OPS25",
+      "slug": "network-dns-tls",
+      "title": "网络、DNS 与 TLS 的分层排障考点",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "知识考点",
+      "difficulty": "easy",
+      "tags": [
+        "DNS",
+        "TLS",
+        "网络"
+      ],
+      "source": "https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/",
+      "references": [
+        {
+          "title": "Kubernetes · DNS 排障",
+          "url": "https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/"
+        },
+        {
+          "title": "OpenSSL · TLS 客户端诊断",
+          "url": "https://docs.openssl.org/master/man1/openssl-s_client/"
+        }
+      ],
+      "answerTemplate": "概念与原理\n\n示例分析\n\n适用边界与误区\n\n验证方法与资料补充\n",
+      "knowledgePoints": [
+        "DNS 解析链与缓存",
+        "SNI、信任链、主机名与有效期",
+        "连接、握手和应用状态的区别"
+      ],
+      "content": "<h3>知识考点</h3><ol><li>DNS 解析链与缓存</li><li>SNI、信任链、主机名与有效期</li><li>连接、握手和应用状态的区别</li></ol><p>应用请求同一个 HTTPS 地址时，有时域名无法解析，有时握手失败，有时得到 HTTP 502。</p><h3>范围与约束</h3><p>练习假设：入口可能经过多个代理；要求分层解释，不把所有错误统称为网络不通。</p><h3>示例情境</h3><p>域名解析成功不等于 TCP 可连接，TCP 建连成功也不代表证书与 HTTP 服务正常。</p><h3>请回答</h3><ol><li>如何按名称解析、传输连接、TLS、HTTP 和应用依赖划分验证步骤？</li><li>解释 DNS 搜索域、缓存、SNI、证书链与主机名校验分别影响什么。</li><li>如何对比域名和指定入口 IP 的测试，同时保留正确的主机名验证？</li></ol><h3>面试追问</h3><ol><li>为什么关闭 TLS 验证只能隐藏问题，不能作为最终修复？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/\">Kubernetes · DNS 排障</a></li><li><a href=\"https://docs.openssl.org/master/man1/openssl-s_client/\">OpenSSL · TLS 客户端诊断</a></li></ul>"
+    },
+    {
+      "order": 26,
+      "id": "OPS26",
+      "slug": "container-resource-limits",
+      "title": "容器资源隔离、requests 与 limits",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "知识考点",
+      "difficulty": "medium",
+      "tags": [
+        "容器",
+        "cgroup",
+        "Kubernetes"
+      ],
+      "source": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+      "references": [
+        {
+          "title": "Kubernetes · 容器资源管理",
+          "url": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/"
+        },
+        {
+          "title": "Linux Kernel · cgroup v2",
+          "url": "https://cdn.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html"
+        }
+      ],
+      "answerTemplate": "概念与原理\n\n示例分析\n\n适用边界与误区\n\n验证方法与资料补充\n",
+      "knowledgePoints": [
+        "资源调度与运行时控制",
+        "CPU throttling 与内存 OOM",
+        "容器范围与节点范围"
+      ],
+      "content": "<h3>知识考点</h3><ol><li>资源调度与运行时控制</li><li>CPU throttling 与内存 OOM</li><li>容器范围与节点范围</li></ol><p>团队把所有容器 CPU 和内存请求都设得很低，希望提高节点利用率。</p><h3>范围与约束</h3><p>练习假设：运行在 Linux；需要解释调度与运行时资源约束的不同作用。</p><h3>示例情境</h3><p>Pod 很容易被调度，但高峰时出现 CPU 限流与内存终止，宿主机并未整体满载。</p><h3>请回答</h3><ol><li>资源 request 与 limit 分别被谁使用，为什么不能把它们视为同一种阈值？</li><li>CPU 限制与内存限制触发时，行为有何不同？cgroup 在其中负责什么？</li><li>如何根据测量调整请求、上限与容量余量，并防止邻居互相影响？</li></ol><h3>面试追问</h3><ol><li>若单纯提高上限，可能把容器级故障转化为什么节点级风险？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/\">Kubernetes · 容器资源管理</a></li><li><a href=\"https://cdn.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html\">Linux Kernel · cgroup v2</a></li></ul>"
+    },
+    {
+      "order": 27,
+      "id": "OPS27",
+      "slug": "probe-semantics",
+      "title": "startup、readiness、liveness 怎么区分",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "知识考点",
+      "difficulty": "easy",
+      "tags": [
+        "Kubernetes",
+        "探针",
+        "健康检查"
+      ],
+      "source": "https://kubernetes.io/docs/concepts/workloads/pods/probes/",
+      "references": [
+        {
+          "title": "Kubernetes · Pod 探针",
+          "url": "https://kubernetes.io/docs/concepts/workloads/pods/probes/"
+        }
+      ],
+      "answerTemplate": "概念与原理\n\n示例分析\n\n适用边界与误区\n\n验证方法与资料补充\n",
+      "knowledgePoints": [
+        "启动保护",
+        "就绪与流量接入",
+        "存活判断与级联重启风险"
+      ],
+      "content": "<h3>知识考点</h3><ol><li>启动保护</li><li>就绪与流量接入</li><li>存活判断与级联重启风险</li></ol><p>一个启动很慢的应用，把数据库连通性同时放进存活探针与就绪探针。</p><h3>范围与约束</h3><p>练习假设：数据库偶发短时不可用；应用重启不能修复数据库故障。</p><h3>示例情境</h3><p>依赖抖动导致所有副本反复重启，原本可能恢复的服务始终无法进入稳定状态。</p><h3>请回答</h3><ol><li>三类探针分别解决什么问题，失败对启动、接流量与重启有什么影响？</li><li>哪些检查适合判断实例是否还能处理请求，哪些不应该触发重启？</li><li>如何设定检查时限与失败阈值，并验证慢启动与恢复过程？</li></ol><h3>面试追问</h3><ol><li>业务返回 200 但关键功能已经失败时，浅层探针还缺少什么验证？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://kubernetes.io/docs/concepts/workloads/pods/probes/\">Kubernetes · Pod 探针</a></li></ul>"
+    },
+    {
+      "order": 28,
+      "id": "OPS28",
+      "slug": "hpa-principles",
+      "title": "HPA 指标、稳定窗口与扩容边界",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "知识考点",
+      "difficulty": "medium",
+      "tags": [
+        "HPA",
+        "容量",
+        "指标"
+      ],
+      "source": "https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/",
+      "references": [
+        {
+          "title": "Kubernetes · 水平自动扩缩容",
+          "url": "https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/"
+        },
+        {
+          "title": "Kubernetes · 容器资源管理",
+          "url": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/"
+        }
+      ],
+      "answerTemplate": "概念与原理\n\n示例分析\n\n适用边界与误区\n\n验证方法与资料补充\n",
+      "knowledgePoints": [
+        "指标与伸缩策略",
+        "稳定窗口与预热延迟",
+        "节点、应用与下游三层容量"
+      ],
+      "content": "<h3>知识考点</h3><ol><li>指标与伸缩策略</li><li>稳定窗口与预热延迟</li><li>节点、应用与下游三层容量</li></ol><p>服务配置了自动伸缩，团队因此认为不再需要容量规划。</p><h3>范围与约束</h3><p>练习假设：讨论无状态工作负载；节点启动、应用预热和下游容量都有成本。</p><h3>示例情境</h3><p>CPU 目标达标但队列一直变长；新增 Pod 又在等待节点资源。</p><h3>请回答</h3><ol><li>HPA 使用什么输入，资源请求和缺失指标会怎样影响判断？</li><li>副本伸缩与节点伸缩为何不是一回事，扩容生效有哪些延迟？</li><li>什么时候应该使用并发、队列或业务指标，如何控制来回伸缩？</li></ol><h3>面试追问</h3><ol><li>如果任务不可抢占，缩容过程需要怎样保护正在处理的工作？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/\">Kubernetes · 水平自动扩缩容</a></li><li><a href=\"https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/\">Kubernetes · 容器资源管理</a></li></ul>"
+    },
+    {
+      "order": 29,
+      "id": "OPS29",
+      "slug": "cicd-release-principles",
+      "title": "CI/CD、制品晋级与回滚考点",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "知识考点",
+      "difficulty": "easy",
+      "tags": [
+        "CI/CD",
+        "制品",
+        "发布策略"
+      ],
+      "source": "https://docs.github.com/en/actions/reference/security/secure-use",
+      "references": [
+        {
+          "title": "GitHub Actions · 安全使用",
+          "url": "https://docs.github.com/en/actions/reference/security/secure-use"
+        },
+        {
+          "title": "Google SRE · SLO 与错误预算",
+          "url": "https://sre.google/workbook/implementing-slos/"
+        }
+      ],
+      "answerTemplate": "概念与原理\n\n示例分析\n\n适用边界与误区\n\n验证方法与资料补充\n",
+      "knowledgePoints": [
+        "提交与制品的可追溯性",
+        "分批发布、验证与回退",
+        "构建权限与依赖可信性"
+      ],
+      "content": "<h3>知识考点</h3><ol><li>提交与制品的可追溯性</li><li>分批发布、验证与回退</li><li>构建权限与依赖可信性</li></ol><p>团队把“自动运行脚本”当作完整的持续交付，生产与测试环境每次都会重新构建。</p><h3>范围与约束</h3><p>练习假设：同一提交可能受浮动依赖影响；上线还可能携带不可逆的数据变更。</p><h3>示例情境</h3><p>测试镜像与生产镜像虽然版本号相同，实际摘要不同，导致故障无法复现。</p><h3>请回答</h3><ol><li>如何区分验证代码变更、准备可发布制品与实际部署，确保环境晋级的是同一内容？</li><li>滚动、蓝绿与金丝雀各需要哪些健康判据和回退条件？</li><li>为什么回滚代码不总能回滚数据，怎样安排兼容性变更？</li></ol><h3>面试追问</h3><ol><li>构建缓存提升速度时，如何避免复用过时或不可信的输入？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://docs.github.com/en/actions/reference/security/secure-use\">GitHub Actions · 安全使用</a></li><li><a href=\"https://sre.google/workbook/implementing-slos/\">Google SRE · SLO 与错误预算</a></li></ul>"
+    },
+    {
+      "order": 30,
+      "id": "OPS30",
+      "slug": "gitops-reconciliation",
+      "title": "GitOps 的声明、调谐与漂移",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "知识考点",
+      "difficulty": "easy",
+      "tags": [
+        "GitOps",
+        "声明式",
+        "漂移"
+      ],
+      "source": "https://opengitops.dev/",
+      "references": [
+        {
+          "title": "OpenGitOps · GitOps 原则",
+          "url": "https://opengitops.dev/"
+        }
+      ],
+      "answerTemplate": "概念与原理\n\n示例分析\n\n适用边界与误区\n\n验证方法与资料补充\n",
+      "knowledgePoints": [
+        "声明式与版本化状态",
+        "自动拉取与持续调谐",
+        "漂移、权限与人工应急边界"
+      ],
+      "content": "<h3>知识考点</h3><ol><li>声明式与版本化状态</li><li>自动拉取与持续调谐</li><li>漂移、权限与人工应急边界</li></ol><p>团队把部署 YAML 放进 Git，但发布仍靠开发者在电脑上执行命令。</p><h3>范围与约束</h3><p>练习假设：要求说明 GitOps 原则及其运维后果，而非比较工具品牌。</p><h3>示例情境</h3><p>集群资源被手动修改，仓库没有记录，也没有控制器持续纠正或报告差异。</p><h3>请回答</h3><ol><li>版本化配置与完整 GitOps 工作流还差哪些环节？</li><li>如何解释期望状态、实际状态、自动拉取与持续调谐之间的关系？</li><li>紧急手动变更和声明冲突时，应怎样恢复一致与保留审计？</li></ol><h3>面试追问</h3><ol><li>仓库被误合并后，自动调谐如何同时成为优势与风险？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://opengitops.dev/\">OpenGitOps · GitOps 原则</a></li></ul>"
+    },
+    {
+      "order": 31,
+      "id": "OPS31",
+      "slug": "terraform-state-basics",
+      "title": "Terraform 配置、state、锁与漂移",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "知识考点",
+      "difficulty": "medium",
+      "tags": [
+        "Terraform",
+        "IaC",
+        "state"
+      ],
+      "source": "https://developer.hashicorp.com/terraform/language/state/locking",
+      "references": [
+        {
+          "title": "HashiCorp · Terraform 状态锁",
+          "url": "https://developer.hashicorp.com/terraform/language/state/locking"
+        },
+        {
+          "title": "HashiCorp · 基础设施漂移",
+          "url": "https://developer.hashicorp.com/terraform/tutorials/state/resource-drift"
+        },
+        {
+          "title": "GitHub Actions · 安全使用",
+          "url": "https://docs.github.com/en/actions/reference/security/secure-use"
+        }
+      ],
+      "answerTemplate": "概念与原理\n\n示例分析\n\n适用边界与误区\n\n验证方法与资料补充\n",
+      "knowledgePoints": [
+        "配置、状态映射与真实资源",
+        "并发锁及失败恢复",
+        "漂移计划、版本与敏感信息"
+      ],
+      "content": "<h3>知识考点</h3><ol><li>配置、状态映射与真实资源</li><li>并发锁及失败恢复</li><li>漂移计划、版本与敏感信息</li></ol><p>团队在共享后端管理资源，对 state 的理解仅限于“一个可以删掉重建的缓存文件”。</p><h3>范围与约束</h3><p>练习假设：包含长期运行且有数据的资源；任何恢复都应先确认归属与备份。</p><h3>示例情境</h3><p>资源已被控制台改名，state 还记录旧信息，代码又请求第三种配置。</p><h3>请回答</h3><ol><li>三者分别表达什么，state 为什么需要保护、版本与权限控制？</li><li>哪些并发问题需要锁，为什么不能默认强制解锁？</li><li>解释 refresh-only 与常规变更计划的区别，如何安全处理资源归属或漂移？</li></ol><h3>面试追问</h3><ol><li>state 或计划包含敏感信息时，存储、日志和审核环节怎样降低泄露风险？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://developer.hashicorp.com/terraform/language/state/locking\">HashiCorp · Terraform 状态锁</a></li><li><a href=\"https://developer.hashicorp.com/terraform/tutorials/state/resource-drift\">HashiCorp · 基础设施漂移</a></li><li><a href=\"https://docs.github.com/en/actions/reference/security/secure-use\">GitHub Actions · 安全使用</a></li></ul>"
+    },
+    {
+      "order": 32,
+      "id": "OPS32",
+      "slug": "prometheus-metrics-basics",
+      "title": "Prometheus 指标类型与标签设计",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "知识考点",
+      "difficulty": "medium",
+      "tags": [
+        "Prometheus",
+        "指标",
+        "高基数"
+      ],
+      "source": "https://prometheus.io/docs/practices/instrumentation/",
+      "references": [
+        {
+          "title": "Prometheus · 指标设计",
+          "url": "https://prometheus.io/docs/practices/instrumentation/"
+        }
+      ],
+      "answerTemplate": "概念与原理\n\n示例分析\n\n适用边界与误区\n\n验证方法与资料补充\n",
+      "knowledgePoints": [
+        "指标语义与聚合范围",
+        "标签组合与时序数量",
+        "零值、缺失及重置"
+      ],
+      "content": "<h3>知识考点</h3><ol><li>指标语义与聚合范围</li><li>标签组合与时序数量</li><li>零值、缺失及重置</li></ol><p>团队希望同时统计请求数量、并发、延迟和错误用户明细，计划全部放进一个带很多标签的指标。</p><h3>范围与约束</h3><p>练习假设：服务有多个实例并持续重启，标签不应包含无限增长的业务 ID。</p><h3>示例情境</h3><p>累计请求数在实例重启后回到零；原始 URL 标签随着新订单持续增加。</p><h3>请回答</h3><ol><li>怎样区分累计量、当前值与分布，选择合适的指标表示？</li><li>跨实例与跨时间聚合要注意哪些采样和重置问题？</li><li>如何限制标签基数，并把高维明细放到更合适的观测信号中？</li></ol><h3>面试追问</h3><ol><li>某项指标停止上报时，如何区分值为零与数据不存在？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://prometheus.io/docs/practices/instrumentation/\">Prometheus · 指标设计</a></li></ul>"
+    },
+    {
+      "order": 33,
+      "id": "OPS33",
+      "slug": "otel-signals-basics",
+      "title": "日志、指标、链路与 Collector",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "知识考点",
+      "difficulty": "easy",
+      "tags": [
+        "OpenTelemetry",
+        "可观测性",
+        "采集"
+      ],
+      "source": "https://opentelemetry.io/docs/collector/deploy/",
+      "references": [
+        {
+          "title": "OpenTelemetry · Collector 部署",
+          "url": "https://opentelemetry.io/docs/collector/deploy/"
+        },
+        {
+          "title": "Prometheus · 指标设计",
+          "url": "https://prometheus.io/docs/practices/instrumentation/"
+        }
+      ],
+      "answerTemplate": "概念与原理\n\n示例分析\n\n适用边界与误区\n\n验证方法与资料补充\n",
+      "knowledgePoints": [
+        "信号的用途与关联",
+        "Agent / Gateway 分工",
+        "开销、采样、脱敏与缓冲"
+      ],
+      "content": "<h3>知识考点</h3><ol><li>信号的用途与关联</li><li>Agent / Gateway 分工</li><li>开销、采样、脱敏与缓冲</li></ol><p>线上错误发生后，团队能看到错误率，却无法找到对应日志与调用链。</p><h3>范围与约束</h3><p>练习假设：采用统一观测规范；日志可能包含个人信息；需要考虑采样与采集开销。</p><h3>示例情境</h3><p>一个跨服务请求在入口有 trace ID，到了异步消费端却无法关联。</p><h3>请回答</h3><ol><li>三类信号各擅长回答什么问题，哪些关联信息需要跨进程和异步边界传递？</li><li>Agent 与 Gateway 部署怎样分工，为什么采集链路也需要容量和故障设计？</li><li>怎样安排脱敏、采样、缓冲与访问控制，不让观测拖慢业务？</li></ol><h3>面试追问</h3><ol><li>丢失关键 trace 后，哪些指标和日志仍能支持定位？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://opentelemetry.io/docs/collector/deploy/\">OpenTelemetry · Collector 部署</a></li><li><a href=\"https://prometheus.io/docs/practices/instrumentation/\">Prometheus · 指标设计</a></li></ul>"
+    },
+    {
+      "order": 34,
+      "id": "OPS34",
+      "slug": "slo-error-budget",
+      "title": "SLI、SLO、SLA 与错误预算",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "知识考点",
+      "difficulty": "medium",
+      "tags": [
+        "SLO",
+        "SLI",
+        "错误预算"
+      ],
+      "source": "https://sre.google/workbook/implementing-slos/",
+      "references": [
+        {
+          "title": "Google SRE · SLO 与错误预算",
+          "url": "https://sre.google/workbook/implementing-slos/"
+        },
+        {
+          "title": "Google SRE · 基于 SLO 的告警",
+          "url": "https://sre.google/workbook/alerting-on-slos/"
+        }
+      ],
+      "answerTemplate": "概念与原理\n\n示例分析\n\n适用边界与误区\n\n验证方法与资料补充\n",
+      "knowledgePoints": [
+        "用户视角的指标与目标",
+        "预算计算与消耗速度",
+        "窗口、低流量与发布取舍"
+      ],
+      "content": "<h3>知识考点</h3><ol><li>用户视角的指标与目标</li><li>预算计算与消耗速度</li><li>窗口、低流量与发布取舍</li></ol><p>产品要求服务“越稳定越好”，团队准备直接给所有接口设置相同的高可用百分比。</p><h3>范围与约束</h3><p>练习假设：按请求成功率定义 30 天 SLO；窗口内有 1000 万次合格请求，目标为 99.9%。</p><h3>示例情境</h3><p>一分钟内大量请求失败，与整天低流量时零星失败，对用户和预算的影响并不相同。</p><h3>请回答</h3><ol><li>定义好事件、总事件、窗口与排除规则；区分内部目标和对外承诺。</li><li>计算本题允许的坏事件数量，并解释为什么不能直接等同于固定停机分钟数。</li><li>如何用预算消耗速度安排告警和发布决策，处理低流量与监控缺失？</li></ol><h3>面试追问</h3><ol><li>某接口始终很慢但成功返回，只有成功率 SLO 会遗漏什么？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://sre.google/workbook/implementing-slos/\">Google SRE · SLO 与错误预算</a></li><li><a href=\"https://sre.google/workbook/alerting-on-slos/\">Google SRE · 基于 SLO 的告警</a></li></ul>"
+    },
+    {
+      "order": 35,
+      "id": "OPS35",
+      "slug": "identity-pipeline-security",
+      "title": "最小权限、Secrets 与 OIDC 考点",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "知识考点",
+      "difficulty": "medium",
+      "tags": [
+        "安全",
+        "OIDC",
+        "CI/CD"
+      ],
+      "source": "https://docs.github.com/en/actions/reference/security/secure-use",
+      "references": [
+        {
+          "title": "GitHub Actions · 安全使用",
+          "url": "https://docs.github.com/en/actions/reference/security/secure-use"
+        },
+        {
+          "title": "GitHub Actions · OIDC",
+          "url": "https://docs.github.com/en/actions/concepts/security/openid-connect"
+        }
+      ],
+      "answerTemplate": "概念与原理\n\n示例分析\n\n适用边界与误区\n\n验证方法与资料补充\n",
+      "knowledgePoints": [
+        "主体、权限与有效期",
+        "OIDC 信任条件与受众",
+        "Secrets、Runner 与第三方依赖"
+      ],
+      "content": "<h3>知识考点</h3><ol><li>主体、权限与有效期</li><li>OIDC 信任条件与受众</li><li>Secrets、Runner 与第三方依赖</li></ol><p>一个流水线凭据同时能读取源码、创建资源和部署所有生产环境，且几年没有更换。</p><h3>范围与约束</h3><p>练习假设：外部 PR 不可信；部署凭据应限制有效期与可操作范围；具体身份声明需按平台版本核验。</p><h3>示例情境</h3><p>测试工作流与生产部署工作流来自同一仓库，但不应该被云端视为相同授权主体。</p><h3>请回答</h3><ol><li>如何区分身份认证、权限授权与秘密分发，设计最小权限和环境边界？</li><li>短期身份交换解决哪些长期密钥问题，又依赖哪些云端信任条件？</li><li>如何处理日志脱敏、凭据轮换、Runner 隔离和第三方依赖风险？</li></ol><h3>面试追问</h3><ol><li>为什么允许任意分支或任意工作流兑换生产身份仍然危险？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://docs.github.com/en/actions/reference/security/secure-use\">GitHub Actions · 安全使用</a></li><li><a href=\"https://docs.github.com/en/actions/concepts/security/openid-connect\">GitHub Actions · OIDC</a></li></ul>"
+    },
+    {
+      "order": 36,
+      "id": "OPS36",
+      "slug": "disaster-recovery-basics",
+      "title": "高可用、备份、RPO 与 RTO",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "知识考点",
+      "difficulty": "easy",
+      "tags": [
+        "灾备",
+        "备份",
+        "恢复"
+      ],
+      "source": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html",
+      "references": [
+        {
+          "title": "AWS · 灾难恢复方案",
+          "url": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html"
+        },
+        {
+          "title": "PostgreSQL 17 · 归档与时间点恢复",
+          "url": "https://www.postgresql.org/docs/17/continuous-archiving.html"
+        }
+      ],
+      "answerTemplate": "概念与原理\n\n示例分析\n\n适用边界与误区\n\n验证方法与资料补充\n",
+      "knowledgePoints": [
+        "故障类型与保护边界",
+        "RPO、RTO 和恢复清单",
+        "备份链、密钥及定期演练"
+      ],
+      "content": "<h3>知识考点</h3><ol><li>故障类型与保护边界</li><li>RPO、RTO 和恢复清单</li><li>备份链、密钥及定期演练</li></ol><p>团队认为只要部署主从数据库并每天备份，就能保证任何故障都不丢数据、立即恢复。</p><h3>范围与约束</h3><p>练习假设：需要分别考虑节点故障、地域故障和误删除；数据库并非业务的唯一依赖。</p><h3>示例情境</h3><p>误删除立即同步到副本，最新备份文件虽然存在，但从未验证能否解密和恢复。</p><h3>请回答</h3><ol><li>高可用切换、复制、备份与时间点恢复分别解决什么风险？</li><li>RPO 与 RTO 应如何测量，恢复时间为什么包括校验、依赖和流量切换？</li><li>如何为不同业务选择恢复方案，并设计隔离演练和恢复证据？</li></ol><h3>面试追问</h3><ol><li>如果恢复后的数据库正常，但密钥或对象文件缺失，是否能宣布业务恢复？</li></ol><h3>参考来源</h3><p>依据官方工程资料的主题原创编写；规模、故障与目标均为练习假设，难度为本站分级，不代表企业面试原题。题目用于文本推演，不要求在生产环境执行操作；具体工具行为请核对使用版本。</p><ul><li><a href=\"https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html\">AWS · 灾难恢复方案</a></li><li><a href=\"https://www.postgresql.org/docs/17/continuous-archiving.html\">PostgreSQL 17 · 归档与时间点恢复</a></li></ul>"
+    },
+    {
+      "order": 37,
+      "id": "OPS37",
+      "slug": "sre-daily-sli-user-journey",
+      "title": "从用户旅程确定 SLI",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · SLO 治理",
+      "difficulty": "easy",
+      "tags": [
+        "SRE",
+        "SLO 治理",
+        "日常工作"
+      ],
+      "source": "https://sre.google/workbook/implementing-slos/",
+      "references": [
+        {
+          "title": "Google SRE · SLO 实施",
+          "url": "https://sre.google/workbook/implementing-slos/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>接手一个同时提供下单接口与异步履约任务的服务，如何分别定义成功、延迟与数据新鲜度的 SLI？</p><p>分母、统计位置、重试、主动拒绝和第三方依赖故障应如何约定？</p>"
+    },
+    {
+      "order": 38,
+      "id": "OPS38",
+      "slug": "sre-daily-budget-review",
+      "title": "每日错误预算核算",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · SLO 治理",
+      "difficulty": "medium",
+      "tags": [
+        "SRE",
+        "SLO 治理",
+        "日常工作"
+      ],
+      "source": "https://sre.google/workbook/alerting-on-slos/",
+      "references": [
+        {
+          "title": "Google SRE · SLO 告警",
+          "url": "https://sre.google/workbook/alerting-on-slos/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>一个服务以滚动 30 天为窗口，按请求成功率考核 99.9% 的 SLO；窗口内有 1000 万次有效请求，其中 6000 次失败，如何计算允许失败量、已消耗比例与剩余预算？</p><p>若最近一小时失败率为 1%，该时段的预算消耗速率意味着什么，预估耗尽时间还需要哪些流量假设？</p>"
+    },
+    {
+      "order": 39,
+      "id": "OPS39",
+      "slug": "sre-daily-low-traffic-slo",
+      "title": "低流量与监控缺数时的 SLO",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · SLO 治理",
+      "difficulty": "medium",
+      "tags": [
+        "SRE",
+        "SLO 治理",
+        "日常工作"
+      ],
+      "source": "https://sre.google/workbook/alerting-on-slos/",
+      "references": [
+        {
+          "title": "Google SRE · SLO 告警",
+          "url": "https://sre.google/workbook/alerting-on-slos/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>一个接口夜间请求极少，偶发失败就让成功率剧烈波动；另一个接口因为采集链路异常而没有数据，如何区分两类情况？</p><p>怎样设计统计窗口、主动探测和告警策略，避免把无数据直接当作服务正常？</p>"
+    },
+    {
+      "order": 40,
+      "id": "OPS40",
+      "slug": "sre-daily-budget-release-decision",
+      "title": "预算不足时如何安排发布",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · SLO 治理",
+      "difficulty": "hard",
+      "tags": [
+        "SRE",
+        "SLO 治理",
+        "日常工作"
+      ],
+      "source": "https://sre.google/workbook/implementing-slos/",
+      "references": [
+        {
+          "title": "Google SRE · SLO 与错误预算治理",
+          "url": "https://sre.google/workbook/implementing-slos/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>临近大促，错误预算已接近耗尽，业务仍要求上线新功能，你会如何组织发布决策？</p><p>对功能发布、可靠性修复和安全补丁，应怎样约定审批、例外、恢复发布的条件与责任人？</p>"
+    },
+    {
+      "order": 41,
+      "id": "OPS41",
+      "slug": "sre-daily-slo-monthly-review",
+      "title": "SLO 月度评审与治理闭环",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · SLO 治理",
+      "difficulty": "medium",
+      "tags": [
+        "SRE",
+        "SLO 治理",
+        "日常工作"
+      ],
+      "source": "https://sre.google/workbook/implementing-slos/",
+      "references": [
+        {
+          "title": "Google SRE · SLO 实施",
+          "url": "https://sre.google/workbook/implementing-slos/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>每月可靠性评审应当检查哪些用户体验、预算消耗和事故数据？</p><p>当 SLO 长期轻松达标或持续无法达标时，如何判断应调整目标、修正测量，还是优先投入可靠性改进？</p>"
+    },
+    {
+      "order": 42,
+      "id": "OPS42",
+      "slug": "sre-daily-alert-noise-review",
+      "title": "告警降噪与行动性检查",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · 可观测性",
+      "difficulty": "easy",
+      "tags": [
+        "SRE",
+        "可观测性",
+        "日常工作"
+      ],
+      "source": "https://sre.google/workbook/monitoring/",
+      "references": [
+        {
+          "title": "Google SRE · 监控实践",
+          "url": "https://sre.google/workbook/monitoring/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>值班每天收到大量告警，但真正需要立即处理的很少，如何评估每条告警是否值得呼叫值班人员？</p><p>如何区分删除、改阈值、改为工单、聚合或抑制，并验证降噪没有扩大监控盲区？</p>"
+    },
+    {
+      "order": 43,
+      "id": "OPS43",
+      "slug": "sre-daily-telemetry-blind-spots",
+      "title": "用户报障但监控全绿",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · 可观测性",
+      "difficulty": "medium",
+      "tags": [
+        "SRE",
+        "可观测性",
+        "日常工作"
+      ],
+      "source": "https://sre.google/workbook/monitoring/",
+      "references": [
+        {
+          "title": "Google SRE · 监控实践",
+          "url": "https://sre.google/workbook/monitoring/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>用户反馈某地域或某类请求持续失败，而服务总成功率仍正常，如何查找监控盲区？</p><p>如何在入口、依赖和业务结果之间核对观测口径，并控制新增维度的成本与隐私风险？</p>"
+    },
+    {
+      "order": 44,
+      "id": "OPS44",
+      "slug": "sre-daily-latency-percentiles",
+      "title": "延迟分位数的正确聚合",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · 可观测性",
+      "difficulty": "medium",
+      "tags": [
+        "SRE",
+        "可观测性",
+        "日常工作"
+      ],
+      "source": "https://prometheus.io/docs/practices/histograms/",
+      "references": [
+        {
+          "title": "Prometheus · Histogram 与 Summary",
+          "url": "https://prometheus.io/docs/practices/histograms/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>一个服务有多个实例，能否把各实例的 P99 取平均作为服务整体 P99？</p><p>在 histogram 与 summary 两种实现下，如何评估聚合结果、桶边界、低样本量和时间窗口对判断的影响？</p>"
+    },
+    {
+      "order": 45,
+      "id": "OPS45",
+      "slug": "sre-daily-trace-sampling-review",
+      "title": "采样策略与故障证据保留",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · 可观测性",
+      "difficulty": "medium",
+      "tags": [
+        "SRE",
+        "可观测性",
+        "日常工作"
+      ],
+      "source": "https://opentelemetry.io/docs/concepts/sampling/",
+      "references": [
+        {
+          "title": "OpenTelemetry · 采样",
+          "url": "https://opentelemetry.io/docs/concepts/sampling/"
+        },
+        {
+          "title": "OpenTelemetry · 上下文传播",
+          "url": "https://opentelemetry.io/docs/concepts/context-propagation/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>为了降低成本需要减少链路采样，怎样评估对罕见错误、慢请求和跨服务关联的影响？</p><p>头部采样与尾部采样各有什么取舍，日志与 trace 关联失败时如何检查上下文传播与采样链路？</p>"
+    },
+    {
+      "order": 46,
+      "id": "OPS46",
+      "slug": "sre-daily-monitoring-self-health",
+      "title": "监控系统自身失效怎么办",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · 可观测性",
+      "difficulty": "hard",
+      "tags": [
+        "SRE",
+        "可观测性",
+        "日常工作"
+      ],
+      "source": "https://sre.google/workbook/monitoring/",
+      "references": [
+        {
+          "title": "Google SRE · 监控实践",
+          "url": "https://sre.google/workbook/monitoring/"
+        },
+        {
+          "title": "Prometheus · 告警系统监控",
+          "url": "https://prometheus.io/docs/practices/alerting/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>业务指标停止更新且告警没有触发，如何判断是业务无流量还是监控系统故障？</p><p>如何为采集、存储、规则计算和通知链路建立健康检查，并避免告警系统与被监控系统共享同一故障点？</p>"
+    },
+    {
+      "order": 47,
+      "id": "OPS47",
+      "slug": "sre-daily-oncall-handover",
+      "title": "值班交接与风险清单",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · 应急响应",
+      "difficulty": "easy",
+      "tags": [
+        "SRE",
+        "应急响应",
+        "日常工作"
+      ],
+      "source": "https://sre.google/workbook/on-call/",
+      "references": [
+        {
+          "title": "Google SRE · 值班实践",
+          "url": "https://sre.google/workbook/on-call/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>一次有效的 SRE 值班交接应包含哪些当前故障、近期变更、容量风险、未关闭工单和联系信息？</p><p>如何判断新值班人员已经能够独立处理告警，而不是只确认收到了交接文档？</p>"
+    },
+    {
+      "order": 48,
+      "id": "OPS48",
+      "slug": "sre-daily-incident-command",
+      "title": "多团队事故中的指挥与升级",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · 应急响应",
+      "difficulty": "medium",
+      "tags": [
+        "SRE",
+        "应急响应",
+        "日常工作"
+      ],
+      "source": "https://sre.google/workbook/incident-response/",
+      "references": [
+        {
+          "title": "Google SRE · 事故响应",
+          "url": "https://sre.google/workbook/incident-response/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>故障涉及应用、数据库和网络团队，各方同时修改系统时，如何建立事故指挥、操作与沟通分工？</p><p>事故级别、升级条件、操作记录和跨时区交接应如何约定，避免重复操作与信息冲突？</p>"
+    },
+    {
+      "order": 49,
+      "id": "OPS49",
+      "slug": "sre-daily-mitigation-choice",
+      "title": "证据不足时选择止损方案",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · 应急响应",
+      "difficulty": "hard",
+      "tags": [
+        "SRE",
+        "应急响应",
+        "日常工作"
+      ],
+      "source": "https://sre.google/workbook/incident-response/",
+      "references": [
+        {
+          "title": "Google SRE · 事故响应",
+          "url": "https://sre.google/workbook/incident-response/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>故障原因尚未确认，可选措施包括回滚、切流、限流与功能降级，你会如何比较用户影响、可逆性和执行风险？</p><p>如何设定观察窗口与停止条件，避免连续叠加未经验证的变更？</p>"
+    },
+    {
+      "order": 50,
+      "id": "OPS50",
+      "slug": "sre-daily-recovery-communication",
+      "title": "恢复判定与对外沟通",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · 应急响应",
+      "difficulty": "medium",
+      "tags": [
+        "SRE",
+        "应急响应",
+        "日常工作"
+      ],
+      "source": "https://sre.google/workbook/incident-response/",
+      "references": [
+        {
+          "title": "Google SRE · 事故响应",
+          "url": "https://sre.google/workbook/incident-response/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>错误率恢复正常后，如何确认积压任务、数据一致性和用户体验也已恢复？</p><p>在原因尚未查清时，如何分别向业务、客服和技术团队同步已知事实、影响范围、当前动作与下一次更新时间？</p>"
+    },
+    {
+      "order": 51,
+      "id": "OPS51",
+      "slug": "sre-daily-postmortem-actions",
+      "title": "复盘行动项如何真正落地",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · 应急响应",
+      "difficulty": "medium",
+      "tags": [
+        "SRE",
+        "应急响应",
+        "日常工作"
+      ],
+      "source": "https://sre.google/workbook/postmortem-culture/",
+      "references": [
+        {
+          "title": "Google SRE · 复盘文化",
+          "url": "https://sre.google/workbook/postmortem-culture/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>事故复盘形成十几条改进项后，如何按风险与收益排序，明确负责人、截止时间和验收标准？</p><p>如何验证改进确实减少复发概率或缩短恢复时间，而不是仅完成文档和培训？</p>"
+    },
+    {
+      "order": 52,
+      "id": "OPS52",
+      "slug": "sre-daily-capacity-baseline",
+      "title": "建立服务容量基线",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · 容量规划",
+      "difficulty": "easy",
+      "tags": [
+        "SRE",
+        "容量规划",
+        "日常工作"
+      ],
+      "source": "https://sre.google/workbook/non-abstract-design/",
+      "references": [
+        {
+          "title": "Google SRE · 容量与系统设计实践",
+          "url": "https://sre.google/workbook/non-abstract-design/"
+        },
+        {
+          "title": "AWS Well-Architected · 性能与负载测试",
+          "url": "https://docs.aws.amazon.com/wellarchitected/latest/framework/rel_testing_resiliency_test_non_functional.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>接手一个缺少容量档案的服务，如何建立流量、并发、延迟和资源消耗之间的基线？</p><p>压测流量应如何覆盖请求类型、数据规模、缓存状态与依赖限制，什么条件才算达到可承诺的安全容量？</p>"
+    },
+    {
+      "order": 53,
+      "id": "OPS53",
+      "slug": "sre-daily-event-forecast",
+      "title": "大促容量预测与不确定性",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · 容量规划",
+      "difficulty": "medium",
+      "tags": [
+        "SRE",
+        "容量规划",
+        "日常工作"
+      ],
+      "source": "https://sre.google/workbook/non-abstract-design/",
+      "references": [
+        {
+          "title": "Google SRE · 容量与系统设计实践",
+          "url": "https://sre.google/workbook/non-abstract-design/"
+        },
+        {
+          "title": "Google SRE · 容量规划",
+          "url": "https://sre.google/sre-book/introduction/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>业务只提供预计增长倍数时，你会补充哪些历史峰值、地域分布、请求结构和活动节奏信息？</p><p>怎样把预测误差转化为容量余量、限流预案和演练目标，而不是简单按日均流量扩容？</p>"
+    },
+    {
+      "order": 54,
+      "id": "OPS54",
+      "slug": "sre-daily-failure-capacity",
+      "title": "N-1 容量与故障后承载",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · 容量规划",
+      "difficulty": "hard",
+      "tags": [
+        "SRE",
+        "容量规划",
+        "日常工作"
+      ],
+      "source": "https://sre.google/workbook/managing-load/",
+      "references": [
+        {
+          "title": "Google SRE · 负载管理",
+          "url": "https://sre.google/workbook/managing-load/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>正常情况下每个可用区的资源使用率都不高，是否足以证明丢失一个可用区后仍能承载业务？</p><p>如何验证故障后流量重分布、热点、共享依赖和冷缓存的影响，并明确保留哪些业务能力？</p>"
+    },
+    {
+      "order": 55,
+      "id": "OPS55",
+      "slug": "sre-daily-scaling-lead-time",
+      "title": "扩容提前量与配额瓶颈",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · 容量规划",
+      "difficulty": "medium",
+      "tags": [
+        "SRE",
+        "容量规划",
+        "日常工作"
+      ],
+      "source": "https://sre.google/workbook/non-abstract-design/",
+      "references": [
+        {
+          "title": "Google SRE · 容量与系统设计实践",
+          "url": "https://sre.google/workbook/non-abstract-design/"
+        },
+        {
+          "title": "AWS Well-Architected · 服务配额与约束",
+          "url": "https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/manage-service-quotas-and-constraints.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>应用副本扩容需要几十秒，节点交付和数据预热却需要更长时间，怎样决定何时提前扩容？</p><p>云配额、地址空间、数据库连接数和外部依赖容量如何进入同一份扩容计划？</p>"
+    },
+    {
+      "order": 56,
+      "id": "OPS56",
+      "slug": "sre-daily-capacity-cost-review",
+      "title": "容量回收与成本治理",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · 容量规划",
+      "difficulty": "medium",
+      "tags": [
+        "SRE",
+        "容量规划",
+        "日常工作"
+      ],
+      "source": "https://sre.google/workbook/non-abstract-design/",
+      "references": [
+        {
+          "title": "Google SRE · 容量与系统设计实践",
+          "url": "https://sre.google/workbook/non-abstract-design/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>月度资源评审中，如何识别真实冗余、故障余量与因配置不当造成的浪费？</p><p>在缩容或调整资源规格之前，怎样验证尾延迟、季节性峰值和故障承载能力不被破坏？</p>"
+    },
+    {
+      "order": 57,
+      "id": "OPS57",
+      "slug": "sre-daily-recovery-tiering",
+      "title": "按业务链路确定恢复目标",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · 容灾演练",
+      "difficulty": "easy",
+      "tags": [
+        "SRE",
+        "容灾演练",
+        "日常工作"
+      ],
+      "source": "https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_planning_for_recovery_disaster_recovery.html",
+      "references": [
+        {
+          "title": "AWS Well-Architected · 灾难恢复规划",
+          "url": "https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_planning_for_recovery_disaster_recovery.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>不同业务模块应如何与业务方共同确定 RPO、RTO 和恢复优先级？</p><p>恢复目标的计时起止、可接受数据损失和最小可用业务范围应怎样约定，依赖服务的目标如何对齐？</p>"
+    },
+    {
+      "order": 58,
+      "id": "OPS58",
+      "slug": "sre-daily-restore-verification",
+      "title": "恢复后的数据与业务验收",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · 容灾演练",
+      "difficulty": "medium",
+      "tags": [
+        "SRE",
+        "容灾演练",
+        "日常工作"
+      ],
+      "source": "https://docs.aws.amazon.com/wellarchitected/latest/framework/rel_planning_for_recovery_dr_tested.html",
+      "references": [
+        {
+          "title": "AWS Well-Architected · 测试灾难恢复",
+          "url": "https://docs.aws.amazon.com/wellarchitected/latest/framework/rel_planning_for_recovery_dr_tested.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>在隔离环境完成备份恢复后，如何验证恢复时间点、数据完整性和关键业务操作？</p><p>如果基础设施指标恢复正常但业务账目不一致，应怎样判定本次恢复是否达标并记录证据？</p>"
+    },
+    {
+      "order": 59,
+      "id": "OPS59",
+      "slug": "sre-daily-failover-split-brain",
+      "title": "跨区切换中的双写与脑裂",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · 容灾演练",
+      "difficulty": "hard",
+      "tags": [
+        "SRE",
+        "容灾演练",
+        "日常工作"
+      ],
+      "source": "https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_planning_for_recovery_disaster_recovery.html",
+      "references": [
+        {
+          "title": "AWS Well-Architected · 灾难恢复规划",
+          "url": "https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_planning_for_recovery_disaster_recovery.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>主地域网络异常但仍可能处理写请求时，如何决定是否切换，以及如何阻止新旧地域同时写入？</p><p>如何检查复制进度、仲裁依赖与切流范围，并向业务说明可能的数据损失？</p>"
+    },
+    {
+      "order": 60,
+      "id": "OPS60",
+      "slug": "sre-daily-failback-readiness",
+      "title": "故障后的回切与数据对账",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · 容灾演练",
+      "difficulty": "medium",
+      "tags": [
+        "SRE",
+        "容灾演练",
+        "日常工作"
+      ],
+      "source": "https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_planning_for_recovery_disaster_recovery.html",
+      "references": [
+        {
+          "title": "AWS Well-Architected · 灾难恢复规划",
+          "url": "https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_planning_for_recovery_disaster_recovery.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>备用地域已经运行数小时，原地域恢复后为什么不能立即把流量切回？</p><p>回切前应如何验证数据追平、冲突处理、写入权归属和容量，回切失败时准备怎样的退出路径？</p>"
+    },
+    {
+      "order": 61,
+      "id": "OPS61",
+      "slug": "sre-daily-game-day",
+      "title": "容灾演练的范围与停止条件",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "SRE 日常 · 容灾演练",
+      "difficulty": "medium",
+      "tags": [
+        "SRE",
+        "容灾演练",
+        "日常工作"
+      ],
+      "source": "https://docs.aws.amazon.com/wellarchitected/latest/framework/rel_planning_for_recovery_dr_tested.html",
+      "references": [
+        {
+          "title": "AWS Well-Architected · 测试灾难恢复",
+          "url": "https://docs.aws.amazon.com/wellarchitected/latest/framework/rel_planning_for_recovery_dr_tested.html"
+        },
+        {
+          "title": "AWS FIS · 停止条件",
+          "url": "https://docs.aws.amazon.com/fis/latest/userguide/stop-conditions.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>如何设计一次覆盖关键依赖的容灾演练，并约定授权、影响范围、观测指标和紧急停止条件？</p><p>演练结果与承诺目标不符时，如何推动整改与复测，而不是只记录“切换成功”？</p>"
+    }
+  ]
+}

@@ -1,0 +1,548 @@
+{
+  "version": 1,
+  "name": "系统设计",
+  "kind": "discussion",
+  "source": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md",
+  "fetchedAt": "2026-09-08T00:00:00.000Z",
+  "editorialNote": "公开面经仅为发帖人自述。题目为本站根据主题原创整理；参数、示例、追问与难度均为练习设定，不提供唯一标准答案。",
+  "groups": [
+    {
+      "name": "基础服务",
+      "count": 5
+    },
+    {
+      "name": "交易系统",
+      "count": 5
+    },
+    {
+      "name": "内容与互动",
+      "count": 5
+    },
+    {
+      "name": "数据与协作",
+      "count": 5
+    }
+  ],
+  "questions": [
+    {
+      "order": 1,
+      "id": "D01",
+      "slug": "url-shortener",
+      "title": "设计短链接服务",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "基础服务",
+      "difficulty": "easy",
+      "tags": [
+        "短链",
+        "ID",
+        "读多写少"
+      ],
+      "source": "https://github.com/donnemartin/system-design-primer/blob/master/solutions/system_design/pastebin/README.md",
+      "references": [
+        {
+          "title": "GitHub · System Design Primer：短链接",
+          "url": "https://github.com/donnemartin/system-design-primer/blob/master/solutions/system_design/pastebin/README.md"
+        }
+      ],
+      "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
+      "content": "<h3>场景背景</h3><p>为运营提供短链接创建、跳转、失效和访问统计服务。用户还可以申请自定义别名。</p><h3>范围与约束</h3><p>练习假设：每天新增 100 万个链接，跳转次数是新增的 100 倍；默认保存一年；危险链接需要停用。</p><h3>示例情境</h3><p>用户提交长链接获得短码；访客访问短码发生跳转；管理员停用后，新访问应不再跳转。</p><h3>请回答</h3><ol><li>先区分必须功能与可选功能，估算创建、跳转吞吐及一年存储量。</li><li>设计短码生成、冲突处理、数据模型和查询路径，解释缓存与持久化边界。</li><li>过期、自定义别名、防滥用和统计延迟如何处理？</li></ol><h3>面试追问</h3><ol><li>浏览器或 CDN 缓存了跳转结果后，如何权衡跳转性能与及时撤销？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/donnemartin/system-design-primer/blob/master/solutions/system_design/pastebin/README.md\">GitHub · System Design Primer：短链接</a></li></ul>"
+    },
+    {
+      "order": 2,
+      "id": "D02",
+      "slug": "activation-code-service",
+      "title": "设计激活码发放与兑换服务",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "基础服务",
+      "difficulty": "medium",
+      "tags": [
+        "唯一性",
+        "不可预测",
+        "兑换"
+      ],
+      "source": "https://leetcode.cn/discuss/post/3150824/zi-jie-tiao-dong-she-ji-ti-fen-bu-shi-x9bv/",
+      "references": [
+        {
+          "title": "LeetCode · 分布式任务与激活码设计讨论",
+          "url": "https://leetcode.cn/discuss/post/3150824/zi-jie-tiao-dong-she-ji-ti-fen-bu-shi-x9bv/"
+        }
+      ],
+      "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
+      "content": "<h3>场景背景</h3><p>业务方需要批量生成激活码，分发给用户兑换权益。多台实例可以并行生成，同一个码只允许兑换一次。</p><h3>范围与约束</h3><p>练习假设：使用 32 个可读字符，码长 12 位，累计发行 5 亿个；需要防猜测、限制重试并支持批次撤销。</p><h3>示例情境</h3><p>两个请求几乎同时兑换同一个码。系统需要给出稳定结果，不能把权益发给两个人。</p><h3>请回答</h3><ol><li>估算编码空间和碰撞风险，区分“不重复”与“不可预测”两个要求。</li><li>设计生成、批量导出、兑换的数据结构、接口与原子性边界。</li><li>如何保护码的存储与日志，审计兑换，处理过期、撤销和失败重试？</li></ol><h3>面试追问</h3><ol><li>缩短为 8 位后，还能满足原有规模与防猜测要求吗？如何解释代价？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://leetcode.cn/discuss/post/3150824/zi-jie-tiao-dong-she-ji-ti-fen-bu-shi-x9bv/\">LeetCode · 分布式任务与激活码设计讨论</a></li></ul>"
+    },
+    {
+      "order": 3,
+      "id": "D03",
+      "slug": "api-rate-limiter",
+      "title": "设计多租户 API 限流服务",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "基础服务",
+      "difficulty": "medium",
+      "tags": [
+        "限流",
+        "多租户",
+        "分布式"
+      ],
+      "source": "https://leetcode.com/discuss/post/637402/Design-a-efficient-client-side-rate-limit-handler/",
+      "references": [
+        {
+          "title": "LeetCode · 客户端限流与有序处理讨论",
+          "url": "https://leetcode.com/discuss/post/637402/Design-a-efficient-client-side-rate-limit-handler/"
+        },
+        {
+          "title": "牛客 · 后端面试自述：性能、并发与扩容",
+          "url": "https://www.nowcoder.com/discuss/353157951986802688"
+        }
+      ],
+      "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
+      "content": "<h3>场景背景</h3><p>开放平台对每个租户、每个 API 提供不同额度。网关有多台实例，租户希望在短时突发下仍能正常使用。</p><h3>范围与约束</h3><p>练习假设：租户配额为每分钟 600 次、允许短时突发 50 次；部分付费接口还有限制成本的日额度。</p><h3>示例情境</h3><p>同一租户同时向三台网关发请求，不能因为网关数增加就自动得到三倍额度。</p><h3>请回答</h3><ol><li>澄清按请求次数、并发数还是资源成本限流，解释不同时间窗口的语义。</li><li>选择计数或桶模型，设计共享状态、原子更新、时钟与配置生效机制。</li><li>被拒绝时返回什么？限流服务故障时哪些接口可放行，哪些应保守处理？</li></ol><h3>面试追问</h3><ol><li>跨地域精确共享额度会增加延迟，如何比较全局强限制与分配地域预算？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://leetcode.com/discuss/post/637402/Design-a-efficient-client-side-rate-limit-handler/\">LeetCode · 客户端限流与有序处理讨论</a></li><li><a href=\"https://www.nowcoder.com/discuss/353157951986802688\">牛客 · 后端面试自述：性能、并发与扩容</a></li></ul>"
+    },
+    {
+      "order": 4,
+      "id": "D04",
+      "slug": "distributed-cache",
+      "title": "设计分布式键值缓存",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "基础服务",
+      "difficulty": "hard",
+      "tags": [
+        "KV",
+        "分片",
+        "副本"
+      ],
+      "source": "https://github.com/donnemartin/system-design-primer/blob/master/solutions/system_design/query_cache/README.md",
+      "references": [
+        {
+          "title": "GitHub · System Design Primer：查询缓存",
+          "url": "https://github.com/donnemartin/system-design-primer/blob/master/solutions/system_design/query_cache/README.md"
+        },
+        {
+          "title": "GitHub · JavaGuide：Redis 面试主题",
+          "url": "https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md"
+        }
+      ],
+      "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
+      "content": "<h3>场景背景</h3><p>内部服务需要一个支持读、写、删除和过期的缓存系统，用于存放可重新计算的数据。</p><h3>范围与约束</h3><p>练习假设：工作集 2 TB；读写比 9:1；单节点故障不能让所有请求失败；不要求它替代业务数据库。</p><h3>示例情境</h3><p>缓存节点 C 宕机，部分 Key 需要转移。说明客户端怎样路由，回源流量如何受到保护。</p><h3>请回答</h3><ol><li>先定义命令、一致性、TTL 与故障语义，估算内存及副本开销。</li><li>设计分片、路由、复制、故障检测和扩容迁移协议。</li><li>热点、大 Key、淘汰与缓存重建分别怎样影响系统？</li></ol><h3>面试追问</h3><ol><li>网络分区时允许两边继续写会带来什么冲突？哪些数据不适合放进这种缓存？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/donnemartin/system-design-primer/blob/master/solutions/system_design/query_cache/README.md\">GitHub · System Design Primer：查询缓存</a></li><li><a href=\"https://github.com/Snailclimb/JavaGuide-Interview/blob/master/docs/database/redis.md\">GitHub · JavaGuide：Redis 面试主题</a></li></ul>"
+    },
+    {
+      "order": 5,
+      "id": "D05",
+      "slug": "job-scheduler",
+      "title": "设计分布式任务调度系统",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "基础服务",
+      "difficulty": "hard",
+      "tags": [
+        "调度",
+        "租约",
+        "重试"
+      ],
+      "source": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/system-design/schedule-task.md",
+      "references": [
+        {
+          "title": "GitHub · JavaGuide：定时与延迟任务",
+          "url": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/system-design/schedule-task.md"
+        },
+        {
+          "title": "LeetCode · 分布式任务与激活码设计讨论",
+          "url": "https://leetcode.cn/discuss/post/3150824/zi-jie-tiao-dong-she-ji-ti-fen-bu-shi-x9bv/"
+        }
+      ],
+      "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
+      "content": "<h3>场景背景</h3><p>企业有定时统计、延迟关单和用户触发的任务，需要统一调度，执行节点随时可能退出。</p><h3>范围与约束</h3><p>练习假设：100 万个任务配置、100 台工作节点；允许任务重复投递，但同一业务副作用不能重复发生。</p><h3>示例情境</h3><p>工作节点领取任务后宕机，调度器不知道任务是未执行、执行一半还是已完成但未报告。</p><h3>请回答</h3><ol><li>定义任务模型、触发语义、状态流转和多租户资源配额。</li><li>如何分配任务、防止调度器单点，并让失联任务恢复？</li><li>重试、超时、取消、幂等与死信需要怎样的接口约定和审计？</li></ol><h3>面试追问</h3><ol><li>积累了一夜的任务需要补跑，如何不把实时任务饿死？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/Snailclimb/JavaGuide/blob/main/docs/system-design/schedule-task.md\">GitHub · JavaGuide：定时与延迟任务</a></li><li><a href=\"https://leetcode.cn/discuss/post/3150824/zi-jie-tiao-dong-she-ji-ti-fen-bu-shi-x9bv/\">LeetCode · 分布式任务与激活码设计讨论</a></li></ul>"
+    },
+    {
+      "order": 6,
+      "id": "D06",
+      "slug": "flash-sale-platform",
+      "title": "设计秒杀活动与异步下单",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "交易系统",
+      "difficulty": "hard",
+      "tags": [
+        "秒杀",
+        "削峰",
+        "一致性"
+      ],
+      "source": "https://www.nowcoder.com/discuss/526459193570639872",
+      "references": [
+        {
+          "title": "牛客 · 快手面试自述：秒杀流程",
+          "url": "https://www.nowcoder.com/discuss/526459193570639872"
+        },
+        {
+          "title": "GitHub · JavaGuide：消息队列",
+          "url": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-performance/message-queue/message-queue.md"
+        }
+      ],
+      "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
+      "content": "<h3>场景背景</h3><p>电商准备一场限量活动，需要从用户提交、资格校验、库存占用到订单创建提供完整体验。</p><h3>范围与约束</h3><p>练习假设：10 万件库存、峰值每秒 20 万次提交；每人限购一件；不能超卖，允许排队等待结果。</p><h3>示例情境</h3><p>用户提交后先得到排队凭证，稍后查询订单结果；中途刷新或重复提交不能多买一件。</p><h3>请回答</h3><ol><li>区分浏览、抢购提交、订单查询的吞吐和可用性目标，估算各层压力。</li><li>画出限流、资格、库存、队列和订单之间的数据流，标清事实来源。</li><li>处理重复提交、消息失败、支付超时与库存归还，给出校验和补偿闭环。</li></ol><h3>面试追问</h3><ol><li>活动中缓存或队列故障，哪些功能继续，哪些暂停？如何向用户解释结果未知？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://www.nowcoder.com/discuss/526459193570639872\">牛客 · 快手面试自述：秒杀流程</a></li><li><a href=\"https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-performance/message-queue/message-queue.md\">GitHub · JavaGuide：消息队列</a></li></ul>"
+    },
+    {
+      "order": 7,
+      "id": "D07",
+      "slug": "seat-reservation",
+      "title": "设计座位预订系统",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "交易系统",
+      "difficulty": "hard",
+      "tags": [
+        "预订",
+        "资源锁定",
+        "支付"
+      ],
+      "source": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md",
+      "references": [
+        {
+          "title": "GitHub · InterviewReady：系统设计选题",
+          "url": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md"
+        }
+      ],
+      "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
+      "content": "<h3>场景背景</h3><p>用户从座位图中选择多个座位，短时间内锁定并付款。高峰时大量用户争抢同一场次。</p><h3>范围与约束</h3><p>练习假设：锁座有效期 5 分钟；一次最多购买 4 个座位；同一次预订必须全部成功或全部失败。</p><h3>示例情境</h3><p>用户 A 锁定 10、11 号座位尚未付款；B 请求 11、12 号；A 的支付回调在锁定过期后才到达。</p><h3>请回答</h3><ol><li>如何建模场次、座位、预订与支付，定义锁定、售出和释放的状态？</li><li>如何做到多座位原子预订，避免死锁和重复销售？</li><li>座位图缓存如何更新，客户端看到空位但提交失败时怎样处理？</li></ol><h3>面试追问</h3><ol><li>单场次变成热点后如何扩展？跨分片的连座预订有什么额外成本？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md\">GitHub · InterviewReady：系统设计选题</a></li></ul>"
+    },
+    {
+      "order": 8,
+      "id": "D08",
+      "slug": "order-platform",
+      "title": "设计电商订单系统",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "交易系统",
+      "difficulty": "medium",
+      "tags": [
+        "订单",
+        "状态机",
+        "领域边界"
+      ],
+      "source": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md",
+      "references": [
+        {
+          "title": "GitHub · InterviewReady：系统设计选题",
+          "url": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md"
+        },
+        {
+          "title": "GitHub · JavaGuide：消息队列",
+          "url": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-performance/message-queue/message-queue.md"
+        }
+      ],
+      "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
+      "content": "<h3>场景背景</h3><p>商城需要创建订单、查询订单、取消、付款与退款。一个订单可能包含多个商品和不同商家的履约单。</p><h3>范围与约束</h3><p>练习假设：每天 300 万个订单；用户查询远多于创建；支付和履约由独立服务负责。</p><h3>示例情境</h3><p>订单创建后部分商品缺货，支付却已成功。设计系统如何记录事实、协调处理并向用户展示。</p><h3>请回答</h3><ol><li>澄清订单、支付单与履约单边界，设计接口、主键、状态与关键约束。</li><li>哪些操作在本地事务内，哪些通过事件协调？如何处理重试与结果未知？</li><li>如何支持用户维度查询、商家维度处理与历史归档？</li></ol><h3>面试追问</h3><ol><li>订单拆分后部分退款、部分发货，怎样避免用一个状态字段表达所有组合？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md\">GitHub · InterviewReady：系统设计选题</a></li><li><a href=\"https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-performance/message-queue/message-queue.md\">GitHub · JavaGuide：消息队列</a></li></ul>"
+    },
+    {
+      "order": 9,
+      "id": "D09",
+      "slug": "payment-integration",
+      "title": "设计支付接入与异步回调",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "交易系统",
+      "difficulty": "hard",
+      "tags": [
+        "支付",
+        "幂等",
+        "对账"
+      ],
+      "source": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md",
+      "references": [
+        {
+          "title": "GitHub · InterviewReady：系统设计选题",
+          "url": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md"
+        },
+        {
+          "title": "GitHub · JavaGuide：超时与重试",
+          "url": "https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-availability/timeout-and-retry.md"
+        }
+      ],
+      "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
+      "content": "<h3>场景背景</h3><p>平台接入多个支付渠道，提供支付发起、结果查询、回调通知和退款。渠道接口会超时，回调可能重复。</p><h3>范围与约束</h3><p>练习假设：只设计支付编排与记录，不自行处理银行卡敏感信息；金额用明确币种和最小货币单位表示。</p><h3>示例情境</h3><p>支付发起超时，随后两个渠道通知都到达；用户还在重试。说明如何关联同一支付意图与渠道尝试。</p><h3>请回答</h3><ol><li>设计支付意图、支付尝试、退款和账务事实模型，明确唯一约束。</li><li>验证渠道通知的真实性，定义幂等、状态更新、查询与业务通知协议。</li><li>本地与渠道状态不一致时如何对账、补偿、审计并防止重复退款？</li></ol><h3>面试追问</h3><ol><li>渠道长时间不可查询时，怎样向业务提供“处理中”而不是错误宣告失败？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md\">GitHub · InterviewReady：系统设计选题</a></li><li><a href=\"https://github.com/Snailclimb/JavaGuide/blob/main/docs/high-availability/timeout-and-retry.md\">GitHub · JavaGuide：超时与重试</a></li></ul>"
+    },
+    {
+      "order": 10,
+      "id": "D10",
+      "slug": "subscription-entitlements",
+      "title": "设计订阅与会员权益系统",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "交易系统",
+      "difficulty": "medium",
+      "tags": [
+        "订阅",
+        "权益",
+        "周期"
+      ],
+      "source": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md",
+      "references": [
+        {
+          "title": "GitHub · InterviewReady：系统设计选题",
+          "url": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md"
+        }
+      ],
+      "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
+      "content": "<h3>场景背景</h3><p>产品支持月度会员、自动续费、取消续费和套餐升级。支付成功不一定立刻收到通知。</p><h3>范围与约束</h3><p>练习假设：权益查询要求低延迟；业务按明确时区计算账期；取消续费通常不撤销已经支付的当前周期。</p><h3>示例情境</h3><p>用户月底开通会员，中途升级，随后关闭自动续费。请展示各个时间点可以访问的权益。</p><h3>请回答</h3><ol><li>区分合同、账期、支付与权益，设计数据模型和时间边界。</li><li>重复、延迟或乱序的扣费通知如何影响权益，怎样避免多延长一个月？</li><li>如何缓存权益，处理退款、宽限期和客户端离线状态？</li></ol><h3>面试追问</h3><ol><li>跨套餐升级需要按比例计费时，哪些规则应该先向业务澄清？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md\">GitHub · InterviewReady：系统设计选题</a></li></ul>"
+    },
+    {
+      "order": 11,
+      "id": "D11",
+      "slug": "social-feed",
+      "title": "设计关注动态流",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "内容与互动",
+      "difficulty": "hard",
+      "tags": [
+        "Feed",
+        "推拉模型",
+        "可见性"
+      ],
+      "source": "https://github.com/donnemartin/system-design-primer/blob/master/solutions/system_design/twitter/README.md",
+      "references": [
+        {
+          "title": "GitHub · System Design Primer：时间线与搜索",
+          "url": "https://github.com/donnemartin/system-design-primer/blob/master/solutions/system_design/twitter/README.md"
+        },
+        {
+          "title": "LeetCode · 系统设计面试经验讨论",
+          "url": "https://leetcode.cn/circle/discuss/qBWZja/"
+        }
+      ],
+      "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
+      "content": "<h3>场景背景</h3><p>用户可以关注他人、发布动态并浏览时间线。少数作者粉丝很多，还需要拉黑和删除内容。</p><h3>范围与约束</h3><p>练习假设：1000 万日活；普通作者几十个关注者，头部作者有千万粉丝；时间线允许秒级更新延迟。</p><h3>示例情境</h3><p>普通作者与头部作者各发一条动态；读者翻页过程中有新动态插入，不能反复看到大量重复内容。</p><h3>请回答</h3><ol><li>估算发布与读取负载，比较写时分发、读时聚合和混合策略。</li><li>设计内容、关注关系、收件箱及游标分页的数据结构。</li><li>删除、拉黑、取关和隐私变化如何影响已分发的动态？</li></ol><h3>面试追问</h3><ol><li>如何控制头部作者的扇出成本，同时兼顾活跃和长期不活跃用户？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/donnemartin/system-design-primer/blob/master/solutions/system_design/twitter/README.md\">GitHub · System Design Primer：时间线与搜索</a></li><li><a href=\"https://leetcode.cn/circle/discuss/qBWZja/\">LeetCode · 系统设计面试经验讨论</a></li></ul>"
+    },
+    {
+      "order": 12,
+      "id": "D12",
+      "slug": "instant-messaging",
+      "title": "设计即时聊天服务",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "内容与互动",
+      "difficulty": "hard",
+      "tags": [
+        "IM",
+        "长连接",
+        "离线同步"
+      ],
+      "source": "https://github.com/karanpratapsingh/portfolio/blob/master/data/courses/system-design/whatsapp.mdx",
+      "references": [
+        {
+          "title": "GitHub · Karan Pratap Singh：聊天系统",
+          "url": "https://github.com/karanpratapsingh/portfolio/blob/master/data/courses/system-design/whatsapp.mdx"
+        },
+        {
+          "title": "GitHub · InterviewReady：系统设计选题",
+          "url": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md"
+        }
+      ],
+      "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
+      "content": "<h3>场景背景</h3><p>为移动应用设计单聊与群聊，支持多设备登录、历史消息、送达和已读状态。</p><h3>范围与约束</h3><p>练习假设：100 万同时在线连接，群聊最多 500 人；客户端会断网重连；不要求不同会话之间有全局顺序。</p><h3>示例情境</h3><p>手机断网后在电脑发送消息，手机恢复网络需要补齐缺失消息，重复补拉不能生成重复气泡。</p><h3>请回答</h3><ol><li>设计连接网关、会话路由、消息持久化和离线同步的边界。</li><li>区分服务端接收、目标设备送达、用户已读，设计确认与重试。</li><li>怎样保证单会话的顺序与去重，管理多设备游标及群成员变化？</li></ol><h3>面试追问</h3><ol><li>大群扩到十万人时，哪些发送、存储与已读功能必须调整？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/karanpratapsingh/portfolio/blob/master/data/courses/system-design/whatsapp.mdx\">GitHub · Karan Pratap Singh：聊天系统</a></li><li><a href=\"https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md\">GitHub · InterviewReady：系统设计选题</a></li></ul>"
+    },
+    {
+      "order": 13,
+      "id": "D13",
+      "slug": "notification-hub",
+      "title": "设计统一通知服务",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "内容与互动",
+      "difficulty": "medium",
+      "tags": [
+        "通知",
+        "渠道",
+        "用户偏好"
+      ],
+      "source": "https://github.com/karanpratapsingh/portfolio/blob/master/data/courses/system-design/whatsapp.mdx",
+      "references": [
+        {
+          "title": "GitHub · Karan Pratap Singh：聊天系统",
+          "url": "https://github.com/karanpratapsingh/portfolio/blob/master/data/courses/system-design/whatsapp.mdx"
+        },
+        {
+          "title": "GitHub · InterviewReady：系统设计选题",
+          "url": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md"
+        }
+      ],
+      "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
+      "content": "<h3>场景背景</h3><p>多个业务希望通过站内信、推送、短信和邮件通知用户。用户有免打扰时间、退订和渠道偏好。</p><h3>范围与约束</h3><p>练习假设：营销通知可延迟，验证码时效为分钟级；供应商有配额；同一业务事件不能无限重复触达。</p><h3>示例情境</h3><p>某事件先尝试推送，结果未知后又收到重试请求。设计如何决定是否补发短信，而不造成过度打扰。</p><h3>请回答</h3><ol><li>定义通知请求、模板、渠道任务和回执，区分接受请求与送达成功。</li><li>如何设置优先级、限速、重试和渠道降级，避免营销拖慢验证码？</li><li>如何同步用户偏好、保护敏感信息，并记录可审计的投递结果？</li></ol><h3>面试追问</h3><ol><li>用户在任务排队期间退订，发送前需要怎样检查？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/karanpratapsingh/portfolio/blob/master/data/courses/system-design/whatsapp.mdx\">GitHub · Karan Pratap Singh：聊天系统</a></li><li><a href=\"https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md\">GitHub · InterviewReady：系统设计选题</a></li></ul>"
+    },
+    {
+      "order": 14,
+      "id": "D14",
+      "slug": "file-storage-sharing",
+      "title": "设计文件上传、存储与分享",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "内容与互动",
+      "difficulty": "medium",
+      "tags": [
+        "对象存储",
+        "分片上传",
+        "权限"
+      ],
+      "source": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md",
+      "references": [
+        {
+          "title": "GitHub · InterviewReady：系统设计选题",
+          "url": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md"
+        },
+        {
+          "title": "GitHub · Karan Pratap Singh：聊天系统",
+          "url": "https://github.com/karanpratapsingh/portfolio/blob/master/data/courses/system-design/whatsapp.mdx"
+        }
+      ],
+      "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
+      "content": "<h3>场景背景</h3><p>用户需要上传大文件、断点续传、下载和生成分享链接。文件只有在上传完成后才能被他人访问。</p><h3>范围与约束</h3><p>练习假设：单文件最大 20 GB；文件内容保存在对象存储，业务数据库只管理元数据和权限。</p><h3>示例情境</h3><p>上传第 18 个分片时断网，重试后同一分片到达两次；用户稍后撤销了已分享的链接。</p><h3>请回答</h3><ol><li>设计上传会话、分片校验、合并与完成确认协议。</li><li>如何保证文件可见性与元数据一致，清理孤儿分片和未完成上传？</li><li>分享权限、过期、下载鉴权和撤销如何与 CDN 缓存协作？</li></ol><h3>面试追问</h3><ol><li>两个用户上传相同文件，去重会带来哪些权限与内容存在性泄露问题？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md\">GitHub · InterviewReady：系统设计选题</a></li><li><a href=\"https://github.com/karanpratapsingh/portfolio/blob/master/data/courses/system-design/whatsapp.mdx\">GitHub · Karan Pratap Singh：聊天系统</a></li></ul>"
+    },
+    {
+      "order": 15,
+      "id": "D15",
+      "slug": "video-on-demand",
+      "title": "设计视频点播服务",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "内容与互动",
+      "difficulty": "hard",
+      "tags": [
+        "转码",
+        "CDN",
+        "媒体处理"
+      ],
+      "source": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md",
+      "references": [
+        {
+          "title": "GitHub · InterviewReady：系统设计选题",
+          "url": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md"
+        }
+      ],
+      "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
+      "content": "<h3>场景背景</h3><p>创作者上传视频后，系统生成多种清晰度，审核通过才可发布。观众需要快速起播并按网络状况切换码率。</p><h3>范围与约束</h3><p>练习假设：每天新增 10 万段视频；热门内容会突发传播；上传接口不能一直等待转码完成。</p><h3>示例情境</h3><p>原视频上传完成，但某一清晰度转码失败，审核仍在进行。定义页面应该呈现的状态及重试行为。</p><h3>请回答</h3><ol><li>设计上传、转码、审核、发布和分发的数据流与状态机。</li><li>估算存储、转码计算量、播放带宽，并选择切片、源站与 CDN 策略。</li><li>处理任务重复、部分失败、内容下架和热门视频突发访问。</li></ol><h3>面试追问</h3><ol><li>如何区分起播慢来自播放器、网络、CDN 未命中还是源站压力？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md\">GitHub · InterviewReady：系统设计选题</a></li></ul>"
+    },
+    {
+      "order": 16,
+      "id": "D16",
+      "slug": "nearby-drivers",
+      "title": "设计附近司机查询与派单",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "数据与协作",
+      "difficulty": "hard",
+      "tags": [
+        "地理位置",
+        "派单",
+        "实时性"
+      ],
+      "source": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md",
+      "references": [
+        {
+          "title": "GitHub · InterviewReady：系统设计选题",
+          "url": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md"
+        }
+      ],
+      "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
+      "content": "<h3>场景背景</h3><p>乘客发起用车请求，系统查询附近司机并发送订单邀请。司机不断移动，且一次只能接受一单。</p><h3>范围与约束</h3><p>练习假设：50 万在线司机每 3 秒上报位置；位置允许短暂滞后；派单要兼顾距离、等待时间与供需。</p><h3>示例情境</h3><p>同一司机同时收到两位乘客的邀请并尝试接受其中一单；乘客在确认前取消。</p><h3>请回答</h3><ol><li>估算位置写入与查询规模，设计地理索引、分区和位置过期策略。</li><li>描述寻找候选、发邀约、接受、超时和取消的状态与原子约束。</li><li>如何处理位置过时、热点区域和无司机可用，并定义派单效果指标？</li></ol><h3>面试追问</h3><ol><li>城市边界附近的查询会跨多个分区，怎样减少漏查与重复派单？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md\">GitHub · InterviewReady：系统设计选题</a></li></ul>"
+    },
+    {
+      "order": 17,
+      "id": "D17",
+      "slug": "sales-leaderboard",
+      "title": "设计实时销售排行榜",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "数据与协作",
+      "difficulty": "medium",
+      "tags": [
+        "聚合",
+        "Top K",
+        "时间窗口"
+      ],
+      "source": "https://github.com/donnemartin/system-design-primer/blob/master/solutions/system_design/sales_rank/README.md",
+      "references": [
+        {
+          "title": "GitHub · System Design Primer：销售排行",
+          "url": "https://github.com/donnemartin/system-design-primer/blob/master/solutions/system_design/sales_rank/README.md"
+        }
+      ],
+      "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
+      "content": "<h3>场景背景</h3><p>商家希望看到各品类日榜、周榜和商品名次。成交、退款和取消事件都会影响榜单。</p><h3>范围与约束</h3><p>练习假设：每天 5000 万条变更事件；榜单允许 30 秒延迟；需要统一时区与明确的并列排名规则。</p><h3>示例情境</h3><p>一件商品在昨天成交、今天退款。请先说明日榜和周榜采用哪个时间与统计口径。</p><h3>请回答</h3><ol><li>如何澄清按金额、件数还是订单数排名，设计事件与聚合键？</li><li>怎样实现窗口聚合、Top K 查询、名次查询以及事件去重？</li><li>迟到事件、退款修正和历史重算如何与在线查询并存？</li></ol><h3>面试追问</h3><ol><li>活动中单个品类远热于其他品类，怎样拆分计算又合并准确结果？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/donnemartin/system-design-primer/blob/master/solutions/system_design/sales_rank/README.md\">GitHub · System Design Primer：销售排行</a></li></ul>"
+    },
+    {
+      "order": 18,
+      "id": "D18",
+      "slug": "content-search",
+      "title": "设计内容搜索服务",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "数据与协作",
+      "difficulty": "medium",
+      "tags": [
+        "搜索",
+        "索引",
+        "增量同步"
+      ],
+      "source": "https://github.com/donnemartin/system-design-primer/blob/master/solutions/system_design/twitter/README.md",
+      "references": [
+        {
+          "title": "GitHub · System Design Primer：时间线与搜索",
+          "url": "https://github.com/donnemartin/system-design-primer/blob/master/solutions/system_design/twitter/README.md"
+        }
+      ],
+      "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
+      "content": "<h3>场景背景</h3><p>社区支持关键词搜索文章，按相关性或时间排序。文章可修改、删除，并包含私密内容。</p><h3>范围与约束</h3><p>练习假设：1 亿篇文章，搜索峰值每秒 5000 次；新增内容允许一分钟后可搜索；权限不能依赖旧索引单独判断。</p><h3>示例情境</h3><p>作者删除文章后索引同步延迟，搜索结果仍包含该文章。设计点击与结果展示怎样处理。</p><h3>请回答</h3><ol><li>设计内容存储、倒排索引、增量同步、检索和排序的分工。</li><li>怎样选分片键、实现稳定分页，并应对热门查询？</li><li>全量重建索引时如何追赶新增更新、验证质量并无缝切换？</li></ol><h3>面试追问</h3><ol><li>当用户改变文章可见范围时，如何避免搜索摘要泄露原本可见的私密内容？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/donnemartin/system-design-primer/blob/master/solutions/system_design/twitter/README.md\">GitHub · System Design Primer：时间线与搜索</a></li></ul>"
+    },
+    {
+      "order": 19,
+      "id": "D19",
+      "slug": "analytics-alerting",
+      "title": "设计埋点统计与异常告警",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "数据与协作",
+      "difficulty": "hard",
+      "tags": [
+        "流处理",
+        "窗口",
+        "告警"
+      ],
+      "source": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md",
+      "references": [
+        {
+          "title": "GitHub · InterviewReady：系统设计选题",
+          "url": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md"
+        }
+      ],
+      "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
+      "content": "<h3>场景背景</h3><p>产品通过埋点分析转化率，运维希望在错误率或延迟异常时收到通知。事件来自多个版本的客户端。</p><h3>范围与约束</h3><p>练习假设：峰值每秒 10 万条事件；客户端可能离线一天后补发；事件携带版本与去重标识。</p><h3>示例情境</h3><p>某地域离线事件集中回补，统计曲线出现尖峰。说明历史分析与实时告警是否应按同一种时间口径计算。</p><h3>请回答</h3><ol><li>定义事件格式、采集确认、存储期限及敏感字段规则。</li><li>设计接入、缓冲、流式聚合、离线校验和查询链路。</li><li>如何处理重复与迟到数据，设置告警抑制、恢复通知和规则版本？</li></ol><h3>面试追问</h3><ol><li>告警系统依赖的消息系统也故障时，怎样避免监控一片正常的假象？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md\">GitHub · InterviewReady：系统设计选题</a></li></ul>"
+    },
+    {
+      "order": 20,
+      "id": "D20",
+      "slug": "collaborative-documents",
+      "title": "设计多人协作文档",
+      "englishTitle": "",
+      "kind": "discussion",
+      "category": "数据与协作",
+      "difficulty": "hard",
+      "tags": [
+        "协作编辑",
+        "冲突",
+        "版本"
+      ],
+      "source": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md",
+      "references": [
+        {
+          "title": "GitHub · InterviewReady：系统设计选题",
+          "url": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md"
+        }
+      ],
+      "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
+      "content": "<h3>场景背景</h3><p>多人可以同时编辑一份文档，客户端断网后还能输入，恢复网络后同步修改，并查看历史版本。</p><h3>范围与约束</h3><p>练习假设：每文档最多 50 人同时编辑；先支持纯文本；需要权限控制，不要求第一版支持复杂排版。</p><h3>示例情境</h3><p>A、B 同时在同一位置插入不同文字；A 离线后继续编辑；B 随后删除了附近一段内容。</p><h3>请回答</h3><ol><li>先定义最终一致、操作顺序、光标位置与撤销的用户语义。</li><li>比较中心排序、操作变换或可合并数据结构，说明你选择的冲突处理方式。</li><li>设计操作日志、快照、重连补齐和版本恢复，控制历史数据体积。</li></ol><h3>面试追问</h3><ol><li>用户离线期间被撤销编辑权限，重连后如何处理未同步修改？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md\">GitHub · InterviewReady：系统设计选题</a></li></ul>"
+    }
+  ]
+}
