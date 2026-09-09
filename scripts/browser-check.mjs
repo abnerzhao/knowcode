@@ -470,6 +470,42 @@ try {
   assert.match(await themePage.locator('#toast').innerText(), /配色已切换.*无法保存/);
   await themeContext.close();
   checks.push('草稿默认浅色，深浅配色跨题库和语言共用、刷新恢复；切换不改草稿，320px 不溢出，存储失败可继续切换');
+  const navigationContext = await browser.newContext();
+  const navigationPage = await navigationContext.newPage();
+  navigationPage.on('pageerror', error => errors.push(error.message));
+  for (const [bank, slug, mode, width] of [
+    ['hot100', 'two-sum', 'ordered', 1440],
+    ['hot100', 'two-sum', 'random', 390],
+    ['os-network', 'os-process-thread', 'random', 1440],
+    ['os-network', 'os-process-thread', 'ordered', 320],
+  ]) {
+    await navigationPage.setViewportSize({ width, height: 900 });
+    const route = `http://127.0.0.1:4173/#/${bank}/${mode}/${slug}${mode === 'random' ? '?difficulty=easy' : ''}`;
+    await navigationPage.goto(route);
+    await navigationPage.locator('#workspace').waitFor({ state: 'visible' });
+    assert.equal(await navigationPage.locator('#practice-bookshelf').isVisible(), true);
+    assert.ok(await navigationPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    if (await navigationPage.locator('#show-editor').isVisible()) await navigationPage.locator('#show-editor').click();
+    const draft = `${bank} ${mode} 返回书架前的草稿`;
+    await navigationPage.locator('#code-editor').fill(draft);
+    await navigationPage.locator('#practice-bookshelf').click();
+    await navigationPage.locator('#bank-picker').waitFor({ state: 'visible' });
+    assert.equal(new URL(navigationPage.url()).hash, '#/');
+    assert.equal(await navigationPage.title(), '一题一会');
+    await navigationPage.goBack();
+    await navigationPage.locator('#workspace').waitFor({ state: 'visible' });
+    assert.equal(navigationPage.url(), route);
+    assert.equal(await navigationPage.locator('#code-editor').inputValue(), draft);
+    await navigationPage.goForward();
+    await navigationPage.locator('#bank-picker').waitFor({ state: 'visible' });
+    await navigationPage.reload();
+    await navigationPage.locator(`[data-bank="${bank}"]`).click();
+    await navigationPage.locator('#ordered-mode').click();
+    await navigationPage.locator('#workspace').waitFor({ state: 'visible' });
+    assert.equal(await navigationPage.locator('#code-editor').inputValue(), draft);
+  }
+  await navigationContext.close();
+  checks.push('顺序与随机练习可直接返回书架；桌面和手机入口可见，立即离开保存草稿，前进后退与重新选册恢复正常');
   assert.deepEqual(errors, []);
   assert.deepEqual(externalRequests, []);
   console.log(checks.map(x => `✓ ${x}`).join('\n'));

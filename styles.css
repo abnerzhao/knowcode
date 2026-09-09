@@ -591,14 +591,17 @@ button:hover:not(:disabled) {
   white-space:nowrap
 }
 
-.session-title>span:nth-child(2) {
+#session-title {
   font-weight:600
+}
+
+.session-divider {
+  color:#b4beb8
 }
 
 .session-title a {
   color:#738279;
-  font-size:12px;
-  margin-right:12px
+  font-size:12px
 }
 
 .order-label {

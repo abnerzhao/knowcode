@@ -47,7 +47,7 @@
 
     <main class="main-workspace">
       <section class="session-bar" aria-label="练习设置">
-        <div class="session-title"><a id="back-to-modes" href="#/">← 选择模式</a><span id="session-title">顺序练习</span></div>
+        <nav class="session-title" aria-label="练习导航"><a id="practice-bookshelf" href="#/" aria-label="返回书架">← 书架</a><span class="session-divider" aria-hidden="true">/</span><a id="back-to-modes" href="#/">选择模式</a><span class="session-divider" aria-hidden="true">/</span><span id="session-title" aria-current="page">顺序练习</span></nav>
         <div id="random-controls" class="random-controls" hidden><label for="difficulty">抽题难度</label><select id="difficulty"><option value="all">全部难度</option><option value="easy">简单</option><option value="medium">中等</option><option value="hard">困难</option></select><span id="pool-count"></span></div>
         <span id="order-label" class="order-label"></span>
       </section>
