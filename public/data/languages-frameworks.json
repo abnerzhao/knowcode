@@ -1,0 +1,2244 @@
+{
+  "version": 1,
+  "name": "语言与框架",
+  "kind": "discussion",
+  "source": "https://docs.oracle.com/javase/specs/jls/se17/html/index.html",
+  "fetchedAt": "2026-09-09T00:00:00.000Z",
+  "editorialNote": "本站原创面试复习问题，共 90 题：Java、Python、Go 各 8 道基础知识、12 道核心考点及 10 道 Web 框架题。Java SE 17、Python/CPython 3.13、Spring Framework 6.2 / Boot 3.5 / Security 6.5、Django 5.2 为参考范围；Go、FastAPI、Gin 依据核验时官方文档，题目涉及版本差异时明确限定。仅提供问题与空白草稿，不附答案、示例或提示。难度为本站练习分级，不代表企业真题或频率统计。",
+  "groups": [
+    {
+      "name": "Java · 基础知识",
+      "count": 8
+    },
+    {
+      "name": "Java · 核心考点",
+      "count": 12
+    },
+    {
+      "name": "Java Web · Spring",
+      "count": 10
+    },
+    {
+      "name": "Python · 基础知识",
+      "count": 8
+    },
+    {
+      "name": "Python · 核心考点",
+      "count": 12
+    },
+    {
+      "name": "Python Web · Django",
+      "count": 5
+    },
+    {
+      "name": "Python Web · FastAPI",
+      "count": 5
+    },
+    {
+      "name": "Go · 基础知识",
+      "count": 8
+    },
+    {
+      "name": "Go · 核心考点",
+      "count": 12
+    },
+    {
+      "name": "Go Web · Gin",
+      "count": 10
+    }
+  ],
+  "questions": [
+    {
+      "order": 1,
+      "id": "JAVA01",
+      "slug": "java-types",
+      "title": "基本类型、包装类型与装箱",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Java",
+        "基础知识"
+      ],
+      "source": "https://docs.oracle.com/javase/specs/jls/se17/html/index.html",
+      "references": [
+        {
+          "title": "Java SE 17 语言规范",
+          "url": "https://docs.oracle.com/javase/specs/jls/se17/html/index.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Java 基本类型与包装类型在默认值、内存语义和相等比较上有什么区别？</p><p>自动装箱、拆箱与缓存机制容易导致哪些空指针或比较问题？</p>"
+    },
+    {
+      "order": 2,
+      "id": "JAVA02",
+      "slug": "java-oop",
+      "title": "继承、接口与多态",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Java",
+        "基础知识"
+      ],
+      "source": "https://docs.oracle.com/javase/specs/jls/se17/html/index.html",
+      "references": [
+        {
+          "title": "Java SE 17 语言规范",
+          "url": "https://docs.oracle.com/javase/specs/jls/se17/html/index.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>抽象类与接口分别适合什么场景？</p><p>重载、重写、静态方法隐藏与运行时多态有什么区别？</p>"
+    },
+    {
+      "order": 3,
+      "id": "JAVA03",
+      "slug": "java-equality",
+      "title": "equals、hashCode 与不可变对象",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Java",
+        "基础知识"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html",
+      "references": [
+        {
+          "title": "Java 17 · Object",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>equals 与 hashCode 需要遵守什么约定？</p><p>把可变对象作为 HashMap 的键可能出现什么问题，如何设计一个可靠的不可变值对象？</p>"
+    },
+    {
+      "order": 4,
+      "id": "JAVA04",
+      "slug": "java-strings",
+      "title": "String 与字符串处理",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Java",
+        "基础知识"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html",
+      "references": [
+        {
+          "title": "Java 17 · String",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>String 为什么不可变，字符串常量池与 intern 分别是什么？</p><p>循环拼接字符串时如何选择 String、StringBuilder 和 StringBuffer？</p>"
+    },
+    {
+      "order": 5,
+      "id": "JAVA05",
+      "slug": "java-exceptions",
+      "title": "异常体系与资源关闭",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Java",
+        "基础知识"
+      ],
+      "source": "https://docs.oracle.com/javase/specs/jls/se17/html/index.html",
+      "references": [
+        {
+          "title": "Java SE 17 语言规范",
+          "url": "https://docs.oracle.com/javase/specs/jls/se17/html/index.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>受检异常与非受检异常有什么区别，异常处理应放在哪一层？</p><p>try-with-resources 如何处理关闭失败与被抑制的异常？</p>"
+    },
+    {
+      "order": 6,
+      "id": "JAVA06",
+      "slug": "java-generics",
+      "title": "泛型、类型擦除与通配符",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Java",
+        "基础知识"
+      ],
+      "source": "https://docs.oracle.com/javase/specs/jls/se17/html/index.html",
+      "references": [
+        {
+          "title": "Java SE 17 语言规范",
+          "url": "https://docs.oracle.com/javase/specs/jls/se17/html/index.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Java 泛型的类型擦除会影响哪些运行时行为？</p><p>List&lt;Object&gt; 与 List&lt;?&gt; 有什么区别，extends 和 super 通配符各适合什么读写场景？</p>"
+    },
+    {
+      "order": 7,
+      "id": "JAVA07",
+      "slug": "java-collections",
+      "title": "集合接口与实现选择",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Java",
+        "基础知识"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/package-summary.html",
+      "references": [
+        {
+          "title": "Java 17 · 集合包",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/package-summary.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>List、Set、Map 的语义有什么区别？</p><p>ArrayList、LinkedList、HashSet 与 TreeMap 各适合什么场景，选型时除了复杂度还应考虑什么？</p>"
+    },
+    {
+      "order": 8,
+      "id": "JAVA08",
+      "slug": "java-streams",
+      "title": "Stream 与 Lambda",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Java",
+        "基础知识"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/package-summary.html",
+      "references": [
+        {
+          "title": "Java 17 · Stream",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/package-summary.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Stream 的中间操作、终止操作和惰性求值是什么关系？</p><p>Lambda 捕获局部变量有哪些限制，为什么并行流中的共享可变状态需要谨慎处理？</p>"
+    },
+    {
+      "order": 9,
+      "id": "JAVA09",
+      "slug": "java-hashmap",
+      "title": "HashMap 的结构与扩容",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Java",
+        "核心考点"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/HashMap.html",
+      "references": [
+        {
+          "title": "Java 17 · HashMap",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/HashMap.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>在 JDK 17 中，HashMap 如何处理哈希冲突与扩容？</p><p>容量、负载因子、键的哈希分布和迭代顺序有哪些关系？</p>"
+    },
+    {
+      "order": 10,
+      "id": "JAVA10",
+      "slug": "java-concurrent-map",
+      "title": "ConcurrentHashMap 的并发语义",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Java",
+        "核心考点"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html",
+      "references": [
+        {
+          "title": "Java 17 · ConcurrentHashMap",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>ConcurrentHashMap 与给 HashMap 外部加锁有什么不同？</p><p>单次方法线程安全是否能保证先检查再写入的复合操作安全，computeIfAbsent 又有哪些使用边界？</p>"
+    },
+    {
+      "order": 11,
+      "id": "JAVA11",
+      "slug": "java-memory-model",
+      "title": "Java 内存模型与 happens-before",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Java",
+        "核心考点"
+      ],
+      "source": "https://docs.oracle.com/javase/specs/jls/se17/html/index.html",
+      "references": [
+        {
+          "title": "Java SE 17 语言规范",
+          "url": "https://docs.oracle.com/javase/specs/jls/se17/html/index.html"
+        },
+        {
+          "title": "JLS 17 · 线程与锁",
+          "url": "https://docs.oracle.com/javase/specs/jls/se17/html/jls-17.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Java 内存模型如何描述线程间可见性和有序性？</p><p>哪些操作能够建立 happens-before 关系，为什么仅观察某次运行结果不能证明没有数据竞争？</p>"
+    },
+    {
+      "order": 12,
+      "id": "JAVA12",
+      "slug": "java-volatile",
+      "title": "volatile、原子类与 CAS",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Java",
+        "核心考点"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/package-summary.html",
+      "references": [
+        {
+          "title": "Java 17 · 并发包",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/package-summary.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>volatile 能保证什么，为什么不能直接保证复合自增的原子性？</p><p>CAS、AtomicInteger 与 LongAdder 在并发更新和读取语义上有什么取舍？</p>"
+    },
+    {
+      "order": 13,
+      "id": "JAVA13",
+      "slug": "java-locks",
+      "title": "synchronized 与显式锁",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Java",
+        "核心考点"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/package-summary.html",
+      "references": [
+        {
+          "title": "Java 17 · 并发包",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/package-summary.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>synchronized 与 ReentrantLock 在可重入性、中断、超时和条件等待上有什么区别？</p><p>如何分析锁粒度、死锁风险及锁释放是否可靠？</p>"
+    },
+    {
+      "order": 14,
+      "id": "JAVA14",
+      "slug": "java-thread-pool",
+      "title": "线程池参数与拒绝策略",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Java",
+        "核心考点"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/ThreadPoolExecutor.html",
+      "references": [
+        {
+          "title": "Java 17 · ThreadPoolExecutor",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/ThreadPoolExecutor.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>ThreadPoolExecutor 如何决定新建线程、入队还是拒绝任务？</p><p>如何结合 CPU 密集型或 I/O 密集型负载设置线程数与队列，并避免无界积压？</p>"
+    },
+    {
+      "order": 15,
+      "id": "JAVA15",
+      "slug": "java-futures",
+      "title": "CompletableFuture 的执行与异常",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Java",
+        "核心考点"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/CompletableFuture.html",
+      "references": [
+        {
+          "title": "Java 17 · CompletableFuture",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/CompletableFuture.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>CompletableFuture 的异步阶段由哪个线程池执行，非 async 阶段又可能在哪个线程执行？</p><p>如何组合超时、异常处理与取消，并避免阻塞公共线程池？</p>"
+    },
+    {
+      "order": 16,
+      "id": "JAVA16",
+      "slug": "java-class-loading",
+      "title": "类加载、初始化与类加载器",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Java",
+        "核心考点"
+      ],
+      "source": "https://docs.oracle.com/javase/specs/jvms/se17/html/jvms-2.html",
+      "references": [
+        {
+          "title": "Java SE 17 虚拟机规范",
+          "url": "https://docs.oracle.com/javase/specs/jvms/se17/html/jvms-2.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>类的加载、链接和初始化分别做什么，哪些操作会触发初始化？</p><p>类加载器与类型身份有什么关系，双亲委派能解决什么、又不保证什么？</p>"
+    },
+    {
+      "order": 17,
+      "id": "JAVA17",
+      "slug": "java-gc",
+      "title": "JVM 内存区域与垃圾回收",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Java",
+        "核心考点"
+      ],
+      "source": "https://docs.oracle.com/javase/specs/jvms/se17/html/jvms-2.html",
+      "references": [
+        {
+          "title": "Java SE 17 虚拟机规范",
+          "url": "https://docs.oracle.com/javase/specs/jvms/se17/html/jvms-2.html"
+        },
+        {
+          "title": "JDK 17 · GC 调优",
+          "url": "https://docs.oracle.com/en/java/javase/17/gctuning/introduction-garbage-collection-tuning.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>在 JDK 17 中，堆、线程栈和元空间分别存放什么？</p><p>如何区分内存泄漏、对象分配过快与正常缓存增长，并选择相应的 JVM 诊断证据？</p>"
+    },
+    {
+      "order": 18,
+      "id": "JAVA18",
+      "slug": "java-threadlocal",
+      "title": "ThreadLocal 与线程池泄漏",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 核心考点",
+      "difficulty": "hard",
+      "tags": [
+        "Java",
+        "核心考点"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/ThreadLocal.html",
+      "references": [
+        {
+          "title": "Java 17 · ThreadLocal",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/ThreadLocal.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>ThreadLocal 如何为线程保存状态，在线程池中为什么容易遗留请求数据或占用内存？</p><p>如何设计设置、清理与跨线程传递，避免身份信息串用？</p>"
+    },
+    {
+      "order": 19,
+      "id": "JAVA19",
+      "slug": "java-performance",
+      "title": "Java 服务高 CPU 与长停顿",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 核心考点",
+      "difficulty": "hard",
+      "tags": [
+        "Java",
+        "核心考点"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/jdk.jfr/jdk/jfr/package-summary.html",
+      "references": [
+        {
+          "title": "Java 17 · JFR",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/jdk.jfr/jdk/jfr/package-summary.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Java 服务出现高 CPU 或长时间停顿时，如何结合线程栈、GC 日志和运行时事件区分计算热点、锁竞争与垃圾回收？</p><p>如何验证一次优化没有把问题转移到内存或尾延迟？</p>"
+    },
+    {
+      "order": 20,
+      "id": "JAVA20",
+      "slug": "java-shutdown",
+      "title": "中断、取消与优雅停机",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 核心考点",
+      "difficulty": "hard",
+      "tags": [
+        "Java",
+        "核心考点"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/ThreadPoolExecutor.html",
+      "references": [
+        {
+          "title": "Java 17 · ThreadPoolExecutor",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/ThreadPoolExecutor.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Java 的线程中断是否等同于立即终止线程？</p><p>关闭线程池和服务时，如何协调停止接收任务、处理中断、限时等待与未完成任务的补偿？</p>"
+    },
+    {
+      "order": 21,
+      "id": "SPRING01",
+      "slug": "spring-ioc",
+      "title": "IoC、依赖注入与 Bean 生命周期",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java Web · Spring",
+      "difficulty": "easy",
+      "tags": [
+        "Java",
+        "Web 框架"
+      ],
+      "source": "https://docs.spring.io/spring-framework/reference/6.2/core/beans.html",
+      "references": [
+        {
+          "title": "Spring 6.2 · IoC",
+          "url": "https://docs.spring.io/spring-framework/reference/6.2/core/beans.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>在 Spring Framework 6.2 中，IoC 容器如何管理 Bean 的创建、依赖注入和销毁？</p><p>构造器注入与字段注入有什么取舍，循环依赖为什么可能暴露设计问题？</p>"
+    },
+    {
+      "order": 22,
+      "id": "SPRING02",
+      "slug": "spring-autoconfiguration",
+      "title": "Spring Boot 自动配置",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java Web · Spring",
+      "difficulty": "easy",
+      "tags": [
+        "Java",
+        "Web 框架"
+      ],
+      "source": "https://docs.spring.io/spring-boot/3.5/reference/using/auto-configuration.html",
+      "references": [
+        {
+          "title": "Spring Boot 3.5 · 自动配置",
+          "url": "https://docs.spring.io/spring-boot/3.5/reference/using/auto-configuration.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Spring Boot 3.5 的自动配置根据什么条件生效？</p><p>自动配置、组件扫描与显式 Bean 定义是什么关系，如何查明某项配置为什么生效或未生效？</p>"
+    },
+    {
+      "order": 23,
+      "id": "SPRING03",
+      "slug": "spring-request-flow",
+      "title": "Spring MVC 请求处理流程",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java Web · Spring",
+      "difficulty": "easy",
+      "tags": [
+        "Java",
+        "Web 框架"
+      ],
+      "source": "https://docs.spring.io/spring-framework/reference/6.2/web/webmvc/mvc-servlet.html",
+      "references": [
+        {
+          "title": "Spring 6.2 · Spring MVC",
+          "url": "https://docs.spring.io/spring-framework/reference/6.2/web/webmvc/mvc-servlet.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>一个 HTTP 请求在 Spring MVC 中如何经过 DispatcherServlet、映射、参数绑定、控制器和响应处理？</p><p>Filter、HandlerInterceptor 与 ControllerAdvice 分别适合处理什么职责？</p>"
+    },
+    {
+      "order": 24,
+      "id": "SPRING04",
+      "slug": "spring-bean-scope",
+      "title": "Bean 作用域与线程安全",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java Web · Spring",
+      "difficulty": "medium",
+      "tags": [
+        "Java",
+        "Web 框架"
+      ],
+      "source": "https://docs.spring.io/spring-framework/reference/6.2/core/beans.html",
+      "references": [
+        {
+          "title": "Spring 6.2 · IoC",
+          "url": "https://docs.spring.io/spring-framework/reference/6.2/core/beans.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>singleton、prototype 和请求作用域的 Bean 有什么区别？</p><p>单例 Service 或 Controller 中保存可变字段会产生什么并发风险，如何处理生命周期不同的依赖？</p>"
+    },
+    {
+      "order": 25,
+      "id": "SPRING05",
+      "slug": "spring-aop",
+      "title": "Spring AOP 代理与自调用",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java Web · Spring",
+      "difficulty": "medium",
+      "tags": [
+        "Java",
+        "Web 框架"
+      ],
+      "source": "https://docs.spring.io/spring-framework/reference/6.2/core/aop/proxying.html",
+      "references": [
+        {
+          "title": "Spring 6.2 · AOP 代理",
+          "url": "https://docs.spring.io/spring-framework/reference/6.2/core/aop/proxying.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Spring AOP 的接口代理与类代理有什么区别？</p><p>同一个对象内部直接调用带切面的方法时，为什么可能绕过代理，如何判断哪些调用会被拦截？</p>"
+    },
+    {
+      "order": 26,
+      "id": "SPRING06",
+      "slug": "spring-transaction-boundary",
+      "title": "事务代理与回滚边界",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java Web · Spring",
+      "difficulty": "medium",
+      "tags": [
+        "Java",
+        "Web 框架"
+      ],
+      "source": "https://docs.spring.io/spring-framework/reference/6.2/data-access/transaction/declarative/annotations.html",
+      "references": [
+        {
+          "title": "Spring 6.2 · 声明式事务",
+          "url": "https://docs.spring.io/spring-framework/reference/6.2/data-access/transaction/declarative/annotations.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>在 Spring 6.2 的默认代理式事务配置下，Transactional 的事务何时开始和结束？</p><p>自调用、异常被捕获和默认回滚规则会怎样改变结果，如何验证事务实际生效？</p>"
+    },
+    {
+      "order": 27,
+      "id": "SPRING07",
+      "slug": "spring-propagation",
+      "title": "事务传播与外部副作用",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java Web · Spring",
+      "difficulty": "hard",
+      "tags": [
+        "Java",
+        "Web 框架"
+      ],
+      "source": "https://docs.spring.io/spring-framework/reference/6.2/data-access/transaction/declarative/annotations.html",
+      "references": [
+        {
+          "title": "Spring 6.2 · 声明式事务",
+          "url": "https://docs.spring.io/spring-framework/reference/6.2/data-access/transaction/declarative/annotations.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>REQUIRED 与 REQUIRES_NEW 如何影响事务边界、连接占用和回滚行为？</p><p>数据库事务能否回滚已经发出的 HTTP 请求或消息，如何处理这类跨系统副作用？</p>"
+    },
+    {
+      "order": 28,
+      "id": "SPRING08",
+      "slug": "spring-input-errors",
+      "title": "参数校验与统一异常响应",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java Web · Spring",
+      "difficulty": "medium",
+      "tags": [
+        "Java",
+        "Web 框架"
+      ],
+      "source": "https://docs.spring.io/spring-framework/reference/6.2/web/webmvc/mvc-servlet.html",
+      "references": [
+        {
+          "title": "Spring 6.2 · Spring MVC",
+          "url": "https://docs.spring.io/spring-framework/reference/6.2/web/webmvc/mvc-servlet.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Spring MVC 中参数绑定、Bean Validation 与业务校验应该如何分工？</p><p>如何统一错误响应并避免把内部异常细节或敏感字段暴露给客户端？</p>"
+    },
+    {
+      "order": 29,
+      "id": "SPRING09",
+      "slug": "spring-security",
+      "title": "认证、授权与请求安全",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java Web · Spring",
+      "difficulty": "hard",
+      "tags": [
+        "Java",
+        "Web 框架"
+      ],
+      "source": "https://docs.spring.io/spring-security/reference/6.5/servlet/architecture.html",
+      "references": [
+        {
+          "title": "Spring Security 6.5 · Servlet 架构",
+          "url": "https://docs.spring.io/spring-security/reference/6.5/servlet/architecture.html"
+        },
+        {
+          "title": "Spring Security 6.5 · CSRF",
+          "url": "https://docs.spring.io/spring-security/reference/6.5/servlet/exploits/csrf.html"
+        },
+        {
+          "title": "Spring Security 6.5 · CORS",
+          "url": "https://docs.spring.io/spring-security/reference/6.5/servlet/integrations/cors.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>在 Spring Web 应用中，认证和授权应该在哪些边界实施？</p><p>使用浏览器 Cookie 或 Bearer Token 时，如何分别评估 CSRF、CORS、会话管理与接口越权风险？</p>"
+    },
+    {
+      "order": 30,
+      "id": "SPRING10",
+      "slug": "spring-testing",
+      "title": "配置与集成测试的可信度",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java Web · Spring",
+      "difficulty": "medium",
+      "tags": [
+        "Java",
+        "Web 框架"
+      ],
+      "source": "https://docs.spring.io/spring-boot/3.5/reference/testing/index.html",
+      "references": [
+        {
+          "title": "Spring Boot 3.5 · 测试",
+          "url": "https://docs.spring.io/spring-boot/3.5/reference/testing/index.html"
+        },
+        {
+          "title": "Spring Boot 3.5 · 外部配置",
+          "url": "https://docs.spring.io/spring-boot/3.5/reference/features/external-config.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>一个 Spring Boot 服务在本地测试正常但部署后行为不同，你会如何检查配置来源和环境差异？</p><p>如何划分单元、Web 切片与完整集成测试，避免只验证 Mock 行为而漏掉真实装配问题？</p>"
+    },
+    {
+      "order": 31,
+      "id": "PYTHON01",
+      "slug": "python-mutability",
+      "title": "可变对象与对象共享",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Python",
+        "基础知识"
+      ],
+      "source": "https://docs.python.org/3.13/library/stdtypes.html",
+      "references": [
+        {
+          "title": "Python 3.13 · 内置类型",
+          "url": "https://docs.python.org/3.13/library/stdtypes.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Python 中哪些常见对象可变、哪些不可变？</p><p>函数参数传递、浅层容器赋值和列表重复操作为什么可能产生意外共享？</p>"
+    },
+    {
+      "order": 32,
+      "id": "PYTHON02",
+      "slug": "python-identity",
+      "title": "is、相等性与可哈希性",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Python",
+        "基础知识"
+      ],
+      "source": "https://docs.python.org/3.13/reference/datamodel.html",
+      "references": [
+        {
+          "title": "Python 3.13 · 数据模型",
+          "url": "https://docs.python.org/3.13/reference/datamodel.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>is 与 == 分别比较什么？</p><p>对象的相等性与哈希值应满足哪些约定，为什么一些对象不能直接作为字典键？</p>"
+    },
+    {
+      "order": 33,
+      "id": "PYTHON03",
+      "slug": "python-arguments",
+      "title": "函数参数与默认参数",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Python",
+        "基础知识"
+      ],
+      "source": "https://docs.python.org/3.13/tutorial/controlflow.html",
+      "references": [
+        {
+          "title": "Python 3.13 · 函数与控制流",
+          "url": "https://docs.python.org/3.13/tutorial/controlflow.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>位置参数、关键字参数、仅限位置和仅限关键字参数有什么区别？</p><p>默认参数何时求值，使用可变对象作为默认值会造成什么问题？</p>"
+    },
+    {
+      "order": 34,
+      "id": "PYTHON04",
+      "slug": "python-scope",
+      "title": "作用域、闭包与变量绑定",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Python",
+        "基础知识"
+      ],
+      "source": "https://docs.python.org/3.13/reference/executionmodel.html",
+      "references": [
+        {
+          "title": "Python 3.13 · 执行模型",
+          "url": "https://docs.python.org/3.13/reference/executionmodel.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Python 如何查找局部、外层、全局与内置名称？</p><p>global、nonlocal 和闭包分别如何工作，循环中创建的函数为什么可能读到相同的最终值？</p>"
+    },
+    {
+      "order": 35,
+      "id": "PYTHON05",
+      "slug": "python-iterators",
+      "title": "可迭代对象、迭代器与生成器",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Python",
+        "基础知识"
+      ],
+      "source": "https://docs.python.org/3.13/reference/datamodel.html",
+      "references": [
+        {
+          "title": "Python 3.13 · 数据模型",
+          "url": "https://docs.python.org/3.13/reference/datamodel.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>可迭代对象、迭代器和生成器是什么关系？</p><p>生成器的惰性执行如何影响内存、异常发生时间以及资源释放？</p>"
+    },
+    {
+      "order": 36,
+      "id": "PYTHON06",
+      "slug": "python-comprehensions",
+      "title": "推导式与生成器表达式",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Python",
+        "基础知识"
+      ],
+      "source": "https://docs.python.org/3.13/tutorial/controlflow.html",
+      "references": [
+        {
+          "title": "Python 3.13 · 函数与控制流",
+          "url": "https://docs.python.org/3.13/tutorial/controlflow.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>列表、集合和字典推导式与生成器表达式有什么区别？</p><p>处理大规模数据时，如何权衡可读性、重复遍历需求和内存占用？</p>"
+    },
+    {
+      "order": 37,
+      "id": "PYTHON07",
+      "slug": "python-exceptions",
+      "title": "异常捕获与上下文管理",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Python",
+        "基础知识"
+      ],
+      "source": "https://docs.python.org/3.13/tutorial/errors.html",
+      "references": [
+        {
+          "title": "Python 3.13 · 异常处理",
+          "url": "https://docs.python.org/3.13/tutorial/errors.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>try、except、else 和 finally 各在什么情况下执行？</p><p>with 与上下文管理器如何确保资源清理，异常链能保留什么信息？</p>"
+    },
+    {
+      "order": 38,
+      "id": "PYTHON08",
+      "slug": "python-modules",
+      "title": "模块、包与导入行为",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Python",
+        "基础知识"
+      ],
+      "source": "https://docs.python.org/3.13/reference/import.html",
+      "references": [
+        {
+          "title": "Python 3.13 · 导入系统",
+          "url": "https://docs.python.org/3.13/reference/import.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>模块与包有什么区别，导入时哪些代码会执行？</p><p>模块缓存、循环导入与直接运行脚本分别可能带来什么问题？</p>"
+    },
+    {
+      "order": 39,
+      "id": "PYTHON09",
+      "slug": "python-decorators",
+      "title": "装饰器与函数元信息",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Python",
+        "核心考点"
+      ],
+      "source": "https://docs.python.org/3.13/library/functools.html",
+      "references": [
+        {
+          "title": "Python 3.13 · functools",
+          "url": "https://docs.python.org/3.13/library/functools.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>装饰器如何包装函数或类，多个装饰器按什么顺序应用？</p><p>需要保留签名、名称和文档信息时，应如何设计包装逻辑？</p>"
+    },
+    {
+      "order": 40,
+      "id": "PYTHON10",
+      "slug": "python-copy",
+      "title": "浅拷贝、深拷贝与引用图",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Python",
+        "核心考点"
+      ],
+      "source": "https://docs.python.org/3.13/library/copy.html",
+      "references": [
+        {
+          "title": "Python 3.13 · copy",
+          "url": "https://docs.python.org/3.13/library/copy.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>赋值、浅拷贝与深拷贝分别如何处理嵌套对象？</p><p>存在循环引用、共享对象或外部资源时，深拷贝有哪些边界？</p>"
+    },
+    {
+      "order": 41,
+      "id": "PYTHON11",
+      "slug": "python-object-model",
+      "title": "属性查找、描述符与继承",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Python",
+        "核心考点"
+      ],
+      "source": "https://docs.python.org/3.13/reference/datamodel.html",
+      "references": [
+        {
+          "title": "Python 3.13 · 数据模型",
+          "url": "https://docs.python.org/3.13/reference/datamodel.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>实例属性、类属性、property 和描述符之间如何协作？</p><p>多继承的 MRO 与 super 如何影响方法调用，为什么 super 不一定指向代码中写出的某个父类？</p>"
+    },
+    {
+      "order": 42,
+      "id": "PYTHON12",
+      "slug": "python-typing",
+      "title": "类型注解与运行时校验",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Python",
+        "核心考点"
+      ],
+      "source": "https://docs.python.org/3.13/library/typing.html",
+      "references": [
+        {
+          "title": "Python 3.13 · 类型注解",
+          "url": "https://docs.python.org/3.13/library/typing.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Python 类型注解是否会自动执行运行时类型校验？</p><p>Protocol、泛型与 Optional 各表达什么，类型检查与接口输入校验应如何分工？</p>"
+    },
+    {
+      "order": 43,
+      "id": "PYTHON13",
+      "slug": "python-gil",
+      "title": "GIL 与并行执行的边界",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Python",
+        "核心考点"
+      ],
+      "source": "https://docs.python.org/3.13/howto/free-threading-python.html",
+      "references": [
+        {
+          "title": "Python 3.13 · free-threaded 构建",
+          "url": "https://docs.python.org/3.13/howto/free-threading-python.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>在常规带 GIL 的 CPython 中，多线程对 CPU 密集型和 I/O 密集型任务分别有什么影响？</p><p>Python 3.13 的可选 free-threaded 构建改变了哪些前提，是否意味着不再需要同步？</p>"
+    },
+    {
+      "order": 44,
+      "id": "PYTHON14",
+      "slug": "python-asyncio",
+      "title": "协程、Task 与事件循环",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Python",
+        "核心考点"
+      ],
+      "source": "https://docs.python.org/3.13/library/asyncio-task.html",
+      "references": [
+        {
+          "title": "Python 3.13 · 协程与任务",
+          "url": "https://docs.python.org/3.13/library/asyncio-task.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>async 函数、协程对象和 asyncio Task 有什么区别？</p><p>事件循环中的阻塞调用会影响什么，如何选择 await、线程执行或进程执行？</p>"
+    },
+    {
+      "order": 45,
+      "id": "PYTHON15",
+      "slug": "python-concurrency",
+      "title": "线程池与进程池如何选择",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Python",
+        "核心考点"
+      ],
+      "source": "https://docs.python.org/3.13/library/concurrent.futures.html",
+      "references": [
+        {
+          "title": "Python 3.13 · 并发执行器",
+          "url": "https://docs.python.org/3.13/library/concurrent.futures.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>ThreadPoolExecutor 与 ProcessPoolExecutor 在隔离、通信和任务序列化上有什么区别？</p><p>如何设计并发度、任务粒度、超时和资源回收？</p>"
+    },
+    {
+      "order": 46,
+      "id": "PYTHON16",
+      "slug": "python-cancellation",
+      "title": "异步取消、超时与任务组",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Python",
+        "核心考点"
+      ],
+      "source": "https://docs.python.org/3.13/library/asyncio-task.html",
+      "references": [
+        {
+          "title": "Python 3.13 · 协程与任务",
+          "url": "https://docs.python.org/3.13/library/asyncio-task.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>asyncio 中的取消如何传播，为什么不应随意吞掉 CancelledError？</p><p>TaskGroup 与 gather 在子任务失败时有什么区别，如何确保资源最终释放？</p>"
+    },
+    {
+      "order": 47,
+      "id": "PYTHON17",
+      "slug": "python-memory",
+      "title": "引用计数、循环引用与内存增长",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Python",
+        "核心考点"
+      ],
+      "source": "https://docs.python.org/3.13/library/gc.html",
+      "references": [
+        {
+          "title": "Python 3.13 · 垃圾回收",
+          "url": "https://docs.python.org/3.13/library/gc.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>CPython 的引用计数与循环垃圾回收分别解决什么问题？</p><p>对象已经释放但进程 RSS 没有下降时，如何区分分配器行为、缓存与真实泄漏？</p>"
+    },
+    {
+      "order": 48,
+      "id": "PYTHON18",
+      "slug": "python-async-shared-state",
+      "title": "异步程序中的共享状态",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python · 核心考点",
+      "difficulty": "hard",
+      "tags": [
+        "Python",
+        "核心考点"
+      ],
+      "source": "https://docs.python.org/3.13/library/asyncio-sync.html",
+      "references": [
+        {
+          "title": "Python 3.13 · 异步同步原语",
+          "url": "https://docs.python.org/3.13/library/asyncio-sync.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>只有一个事件循环线程时，多个协程是否仍可能产生竞态？</p><p>如何判断临界区跨越 await 的风险，并正确选择 asyncio 同步原语或消息传递？</p>"
+    },
+    {
+      "order": 49,
+      "id": "PYTHON19",
+      "slug": "python-profiling",
+      "title": "性能测量与优化验证",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python · 核心考点",
+      "difficulty": "hard",
+      "tags": [
+        "Python",
+        "核心考点"
+      ],
+      "source": "https://docs.python.org/3.13/library/profile.html",
+      "references": [
+        {
+          "title": "Python 3.13 · 性能分析",
+          "url": "https://docs.python.org/3.13/library/profile.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Python 服务变慢时，如何区分计算热点、I/O 等待、序列化和内存分配开销？</p><p>如何选择剖析与基准测试方法，并避免把微基准结果直接当成线上收益？</p>"
+    },
+    {
+      "order": 50,
+      "id": "PYTHON20",
+      "slug": "python-request-context",
+      "title": "异步上下文与请求隔离",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python · 核心考点",
+      "difficulty": "hard",
+      "tags": [
+        "Python",
+        "核心考点"
+      ],
+      "source": "https://docs.python.org/3.13/library/contextvars.html",
+      "references": [
+        {
+          "title": "Python 3.13 · contextvars",
+          "url": "https://docs.python.org/3.13/library/contextvars.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>异步 Web 服务如何保存每个请求的追踪 ID 或身份上下文？</p><p>contextvars 与线程局部变量有什么区别，创建任务和转交线程时需要检查哪些传播边界？</p>"
+    },
+    {
+      "order": 51,
+      "id": "PYTHONWEB01",
+      "slug": "python-web-django-request",
+      "title": "Django 请求、路由与中间件",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python Web · Django",
+      "difficulty": "easy",
+      "tags": [
+        "Python",
+        "Web 框架"
+      ],
+      "source": "https://docs.djangoproject.com/en/5.2/topics/http/middleware/",
+      "references": [
+        {
+          "title": "Django 5.2 · 中间件",
+          "url": "https://docs.djangoproject.com/en/5.2/topics/http/middleware/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Django 5.2 中一个请求如何经过中间件、URL 路由、视图与响应处理？</p><p>中间件的执行顺序、提前返回和异常处理会影响什么？</p>"
+    },
+    {
+      "order": 52,
+      "id": "PYTHONWEB02",
+      "slug": "python-web-django-orm",
+      "title": "Django QuerySet 与数据库访问",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python Web · Django",
+      "difficulty": "easy",
+      "tags": [
+        "Python",
+        "Web 框架"
+      ],
+      "source": "https://docs.djangoproject.com/en/5.2/topics/db/optimization/",
+      "references": [
+        {
+          "title": "Django 5.2 · 数据库优化",
+          "url": "https://docs.djangoproject.com/en/5.2/topics/db/optimization/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Django QuerySet 的惰性求值和结果缓存如何影响实际 SQL 次数？</p><p>如何识别 N+1 查询，并在 select_related 与 prefetch_related 之间做选择？</p>"
+    },
+    {
+      "order": 53,
+      "id": "PYTHONWEB03",
+      "slug": "python-web-django-transactions",
+      "title": "Django 事务与提交后任务",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python Web · Django",
+      "difficulty": "medium",
+      "tags": [
+        "Python",
+        "Web 框架"
+      ],
+      "source": "https://docs.djangoproject.com/en/5.2/topics/db/transactions/",
+      "references": [
+        {
+          "title": "Django 5.2 · 事务",
+          "url": "https://docs.djangoproject.com/en/5.2/topics/db/transactions/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Django 的 autocommit、atomic 和 on_commit 分别提供什么能力？</p><p>如何处理事务块中的异常、嵌套保存点，以及任务提交与数据库提交的先后关系？</p>"
+    },
+    {
+      "order": 54,
+      "id": "PYTHONWEB04",
+      "slug": "python-web-django-security",
+      "title": "Django 安全机制与权限边界",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python Web · Django",
+      "difficulty": "medium",
+      "tags": [
+        "Python",
+        "Web 框架"
+      ],
+      "source": "https://docs.djangoproject.com/en/5.2/topics/security/",
+      "references": [
+        {
+          "title": "Django 5.2 · 安全",
+          "url": "https://docs.djangoproject.com/en/5.2/topics/security/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Django 对 SQL 注入、XSS、CSRF 与 Host 校验分别提供哪些机制，哪些场景仍需开发者处理？</p><p>登录校验与对象级权限校验有什么区别？</p>"
+    },
+    {
+      "order": 55,
+      "id": "PYTHONWEB05",
+      "slug": "python-web-django-deploy",
+      "title": "Django 生产部署与并发模型",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python Web · Django",
+      "difficulty": "hard",
+      "tags": [
+        "Python",
+        "Web 框架"
+      ],
+      "source": "https://docs.djangoproject.com/en/5.2/howto/deployment/",
+      "references": [
+        {
+          "title": "Django 5.2 · 部署",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/deployment/"
+        },
+        {
+          "title": "Django 5.2 · 异步支持",
+          "url": "https://docs.djangoproject.com/en/5.2/topics/async/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Django 的开发服务器与生产部署有什么区别，WSGI 与 ASGI 分别适合什么执行模型？</p><p>同步和异步代码混用时，如何评估中间件、ORM 调用和数据库连接的边界？</p>"
+    },
+    {
+      "order": 56,
+      "id": "PYTHONWEB06",
+      "slug": "python-web-fastapi-dependencies",
+      "title": "FastAPI 依赖注入",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python Web · FastAPI",
+      "difficulty": "easy",
+      "tags": [
+        "Python",
+        "Web 框架"
+      ],
+      "source": "https://fastapi.tiangolo.com/tutorial/dependencies/",
+      "references": [
+        {
+          "title": "FastAPI · 依赖注入",
+          "url": "https://fastapi.tiangolo.com/tutorial/dependencies/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>FastAPI 的 Depends 如何组织可复用的参数、身份与资源依赖？</p><p>请求内依赖缓存、子依赖以及 yield 清理逻辑会怎样影响数据库会话的生命周期？</p>"
+    },
+    {
+      "order": 57,
+      "id": "PYTHONWEB07",
+      "slug": "python-web-fastapi-async",
+      "title": "FastAPI 的 def 与 async def",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python Web · FastAPI",
+      "difficulty": "medium",
+      "tags": [
+        "Python",
+        "Web 框架"
+      ],
+      "source": "https://fastapi.tiangolo.com/async/",
+      "references": [
+        {
+          "title": "FastAPI · 并发与异步",
+          "url": "https://fastapi.tiangolo.com/async/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>FastAPI 的同步与异步路径操作在执行方式上有什么区别？</p><p>在 async def 中调用阻塞数据库驱动或 HTTP 客户端时会发生什么，如何选择兼容的调用方式？</p>"
+    },
+    {
+      "order": 58,
+      "id": "PYTHONWEB08",
+      "slug": "python-web-fastapi-validation",
+      "title": "请求模型、校验与响应模型",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python Web · FastAPI",
+      "difficulty": "medium",
+      "tags": [
+        "Python",
+        "Web 框架"
+      ],
+      "source": "https://fastapi.tiangolo.com/tutorial/response-model/",
+      "references": [
+        {
+          "title": "FastAPI · 响应模型",
+          "url": "https://fastapi.tiangolo.com/tutorial/response-model/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>FastAPI 如何区分路径、查询和请求体参数，并基于模型进行校验？</p><p>请求模型与响应模型为什么可能需要分离，如何避免把密码哈希等内部字段返回给客户端？</p>"
+    },
+    {
+      "order": 59,
+      "id": "PYTHONWEB09",
+      "slug": "python-web-fastapi-lifespan",
+      "title": "应用生命周期与资源管理",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python Web · FastAPI",
+      "difficulty": "medium",
+      "tags": [
+        "Python",
+        "Web 框架"
+      ],
+      "source": "https://fastapi.tiangolo.com/advanced/events/",
+      "references": [
+        {
+          "title": "FastAPI · 生命周期",
+          "url": "https://fastapi.tiangolo.com/advanced/events/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>FastAPI 的 lifespan 适合初始化和关闭哪些资源？</p><p>多 worker 部署时初始化代码会执行几次，如何避免把进程内状态误当成所有实例共享的状态？</p>"
+    },
+    {
+      "order": 60,
+      "id": "PYTHONWEB10",
+      "slug": "python-web-fastapi-background",
+      "title": "后台任务与可靠执行",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Python Web · FastAPI",
+      "difficulty": "hard",
+      "tags": [
+        "Python",
+        "Web 框架"
+      ],
+      "source": "https://fastapi.tiangolo.com/tutorial/background-tasks/",
+      "references": [
+        {
+          "title": "FastAPI · 后台任务",
+          "url": "https://fastapi.tiangolo.com/tutorial/background-tasks/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>FastAPI 的进程内后台任务适合处理什么工作，与独立任务队列有什么区别？</p><p>进程退出、执行失败或客户端重试时，如何保证关键业务任务可追踪、可重试且幂等？</p>"
+    },
+    {
+      "order": 61,
+      "id": "GO01",
+      "slug": "go-types",
+      "title": "值、指针与参数传递",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Go",
+        "基础知识"
+      ],
+      "source": "https://go.dev/ref/spec",
+      "references": [
+        {
+          "title": "Go · 语言规范",
+          "url": "https://go.dev/ref/spec"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Go 的赋值和函数传参如何处理值与指针？</p><p>结构体中包含 slice、map 或指针时，复制结构体是否会复制其引用的数据？</p>"
+    },
+    {
+      "order": 62,
+      "id": "GO02",
+      "slug": "go-slices",
+      "title": "数组、切片与 append",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Go",
+        "基础知识"
+      ],
+      "source": "https://go.dev/ref/spec",
+      "references": [
+        {
+          "title": "Go · 语言规范",
+          "url": "https://go.dev/ref/spec"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>数组和切片在类型、长度与底层存储上有什么区别？</p><p>append 何时可能更换底层数组，多个切片共享存储会带来哪些修改影响？</p>"
+    },
+    {
+      "order": 63,
+      "id": "GO03",
+      "slug": "go-maps",
+      "title": "map 的读写与零值",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Go",
+        "基础知识"
+      ],
+      "source": "https://go.dev/ref/spec",
+      "references": [
+        {
+          "title": "Go · 语言规范",
+          "url": "https://go.dev/ref/spec"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>nil map 与空 map 在读取、写入和删除时有什么区别？</p><p>map 的遍历顺序有何保证，多个 goroutine 并发访问时需要哪些同步？</p>"
+    },
+    {
+      "order": 64,
+      "id": "GO04",
+      "slug": "go-methods",
+      "title": "方法接收者与方法集",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Go",
+        "基础知识"
+      ],
+      "source": "https://go.dev/ref/spec",
+      "references": [
+        {
+          "title": "Go · 语言规范",
+          "url": "https://go.dev/ref/spec"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>值接收者和指针接收者如何影响复制、修改与方法集？</p><p>某个类型的方法集与它能否满足接口之间是什么关系？</p>"
+    },
+    {
+      "order": 65,
+      "id": "GO05",
+      "slug": "go-interfaces",
+      "title": "接口、类型断言与 nil",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Go",
+        "基础知识"
+      ],
+      "source": "https://go.dev/ref/spec",
+      "references": [
+        {
+          "title": "Go · 语言规范",
+          "url": "https://go.dev/ref/spec"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Go 接口如何隐式实现，类型断言与类型 switch 各适合什么场景？</p><p>为什么包含一个 nil 指针的接口值可能不等于 nil？</p>"
+    },
+    {
+      "order": 66,
+      "id": "GO06",
+      "slug": "go-defer",
+      "title": "defer、panic 与 recover",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Go",
+        "基础知识"
+      ],
+      "source": "https://go.dev/ref/spec",
+      "references": [
+        {
+          "title": "Go · 语言规范",
+          "url": "https://go.dev/ref/spec"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>defer 的参数在什么时候求值，多个 defer 按什么顺序执行？</p><p>panic 与 recover 的作用范围是什么，如何避免用它们代替常规错误处理？</p>"
+    },
+    {
+      "order": 67,
+      "id": "GO07",
+      "slug": "go-errors",
+      "title": "error、包装与错误判断",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Go",
+        "基础知识"
+      ],
+      "source": "https://pkg.go.dev/errors",
+      "references": [
+        {
+          "title": "Go 标准库 · errors",
+          "url": "https://pkg.go.dev/errors"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Go 的错误返回与异常机制有什么区别？</p><p>错误包装后如何保留上下文并判断错误类型或身份，为什么不宜只比较错误文本？</p>"
+    },
+    {
+      "order": 68,
+      "id": "GO08",
+      "slug": "go-modules",
+      "title": "包、模块与依赖管理",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go · 基础知识",
+      "difficulty": "easy",
+      "tags": [
+        "Go",
+        "基础知识"
+      ],
+      "source": "https://go.dev/doc/modules/managing-dependencies",
+      "references": [
+        {
+          "title": "Go · 依赖管理",
+          "url": "https://go.dev/doc/modules/managing-dependencies"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>package 与 module 分别是什么，go.mod 与 go.sum 各记录什么？</p><p>如何处理依赖版本、内部包边界和可复现构建？</p>"
+    },
+    {
+      "order": 69,
+      "id": "GO09",
+      "slug": "go-generics",
+      "title": "泛型、约束与接口的选择",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Go",
+        "核心考点"
+      ],
+      "source": "https://go.dev/ref/spec",
+      "references": [
+        {
+          "title": "Go · 语言规范",
+          "url": "https://go.dev/ref/spec"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Go 类型参数与约束能解决哪些重复代码问题？</p><p>编译期类型约束和运行时接口有什么区别，如何避免为了泛型而增加不必要的抽象？</p>"
+    },
+    {
+      "order": 70,
+      "id": "GO10",
+      "slug": "go-goroutines",
+      "title": "goroutine 与运行时调度",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Go",
+        "核心考点"
+      ],
+      "source": "https://pkg.go.dev/runtime",
+      "references": [
+        {
+          "title": "Go 标准库 · runtime",
+          "url": "https://pkg.go.dev/runtime"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>goroutine 与操作系统线程有什么区别？</p><p>如何理解 Go 运行时调度中的 G、M、P，阻塞系统调用和大量可运行任务会产生哪些影响？</p>"
+    },
+    {
+      "order": 71,
+      "id": "GO11",
+      "slug": "go-channels",
+      "title": "channel、缓冲与关闭",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Go",
+        "核心考点"
+      ],
+      "source": "https://go.dev/ref/spec",
+      "references": [
+        {
+          "title": "Go · 语言规范",
+          "url": "https://go.dev/ref/spec"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>无缓冲和有缓冲 channel 在发送、接收时分别何时阻塞？</p><p>谁应负责关闭 channel，向已关闭或 nil channel 操作会发生什么？</p>"
+    },
+    {
+      "order": 72,
+      "id": "GO12",
+      "slug": "go-select",
+      "title": "select、超时与泄漏",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Go",
+        "核心考点"
+      ],
+      "source": "https://go.dev/ref/spec",
+      "references": [
+        {
+          "title": "Go · 语言规范",
+          "url": "https://go.dev/ref/spec"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>select 如何在多个通信操作之间选择？</p><p>如何为一个 goroutine 设计超时和退出路径，避免发送方或接收方提前退出后遗留阻塞任务？</p>"
+    },
+    {
+      "order": 73,
+      "id": "GO13",
+      "slug": "go-context",
+      "title": "context 的取消与截止时间",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Go",
+        "核心考点"
+      ],
+      "source": "https://pkg.go.dev/context",
+      "references": [
+        {
+          "title": "Go 标准库 · context",
+          "url": "https://pkg.go.dev/context"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>context 如何传递取消、截止时间与请求范围的数据？</p><p>为什么应该调用 cancel，为什么不宜把 context 当成任意业务参数的容器？</p>"
+    },
+    {
+      "order": 74,
+      "id": "GO14",
+      "slug": "go-sync",
+      "title": "Mutex、WaitGroup 与同步职责",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Go",
+        "核心考点"
+      ],
+      "source": "https://pkg.go.dev/sync",
+      "references": [
+        {
+          "title": "Go 标准库 · sync",
+          "url": "https://pkg.go.dev/sync"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Mutex、RWMutex、WaitGroup 与 Once 分别解决什么问题？</p><p>使用时如何安排对象生命周期，为什么包含同步原语的值需要避免随意复制？</p>"
+    },
+    {
+      "order": 75,
+      "id": "GO15",
+      "slug": "go-memory-model",
+      "title": "数据竞争与内存模型",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Go",
+        "核心考点"
+      ],
+      "source": "https://go.dev/ref/mem",
+      "references": [
+        {
+          "title": "Go · 内存模型",
+          "url": "https://go.dev/ref/mem"
+        },
+        {
+          "title": "Go · 竞态检测",
+          "url": "https://go.dev/doc/articles/race_detector"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Go 内存模型对跨 goroutine 读写提出哪些要求？</p><p>channel、互斥锁与原子操作如何建立同步，如何解释 race detector 未报错并不等于证明没有竞态？</p>"
+    },
+    {
+      "order": 76,
+      "id": "GO16",
+      "slug": "go-escape",
+      "title": "逃逸分析与内存分配",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Go",
+        "核心考点"
+      ],
+      "source": "https://go.dev/doc/gc-guide",
+      "references": [
+        {
+          "title": "Go · GC 指南",
+          "url": "https://go.dev/doc/gc-guide"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Go 编译器为什么会让一些局部变量分配到堆上？</p><p>如何结合逃逸分析和分配基准判断接口、闭包及返回指针对性能的实际影响？</p>"
+    },
+    {
+      "order": 77,
+      "id": "GO17",
+      "slug": "go-gc",
+      "title": "GC、内存限制与吞吐延迟",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go · 核心考点",
+      "difficulty": "medium",
+      "tags": [
+        "Go",
+        "核心考点"
+      ],
+      "source": "https://go.dev/doc/gc-guide",
+      "references": [
+        {
+          "title": "Go · GC 指南",
+          "url": "https://go.dev/doc/gc-guide"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Go 的 GC 如何影响 CPU、堆大小和请求延迟？</p><p>GOGC 与 GOMEMLIMIT 分别控制什么，软内存限制是否等同于进程不会超过某个硬上限？</p>"
+    },
+    {
+      "order": 78,
+      "id": "GO18",
+      "slug": "go-loop-capture",
+      "title": "循环变量与 goroutine 捕获",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go · 核心考点",
+      "difficulty": "hard",
+      "tags": [
+        "Go",
+        "核心考点"
+      ],
+      "source": "https://go.dev/blog/loopvar-preview",
+      "references": [
+        {
+          "title": "Go · Go 1.22 循环变量语义",
+          "url": "https://go.dev/blog/loopvar-preview"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>循环中启动 goroutine 时，闭包捕获变量容易出现哪些问题？</p><p>Go 1.22 的循环变量语义变化与模块语言版本有什么关系，哪些共享对象问题仍需单独处理？</p>"
+    },
+    {
+      "order": 79,
+      "id": "GO19",
+      "slug": "go-profiling",
+      "title": "pprof、trace 与泄漏排查",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go · 核心考点",
+      "difficulty": "hard",
+      "tags": [
+        "Go",
+        "核心考点"
+      ],
+      "source": "https://go.dev/doc/diagnostics",
+      "references": [
+        {
+          "title": "Go · 诊断指南",
+          "url": "https://go.dev/doc/diagnostics"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Go 服务 CPU、内存或 goroutine 数持续增长时，如何选择 pprof 和执行跟踪定位原因？</p><p>如何区分忙计算、锁等待、channel 阻塞与外部依赖变慢？</p>"
+    },
+    {
+      "order": 80,
+      "id": "GO20",
+      "slug": "go-concurrent-shutdown",
+      "title": "并发流水线与优雅退出",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go · 核心考点",
+      "difficulty": "hard",
+      "tags": [
+        "Go",
+        "核心考点"
+      ],
+      "source": "https://pkg.go.dev/context",
+      "references": [
+        {
+          "title": "Go 标准库 · context",
+          "url": "https://pkg.go.dev/context"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>一个由多个 goroutine 和 channel 组成的任务流水线，应如何协调取消、错误传播和资源释放？</p><p>关闭入口、关闭 channel 与等待任务完成的顺序怎样设计才能避免 panic 或永久阻塞？</p>"
+    },
+    {
+      "order": 81,
+      "id": "GIN01",
+      "slug": "gin-routing",
+      "title": "Gin 路由、路由组与中间件",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go Web · Gin",
+      "difficulty": "easy",
+      "tags": [
+        "Go",
+        "Web 框架"
+      ],
+      "source": "https://gin-gonic.com/en/docs/middleware/",
+      "references": [
+        {
+          "title": "Gin · 中间件",
+          "url": "https://gin-gonic.com/en/docs/middleware/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Gin 的路由组和全局、分组、路由级中间件如何组合？</p><p>注册顺序与路由参数设计会影响什么，如何避免把所有业务逻辑堆在 handler 中？</p>"
+    },
+    {
+      "order": 82,
+      "id": "GIN02",
+      "slug": "gin-next-abort",
+      "title": "Next、Abort 与响应控制",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go Web · Gin",
+      "difficulty": "easy",
+      "tags": [
+        "Go",
+        "Web 框架"
+      ],
+      "source": "https://gin-gonic.com/en/docs/middleware/",
+      "references": [
+        {
+          "title": "Gin · 中间件",
+          "url": "https://gin-gonic.com/en/docs/middleware/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Gin 中 c.Next、c.Abort 与函数 return 各有什么作用？</p><p>鉴权失败后，如何确保后续 handler 不再执行，并避免重复写入响应？</p>"
+    },
+    {
+      "order": 83,
+      "id": "GIN03",
+      "slug": "gin-binding",
+      "title": "参数绑定与输入校验",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go Web · Gin",
+      "difficulty": "easy",
+      "tags": [
+        "Go",
+        "Web 框架"
+      ],
+      "source": "https://gin-gonic.com/en/docs/binding/binding-and-validation/",
+      "references": [
+        {
+          "title": "Gin · 绑定与验证",
+          "url": "https://gin-gonic.com/en/docs/binding/binding-and-validation/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Gin 的 Bind 与 ShouldBind 系列在错误处理和响应行为上有什么区别？</p><p>如何按输入来源选择绑定方式，并区分字段缺失、零值、格式错误与业务校验失败？</p>"
+    },
+    {
+      "order": 84,
+      "id": "GIN04",
+      "slug": "gin-auth",
+      "title": "鉴权中间件与接口权限",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go Web · Gin",
+      "difficulty": "medium",
+      "tags": [
+        "Go",
+        "Web 框架"
+      ],
+      "source": "https://gin-gonic.com/en/docs/middleware/",
+      "references": [
+        {
+          "title": "Gin · 中间件",
+          "url": "https://gin-gonic.com/en/docs/middleware/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>如何为 Gin API 设计身份认证和权限校验中间件？</p><p>Token 有效是否意味着可以访问任意资源，浏览器 Cookie、CORS 与代理头又会带来哪些信任边界？</p>"
+    },
+    {
+      "order": 85,
+      "id": "GIN05",
+      "slug": "gin-errors",
+      "title": "错误处理、恢复与请求观测",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go Web · Gin",
+      "difficulty": "medium",
+      "tags": [
+        "Go",
+        "Web 框架"
+      ],
+      "source": "https://gin-gonic.com/en/docs/middleware/",
+      "references": [
+        {
+          "title": "Gin · 中间件",
+          "url": "https://gin-gonic.com/en/docs/middleware/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Gin 服务如何统一处理业务错误、panic 和请求日志？</p><p>如何设置追踪 ID、状态码与延迟记录，同时避免日志泄露敏感信息或将恢复 panic 等同于业务成功？</p>"
+    },
+    {
+      "order": 86,
+      "id": "GIN06",
+      "slug": "gin-context-lifetime",
+      "title": "Gin Context 与后台 goroutine",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go Web · Gin",
+      "difficulty": "hard",
+      "tags": [
+        "Go",
+        "Web 框架"
+      ],
+      "source": "https://gin-gonic.com/en/docs/middleware/goroutines-inside-a-middleware/",
+      "references": [
+        {
+          "title": "Gin · Context 与 goroutine",
+          "url": "https://gin-gonic.com/en/docs/middleware/goroutines-inside-a-middleware/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Gin Context 为什么不能在请求结束后随意继续使用？</p><p>向后台 goroutine 传递数据时，Context 复制、标准 context.Context 和 ResponseWriter 各有哪些生命周期边界？</p>"
+    },
+    {
+      "order": 87,
+      "id": "GIN07",
+      "slug": "gin-timeouts",
+      "title": "HTTP 服务超时与请求限制",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go Web · Gin",
+      "difficulty": "medium",
+      "tags": [
+        "Go",
+        "Web 框架"
+      ],
+      "source": "https://pkg.go.dev/net/http",
+      "references": [
+        {
+          "title": "Go 标准库 · net/http",
+          "url": "https://pkg.go.dev/net/http"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>使用 Gin 和 net/http 时，读头、读写、空闲连接与业务处理超时分别约束什么？</p><p>如何限制请求体和慢客户端的资源占用，而不误伤流式响应？</p>"
+    },
+    {
+      "order": 88,
+      "id": "GIN08",
+      "slug": "gin-http-client",
+      "title": "HTTP Client 复用与响应体关闭",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go Web · Gin",
+      "difficulty": "medium",
+      "tags": [
+        "Go",
+        "Web 框架"
+      ],
+      "source": "https://pkg.go.dev/net/http",
+      "references": [
+        {
+          "title": "Go 标准库 · net/http",
+          "url": "https://pkg.go.dev/net/http"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Go Web 服务调用下游时，为什么需要考虑 HTTP Client 和 Transport 的复用？</p><p>响应体的读取、关闭和请求取消会怎样影响连接池与资源释放？</p>"
+    },
+    {
+      "order": 89,
+      "id": "GIN09",
+      "slug": "gin-request-cancellation",
+      "title": "请求取消与数据库操作",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go Web · Gin",
+      "difficulty": "medium",
+      "tags": [
+        "Go",
+        "Web 框架"
+      ],
+      "source": "https://pkg.go.dev/context",
+      "references": [
+        {
+          "title": "Go 标准库 · context",
+          "url": "https://pkg.go.dev/context"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>客户端断开连接或请求超时后，如何把取消信号传递给数据库和下游调用？</p><p>如何划分请求处理、事务与后台工作的边界，避免持锁时间过长或取消后继续执行关键副作用？</p>"
+    },
+    {
+      "order": 90,
+      "id": "GIN10",
+      "slug": "gin-shutdown",
+      "title": "Gin 服务优雅停机",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Go Web · Gin",
+      "difficulty": "hard",
+      "tags": [
+        "Go",
+        "Web 框架"
+      ],
+      "source": "https://gin-gonic.com/en/docs/server-config/graceful-restart-or-stop/",
+      "references": [
+        {
+          "title": "Gin · 优雅关闭",
+          "url": "https://gin-gonic.com/en/docs/server-config/graceful-restart-or-stop/"
+        },
+        {
+          "title": "Go 标准库 · net/http",
+          "url": "https://pkg.go.dev/net/http"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Gin 服务收到终止信号时，应如何停止接收请求、等待正在处理的请求并关闭依赖资源？</p><p>net/http 的 Shutdown 对长连接和后台 goroutine 有哪些边界，超时后如何处理？</p>"
+    }
+  ]
+}

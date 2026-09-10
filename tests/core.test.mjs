@@ -245,6 +245,45 @@ test('操作系统与网络覆盖三类六组，保留纯问题、空白草稿�
   }
 });
 
+test('语言与框架涵盖三种语言与四个框架，只提供问题，版本边界明确', async () => {
+  const data = JSON.parse(await readFile(new URL('../public/data/languages-frameworks.json', import.meta.url), 'utf8'));
+  assert.equal(validateDataset(data, 90), true);
+  assert.equal(new Set(data.questions.map(q => q.id)).size, 90);
+  assert.equal(new Set(data.questions.map(q => q.title)).size, 90);
+  const expected = [
+    ['Java · 基础知识', 8], ['Java · 核心考点', 12], ['Java Web · Spring', 10],
+    ['Python · 基础知识', 8], ['Python · 核心考点', 12], ['Python Web · Django', 5], ['Python Web · FastAPI', 5],
+    ['Go · 基础知识', 8], ['Go · 核心考点', 12], ['Go Web · Gin', 10],
+  ].map(([name, count]) => ({ name, count }));
+  assert.deepEqual(data.groups, expected);
+  for (const q of data.questions) {
+    assert.equal(q.kind, 'discussion');
+    assert.equal(q.format, 'questions-only');
+    assert.equal(q.answerTemplate, '');
+    assert.equal(initialCode(q, 'text'), '');
+    assert.match(q.content, /^(<p>[^<>]+？<\/p>)+$/);
+    assert.doesNotMatch(q.content, /答案|提示|示例|考点清单|参考来源/);
+  }
+  for (const language of ['Java', 'Python', 'Go']) {
+    const pool = data.questions.filter(q => q.tags.includes(language));
+    assert.equal(pool.length, 30);
+    for (const difficulty of Object.keys(DIFFICULTIES)) assert.ok(filterQuestions(pool, difficulty).length > 0);
+  }
+  for (const [framework, count] of [['Spring', 10], ['Django', 5], ['FastAPI', 5], ['Gin', 10]]) {
+    assert.equal(filterQuestions(data.questions, 'all', framework).length, count);
+  }
+  assert.match(data.questions.find(q => q.slug === 'python-gil').content, /CPython.*3\.13.*free-threaded/);
+  assert.match(data.questions.find(q => q.slug === 'go-loop-capture').content, /Go 1\.22/);
+  assert.match(data.questions.find(q => q.slug === 'spring-transaction-boundary').content, /Spring 6\.2.*代理/);
+  for (const host of ['docs.oracle.com', 'docs.python.org', 'go.dev', 'pkg.go.dev', 'docs.spring.io', 'docs.djangoproject.com', 'fastapi.tiangolo.com', 'gin-gonic.com']) {
+    const broken = structuredClone(data);
+    const url = `https://${host}.evil.example/`;
+    broken.questions[0].source = url;
+    broken.questions[0].references = [{ title: '伪造来源', url }];
+    assert.throws(() => validateDataset(broken, 90));
+  }
+});
+
 test('DevOps / SRE 保留原有三类题并追加五组日常工作题', async () => {
   const data = JSON.parse(await readFile(new URL('../public/data/devops-sre.json', import.meta.url), 'utf8'));
   assert.deepEqual(data.groups, [

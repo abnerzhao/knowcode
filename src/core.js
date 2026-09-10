@@ -31,7 +31,9 @@ export function isReferenceURL(value) {
         'developer.hashicorp.com', 'prometheus.io', 'opentelemetry.io',
         'docs.aws.amazon.com', 'www.postgresql.org', 'dev.mysql.com',
         'redis.io', 'www.elastic.co', 'kafka.apache.org', 'man7.org',
-        'www.gnu.org', 'www.rfc-editor.org', 'datatracker.ietf.org', 'curl.se'].includes(url.hostname);
+        'www.gnu.org', 'www.rfc-editor.org', 'datatracker.ietf.org', 'curl.se',
+        'docs.oracle.com', 'docs.python.org', 'go.dev', 'pkg.go.dev',
+        'docs.spring.io', 'docs.djangoproject.com', 'fastapi.tiangolo.com', 'gin-gonic.com'].includes(url.hostname);
   } catch { return false; }
 }
 

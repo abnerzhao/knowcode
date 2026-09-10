@@ -218,6 +218,12 @@ button:hover:not(:disabled) {
   --cover-secondary:#536477
 }
 
+.workbook[data-bank=languages-frameworks] {
+  --cover:#d6c9c1;
+  --cover-text:#51423b;
+  --cover-secondary:#6a584f
+}
+
 .book-object {
   display:block;
   position:relative;

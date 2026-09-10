@@ -6,7 +6,7 @@
 
 ## 习题册
 
-目前提供 **8 本习题册、566 个题目条目**。
+目前提供 **9 本习题册、656 个题目条目**。
 
 | 习题册 | 题数 | 内容 |
 | --- | ---: | --- |
@@ -18,6 +18,7 @@
 | DevOps / SRE | 61 | 交付、基础设施、排障，以及 SLO、可观测性、应急、容量和容灾 |
 | 数据与中间件 | 80 | MySQL、Redis、Elasticsearch、Apache Kafka，各 20 题 |
 | 操作系统与网络 | 60 | 操作系统、Linux 常用命令、计算机网络，各 20 题 |
+| 语言与框架 | 90 | Java、Python、Go 各 20 道语言题与 10 道 Web 框架题；覆盖 Spring Boot、Django、FastAPI、Gin |
 
 不同算法题库可能包含相同题目，条目总数不代表互不重复的题数。讨论题为本站原创整理，不标榜企业真题或未经验证的面试频率排名。
 
@@ -105,7 +106,7 @@ npm run test:browser
 
 代码编辑框不会编译或运行代码，没有隐藏测试用例与自动评分。“去验证”会打开对应力扣原题，需要自行选择语言并粘贴代码。讨论题不提供标准答案，也不会自动评价作答。
 
-DevOps / SRE 原有 36 题保留场景、设计和知识提纲；新增 25 道日常工作题，以及数据与中间件、操作系统与网络两册，仅提供问题与空白草稿。所有运维场景均用于文本推演，不要求在生产环境执行操作。
+DevOps / SRE 原有 36 题保留场景、设计和知识提纲；新增 25 道日常工作题，以及数据与中间件、操作系统与网络、语言与框架三册，仅提供问题与空白草稿。所有运维场景均用于文本推演，不要求在生产环境执行操作。
 
 ## 题库来源
 
@@ -127,6 +128,7 @@ JSON 保存每题来源、分类、顺序和数据更新时间；题目示意图
 - [DevOps / SRE 与日常工作](docs/devops-sre-sources.md)
 - [数据与中间件](docs/data-middleware-sources.md)
 - [操作系统与网络](docs/os-network-sources.md)
+- [语言与框架](docs/language-framework-sources.md)：Java SE 17、Python 3.13、Go；Java Web 采用 Spring Framework 6.2 / Boot 3.5 / Security 6.5，Python Web 包含 Django 5.2 与 FastAPI，Go Web 包含 Gin 与 net/http。各语言分为 8 道基础、12 道核心考点；各生态另有 10 道框架题，其中 Django、FastAPI 各 5 道。
 
 ### 更新题库
 
@@ -161,7 +163,7 @@ src/
   core.js                   校验、筛选、随机队列与路由
   content.js                题干 HTML 白名单处理
 public/
-  data/                     8 个静态题库
+  data/                     9 个静态题库
   images/                   本地题目示意图
   favicon.svg               网站图标
 docs/                       选题来源与核验记录

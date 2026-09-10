@@ -7,6 +7,7 @@ export const BANKS = [
   { id: 'devops-sre', name: 'DevOps / SRE', count: 61, file: 'devops-sre.json', kind: 'discussion' },
   { id: 'data-middleware', name: '数据与中间件', count: 80, file: 'data-middleware.json', kind: 'discussion' },
   { id: 'os-network', name: '操作系统与网络', count: 60, file: 'os-network.json', kind: 'discussion' },
+  { id: 'languages-frameworks', name: '语言与框架', count: 90, file: 'languages-frameworks.json', kind: 'discussion' },
 ];
 
 export function bankById(id) {

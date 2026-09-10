@@ -292,6 +292,13 @@ try {
     await page.locator('#search').fill('');
     const dataset = await page.evaluate(async file => (await fetch(`./data/${file}`)).json(), bank.file);
     assert.equal(await page.locator('.question-button').count(), bank.count);
+    if (bank.id === 'languages-frameworks') {
+      for (const [framework, count] of [['Spring', 10], ['Django', 5], ['FastAPI', 5], ['Gin', 10]]) {
+        await page.locator('#search').fill(framework);
+        assert.equal(await page.locator('.question-button').count(), count);
+      }
+      await page.locator('#search').fill('');
+    }
     if (bank.id === 'devops-sre') {
       await page.locator('#search').fill('SRE 日常');
       assert.equal(await page.locator('.question-button').count(), 25);
