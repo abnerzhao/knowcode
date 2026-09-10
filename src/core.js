@@ -33,7 +33,10 @@ export function isReferenceURL(value) {
         'redis.io', 'www.elastic.co', 'kafka.apache.org', 'man7.org',
         'www.gnu.org', 'www.rfc-editor.org', 'datatracker.ietf.org', 'curl.se',
         'docs.oracle.com', 'docs.python.org', 'go.dev', 'pkg.go.dev',
-        'docs.spring.io', 'docs.djangoproject.com', 'fastapi.tiangolo.com', 'gin-gonic.com'].includes(url.hostname);
+        'docs.spring.io', 'docs.djangoproject.com', 'fastapi.tiangolo.com', 'gin-gonic.com',
+        'git-scm.com', 'docs.docker.com', 'maven.apache.org', 'docs.astral.sh', 'help.eclipse.org',
+        'algs4.cs.princeton.edu', 'ocw.mit.edu', 'cses.fi', 'www.informit.com',
+        'www.unicode.org', 'blog.cleancoder.com', 'bytebytego.com'].includes(url.hostname);
   } catch { return false; }
 }
 

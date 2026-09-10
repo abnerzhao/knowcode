@@ -292,11 +292,37 @@ try {
     await page.locator('#search').fill('');
     const dataset = await page.evaluate(async file => (await fetch(`./data/${file}`)).json(), bank.file);
     assert.equal(await page.locator('.question-button').count(), bank.count);
+    if (bank.id === 'system-design') {
+      for (const group of dataset.groups.slice(4)) {
+        await page.locator('#search').fill(group.name);
+        assert.equal(await page.locator('.question-button').count(), group.count);
+      }
+      for (const query of ['CAP', 'SSE', 'CDC', 'Quorum', 'Autocomplete', 'Wallet']) {
+        await page.locator('#search').fill(query);
+        assert.ok(await page.locator('.question-button').count() > 0);
+      }
+      await page.locator('#search').fill('');
+    }
+    if (['data-structures-algorithms', 'design-patterns'].includes(bank.id)) {
+      for (const group of dataset.groups) {
+        await page.locator('#search').fill(group.name);
+        assert.equal(await page.locator('.question-button').count(), group.count);
+      }
+      await page.locator('#search').fill(bank.id === 'design-patterns' ? 'Abstract Factory' : '动态规划');
+      assert.ok(await page.locator('.question-button').count() > 0);
+      await page.locator('#search').fill('');
+    }
     if (bank.id === 'languages-frameworks') {
       for (const [framework, count] of [['Spring', 10], ['Django', 5], ['FastAPI', 5], ['Gin', 10]]) {
         await page.locator('#search').fill(framework);
         assert.equal(await page.locator('.question-button').count(), count);
       }
+      for (const tool of ['Git', 'Docker', 'Maven', 'JDK 命令', 'Go / go mod', 'Python / uv']) {
+        await page.locator('#search').fill(`工具 · ${tool}`);
+        assert.equal(await page.locator('.question-button').count(), 6);
+      }
+      await page.locator('#search').fill('Java · 内存与 GC 排查');
+      assert.equal(await page.locator('.question-button').count(), 12);
       await page.locator('#search').fill('');
     }
     if (bank.id === 'devops-sre') {
@@ -316,7 +342,7 @@ try {
         assert.doesNotMatch(await page.locator('#problem-content').innerText(), /答案|提示|参考来源|练习假设/);
       }
       assert.equal(parsePracticeRoute(new URL(page.url()).hash).bank, bank.id);
-      if (bank.id === 'devops-sre') {
+      if (['devops-sre', 'system-design'].includes(bank.id)) {
         assert.equal(await page.locator('#code-editor').inputValue(), q.answerTemplate);
         assert.equal(await page.locator('#reset-code').innerText(), q.format === 'questions-only' ? '清空草稿' : '重置模板');
       }
@@ -485,6 +511,10 @@ try {
     ['hot100', 'two-sum', 'random', 390],
     ['os-network', 'os-process-thread', 'random', 1440],
     ['os-network', 'os-process-thread', 'ordered', 320],
+    ['data-structures-algorithms', 'dsa-complexity', 'ordered', 320],
+    ['design-patterns', 'pattern-intent', 'random', 1440],
+    ['system-design', 'url-shortener', 'ordered', 1440],
+    ['system-design', 'sd-requirements', 'random', 320],
   ]) {
     await navigationPage.setViewportSize({ width, height: 900 });
     const route = `http://127.0.0.1:4173/#/${bank}/${mode}/${slug}${mode === 'random' ? '?difficulty=easy' : ''}`;

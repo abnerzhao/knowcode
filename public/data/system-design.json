@@ -2,9 +2,9 @@
   "version": 1,
   "name": "系统设计",
   "kind": "discussion",
-  "source": "https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md",
-  "fetchedAt": "2026-09-08T00:00:00.000Z",
-  "editorialNote": "公开面经仅为发帖人自述。题目为本站根据主题原创整理；参数、示例、追问与难度均为练习设定，不提供唯一标准答案。",
+  "source": "https://bytebytego.com/guides/",
+  "fetchedAt": "2026-09-10T00:00:00.000Z",
+  "editorialNote": "原有 20 道场景设计题保留内容、示例、练习假设与草稿模板。根据 ByteByteGo Guides 及 liquidslr/system-design-notes 公开主题新增 40 道原创复习问题，共 60 题；新增题只提供问题与空白草稿，不附解法或图解。来源为教学资料和个人读书笔记，不代表企业真题或频率统计；难度为本站分级，具体技术保证需结合实现及故障模型判断。",
   "groups": [
     {
       "name": "基础服务",
@@ -20,6 +20,38 @@
     },
     {
       "name": "数据与协作",
+      "count": 5
+    },
+    {
+      "name": "设计基础 · 方法与扩展",
+      "count": 5
+    },
+    {
+      "name": "流量设计 · 接口与分发",
+      "count": 5
+    },
+    {
+      "name": "数据设计 · 存储与扩容",
+      "count": 5
+    },
+    {
+      "name": "可靠性设计 · 一致性与事件",
+      "count": 5
+    },
+    {
+      "name": "分布式机制 · 路由与故障",
+      "count": 5
+    },
+    {
+      "name": "基础设施 · 完整系统设计",
+      "count": 5
+    },
+    {
+      "name": "空间与检索 · 场景设计",
+      "count": 5
+    },
+    {
+      "name": "业务系统 · 交易与内容",
       "count": 5
     }
   ],
@@ -543,6 +575,1014 @@
       ],
       "answerTemplate": "需求澄清与范围\n\n容量估算\n\n接口与数据模型\n\n核心流程与架构\n\n一致性、故障与恢复\n\n瓶颈、取舍与演进\n",
       "content": "<h3>场景背景</h3><p>多人可以同时编辑一份文档，客户端断网后还能输入，恢复网络后同步修改，并查看历史版本。</p><h3>范围与约束</h3><p>练习假设：每文档最多 50 人同时编辑；先支持纯文本；需要权限控制，不要求第一版支持复杂排版。</p><h3>示例情境</h3><p>A、B 同时在同一位置插入不同文字；A 离线后继续编辑；B 随后删除了附近一段内容。</p><h3>请回答</h3><ol><li>先定义最终一致、操作顺序、光标位置与撤销的用户语义。</li><li>比较中心排序、操作变换或可合并数据结构，说明你选择的冲突处理方式。</li><li>设计操作日志、快照、重连补齐和版本恢复，控制历史数据体积。</li></ol><h3>面试追问</h3><ol><li>用户离线期间被撤销编辑权限，重连后如何处理未同步修改？</li></ol><h3>参考来源</h3><p>依据公开资料的主题原创编写，业务规模与时序均为练习假设；难度为本站分级，不代表企业官方真题或高频排名。</p><ul><li><a href=\"https://github.com/InterviewReady/system-design-resources/blob/main/top-20-questions.md\">GitHub · InterviewReady：系统设计选题</a></li></ul>"
+    },
+    {
+      "order": 21,
+      "id": "D21",
+      "slug": "sd-requirements",
+      "title": "系统设计的需求澄清与边界",
+      "englishTitle": "Requirements Scope",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "设计基础 · 方法与扩展",
+      "difficulty": "easy",
+      "tags": [
+        "系统设计",
+        "方法与扩展"
+      ],
+      "source": "https://bytebytego.com/guides/how-to-ace-system-design-interviews-like-a-boss/",
+      "references": [
+        {
+          "title": "ByteByteGo · how to ace system design interviews like a boss",
+          "url": "https://bytebytego.com/guides/how-to-ace-system-design-interviews-like-a-boss/"
+        },
+        {
+          "title": "liquidslr 读书笔记 · 第 3 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/03.%20System%20Design%20Framework/Readme.md"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>面对“设计一个大型服务”这样的开放题，如何区分核心功能、非功能目标和第一版不做的能力？</p><p>怎样把含糊的“高并发、低延迟、高可用”转成可检查的指标，并据此安排设计讨论的深度？</p>"
+    },
+    {
+      "order": 22,
+      "id": "D22",
+      "slug": "sd-capacity",
+      "title": "容量估算与峰值流量",
+      "englishTitle": "Capacity Estimation",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "设计基础 · 方法与扩展",
+      "difficulty": "easy",
+      "tags": [
+        "系统设计",
+        "方法与扩展"
+      ],
+      "source": "https://github.com/liquidslr/system-design-notes/blob/main/02.%20Back%20Of%20the%20Envelope%20Estimation/Readme.md",
+      "references": [
+        {
+          "title": "liquidslr 读书笔记 · 第 2 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/02.%20Back%20Of%20the%20Envelope%20Estimation/Readme.md"
+        },
+        {
+          "title": "ByteByteGo · how to ace system design interviews like a boss",
+          "url": "https://bytebytego.com/guides/how-to-ace-system-design-interviews-like-a-boss/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>如果一个服务的日活跃用户数和人均请求次数已知，如何估算平均 QPS、峰值 QPS、存储增量与出口带宽？</p><p>读写比例、数据保留时间、副本、索引和缓存命中率各会改变哪部分预算，如何说明估算的不确定性？</p>"
+    },
+    {
+      "order": 23,
+      "id": "D23",
+      "slug": "sd-latency",
+      "title": "端到端延迟预算与尾延迟",
+      "englishTitle": "Latency p99",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "设计基础 · 方法与扩展",
+      "difficulty": "medium",
+      "tags": [
+        "系统设计",
+        "方法与扩展"
+      ],
+      "source": "https://bytebytego.com/guides/which-latency-numbers-should-you-know/",
+      "references": [
+        {
+          "title": "ByteByteGo · which latency numbers should you know",
+          "url": "https://bytebytego.com/guides/which-latency-numbers-should-you-know/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>一次请求串联多个服务或并行访问多个分片时，如何分配端到端延迟预算并识别尾延迟来源？</p><p>为什么不能直接把内存访问、单次磁盘访问或网络传输的参考数字当成整个 Redis 或数据库请求的延迟？</p>"
+    },
+    {
+      "order": 24,
+      "id": "D24",
+      "slug": "sd-scaling",
+      "title": "从单机到多实例的渐进扩展",
+      "englishTitle": "Scale Stateless",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "设计基础 · 方法与扩展",
+      "difficulty": "medium",
+      "tags": [
+        "系统设计",
+        "方法与扩展"
+      ],
+      "source": "https://bytebytego.com/guides/how-to-scale-a-website-to-support-millions-of-users/",
+      "references": [
+        {
+          "title": "ByteByteGo · how to scale a website to support millions of users",
+          "url": "https://bytebytego.com/guides/how-to-scale-a-website-to-support-millions-of-users/"
+        },
+        {
+          "title": "liquidslr 读书笔记 · 第 1 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/01.%20Scaling/Readme.md"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>一个业务从单机运行到需要多实例时，如何依据瓶颈决定先分离存储、增加副本、引入缓存还是拆分数据？</p><p>会话和本地文件等状态应如何安置，怎样验证每一步确实提高了容量而不是只增加组件？</p>"
+    },
+    {
+      "order": 25,
+      "id": "D25",
+      "slug": "sd-service-boundaries",
+      "title": "模块化单体与微服务边界",
+      "englishTitle": "Monolith Microservices",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "设计基础 · 方法与扩展",
+      "difficulty": "hard",
+      "tags": [
+        "系统设计",
+        "方法与扩展"
+      ],
+      "source": "https://bytebytego.com/guides/is-microservice-architecture-the-silver-bullet/",
+      "references": [
+        {
+          "title": "ByteByteGo · is microservice architecture the silver bullet",
+          "url": "https://bytebytego.com/guides/is-microservice-architecture-the-silver-bullet/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>哪些业务变化、团队协作或资源隔离需求值得引入独立服务，哪些情况下模块化单体更合适？</p><p>拆分后新增的网络失败、跨服务事务和观测成本如何计入决策，怎样避免将每个函数都变成远程调用？</p>"
+    },
+    {
+      "order": 26,
+      "id": "D26",
+      "slug": "sd-gateway-balancer",
+      "title": "负载均衡、反向代理与网关",
+      "englishTitle": "Load Balancer API Gateway",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "流量设计 · 接口与分发",
+      "difficulty": "easy",
+      "tags": [
+        "系统设计",
+        "接口与分发"
+      ],
+      "source": "https://bytebytego.com/guides/what-are-the-differences-between-a-load-balancer-and-an-api-gateway/",
+      "references": [
+        {
+          "title": "ByteByteGo · what are the differences between a load balancer and an api gateway",
+          "url": "https://bytebytego.com/guides/what-are-the-differences-between-a-load-balancer-and-an-api-gateway/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>负载均衡器、反向代理和 API 网关的职责有什么交集与区别，四层和七层路由分别能依据什么信息？</p><p>如何根据健康检查、长连接、会话状态和故障转移需求决定部署边界，而不是默认每种组件都要有？</p>"
+    },
+    {
+      "order": 27,
+      "id": "D27",
+      "slug": "sd-api-protocol",
+      "title": "REST、gRPC 与 GraphQL 选型",
+      "englishTitle": "REST gRPC GraphQL",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "流量设计 · 接口与分发",
+      "difficulty": "medium",
+      "tags": [
+        "系统设计",
+        "接口与分发"
+      ],
+      "source": "https://bytebytego.com/guides/a-cheatsheet-on-comparing-api-architectural-styles/",
+      "references": [
+        {
+          "title": "ByteByteGo · API 架构风格比较",
+          "url": "https://bytebytego.com/guides/a-cheatsheet-on-comparing-api-architectural-styles/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>对外开放接口、内部服务调用和多端聚合查询分别需要什么接口契约，如何比较 REST、gRPC 与 GraphQL？</p><p>版本兼容、流式交互、缓存、请求成本和错误模型会怎样影响选择，协议选择能否替代业务边界设计？</p>"
+    },
+    {
+      "order": 28,
+      "id": "D28",
+      "slug": "sd-realtime-channel",
+      "title": "轮询、SSE 与 WebSocket",
+      "englishTitle": "Polling SSE WebSocket",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "流量设计 · 接口与分发",
+      "difficulty": "easy",
+      "tags": [
+        "系统设计",
+        "接口与分发"
+      ],
+      "source": "https://bytebytego.com/guides/shortlong-polling-sse-websocket/",
+      "references": [
+        {
+          "title": "ByteByteGo · shortlong polling sse websocket",
+          "url": "https://bytebytego.com/guides/shortlong-polling-sse-websocket/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>服务端需要持续通知客户端时，如何比较短轮询、长轮询、SSE 和 WebSocket 的连接及通信方向？</p><p>断线重连、消息补齐、慢客户端和网关超时应该怎样处理，为什么建立长连接不等于自动获得可靠消息投递？</p>"
+    },
+    {
+      "order": 29,
+      "id": "D29",
+      "slug": "sd-pagination",
+      "title": "大数据列表的游标分页",
+      "englishTitle": "Cursor Pagination",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "流量设计 · 接口与分发",
+      "difficulty": "medium",
+      "tags": [
+        "系统设计",
+        "接口与分发"
+      ],
+      "source": "https://bytebytego.com/guides/how-do-we-perform-pagination-in-api-design/",
+      "references": [
+        {
+          "title": "ByteByteGo · how do we perform pagination in api design",
+          "url": "https://bytebytego.com/guides/how-do-we-perform-pagination-in-api-design/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>面对持续新增、删除和更新时间的列表，offset 分页与基于稳定排序键的游标分页各有什么风险？</p><p>当排序字段存在重复值或会被修改时，如何约定游标、快照与翻页语义，避免把时间戳误当成天然唯一边界？</p>"
+    },
+    {
+      "order": 30,
+      "id": "D30",
+      "slug": "sd-cdn",
+      "title": "CDN 缓存键、回源与撤销",
+      "englishTitle": "CDN Cache Key",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "流量设计 · 接口与分发",
+      "difficulty": "hard",
+      "tags": [
+        "系统设计",
+        "接口与分发"
+      ],
+      "source": "https://bytebytego.com/guides/what-is-cdn-content-delivery-network/",
+      "references": [
+        {
+          "title": "ByteByteGo · what is cdn content delivery network",
+          "url": "https://bytebytego.com/guides/what-is-cdn-content-delivery-network/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>为公开内容和受权限控制的下载设计 CDN 分发时，哪些请求可以缓存，缓存键应包含什么？</p><p>如何处理回源保护、版本更新和权限撤销，并说明边缘缓存命中与源站鉴权之间的责任边界？</p>"
+    },
+    {
+      "order": 31,
+      "id": "D31",
+      "slug": "sd-database-choice",
+      "title": "按访问模式选择存储",
+      "englishTitle": "OLTP OLAP Database",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "数据设计 · 存储与扩容",
+      "difficulty": "easy",
+      "tags": [
+        "系统设计",
+        "存储与扩容"
+      ],
+      "source": "https://bytebytego.com/guides/how-to-choose-the-right-database/",
+      "references": [
+        {
+          "title": "ByteByteGo · how to choose the right database",
+          "url": "https://bytebytego.com/guides/how-to-choose-the-right-database/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>事务更新、分析聚合、全文检索、文档访问与关系遍历各需要什么查询和一致性能力？</p><p>什么时候可以用单一数据库满足需求，什么时候值得增加专用存储，怎样避免多个系统都被当成同一数据的事实来源？</p>"
+    },
+    {
+      "order": 32,
+      "id": "D32",
+      "slug": "sd-read-replicas",
+      "title": "读写分离与读己之写",
+      "englishTitle": "Read Replica Replication",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "数据设计 · 存储与扩容",
+      "difficulty": "medium",
+      "tags": [
+        "系统设计",
+        "存储与扩容"
+      ],
+      "source": "https://bytebytego.com/guides/how-to-implement-read-replica-pattern/",
+      "references": [
+        {
+          "title": "ByteByteGo · how to implement read replica pattern",
+          "url": "https://bytebytego.com/guides/how-to-implement-read-replica-pattern/"
+        },
+        {
+          "title": "liquidslr 读书笔记 · 第 1 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/01.%20Scaling/Readme.md"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>引入只读副本后，哪些查询可以接受复制延迟，用户刚提交的数据应从哪里读取？</p><p>主库切换和副本落后时，路由层如何选择降级行为，为什么增加读副本不能直接消除写入瓶颈？</p>"
+    },
+    {
+      "order": 33,
+      "id": "D33",
+      "slug": "sd-sharding",
+      "title": "分片键、热点与在线迁移",
+      "englishTitle": "Sharding Rebalancing",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "数据设计 · 存储与扩容",
+      "difficulty": "hard",
+      "tags": [
+        "系统设计",
+        "存储与扩容"
+      ],
+      "source": "https://bytebytego.com/guides/key-concepts-to-understand-database-sharding/",
+      "references": [
+        {
+          "title": "ByteByteGo · key concepts to understand database sharding",
+          "url": "https://bytebytego.com/guides/key-concepts-to-understand-database-sharding/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>按范围、哈希或目录分片各适合什么访问模式，如何比较热点、跨分片查询和路由成本？</p><p>增加分片时，迁移期间的读写归属、数据校验和回退应该如何定义，而不是只修改取模分母？</p>"
+    },
+    {
+      "order": 34,
+      "id": "D34",
+      "slug": "sd-storage-engine",
+      "title": "B-Tree、LSM 与存储引擎取舍",
+      "englishTitle": "B-Tree LSM Compaction",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "数据设计 · 存储与扩容",
+      "difficulty": "medium",
+      "tags": [
+        "系统设计",
+        "存储与扩容"
+      ],
+      "source": "https://bytebytego.com/guides/b-tree-vs/",
+      "references": [
+        {
+          "title": "ByteByteGo · b tree vs",
+          "url": "https://bytebytego.com/guides/b-tree-vs/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>B-Tree 类索引和 LSM 存储组织怎样影响点查、范围查询、写入与空间占用？</p><p>缓存、日志持久化、压实和数据分布会怎样改变实际表现，为什么不能只用“读快”或“写快”一句话完成选型？</p>"
+    },
+    {
+      "order": 35,
+      "id": "D35",
+      "slug": "sd-cache-contract",
+      "title": "缓存读写策略与数据责任",
+      "englishTitle": "Cache Aside Write Through Write Back",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "数据设计 · 存储与扩容",
+      "difficulty": "medium",
+      "tags": [
+        "系统设计",
+        "存储与扩容"
+      ],
+      "source": "https://bytebytego.com/guides/what-are-the-top-caching-strategies/",
+      "references": [
+        {
+          "title": "ByteByteGo · what are the top caching strategies",
+          "url": "https://bytebytego.com/guides/what-are-the-top-caching-strategies/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Cache Aside、Read Through、Write Through 和 Write Back 分别由谁协调缓存与持久化更新？</p><p>如果写入已向调用方确认但持久化仍未完成，故障后会有什么语义，哪些业务不能把可丢失缓存当作唯一事实来源？</p>"
+    },
+    {
+      "order": 36,
+      "id": "D36",
+      "slug": "sd-cap",
+      "title": "CAP、线性一致性与可用性",
+      "englishTitle": "CAP PACELC",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "可靠性设计 · 一致性与事件",
+      "difficulty": "medium",
+      "tags": [
+        "系统设计",
+        "一致性与事件"
+      ],
+      "source": "https://bytebytego.com/guides/cap-theorem-one-of-the-most-misunderstood-terms/",
+      "references": [
+        {
+          "title": "ByteByteGo · cap theorem one of the most misunderstood terms",
+          "url": "https://bytebytego.com/guides/cap-theorem-one-of-the-most-misunderstood-terms/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>网络分区发生时，服务应如何在可用响应与线性一致性要求之间做明确取舍？</p><p>为什么“CAP 任意选两个”不足以决定数据库选型，正常网络下的延迟、一致性与业务约束还需要怎样讨论？</p>"
+    },
+    {
+      "order": 37,
+      "id": "D37",
+      "slug": "sd-delivery",
+      "title": "消息交付与业务恰好一次",
+      "englishTitle": "At Least Once Exactly Once Idempotency",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "可靠性设计 · 一致性与事件",
+      "difficulty": "medium",
+      "tags": [
+        "系统设计",
+        "一致性与事件"
+      ],
+      "source": "https://bytebytego.com/guides/delivery-semantics/",
+      "references": [
+        {
+          "title": "ByteByteGo · delivery semantics",
+          "url": "https://bytebytego.com/guides/delivery-semantics/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>至多一次、至少一次和恰好一次分别在什么处理边界内定义，消息确认与业务提交之间有哪些失败窗口？</p><p>即使中间件提供某种恰好一次能力，调用外部支付或邮件接口时为什么仍要定义幂等、去重和对账？</p>"
+    },
+    {
+      "order": 38,
+      "id": "D38",
+      "slug": "sd-saga",
+      "title": "跨服务事务与 Saga 补偿",
+      "englishTitle": "Saga Distributed Transaction",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "可靠性设计 · 一致性与事件",
+      "difficulty": "hard",
+      "tags": [
+        "系统设计",
+        "一致性与事件"
+      ],
+      "source": "https://bytebytego.com/guides/top-eventual-consistency-patterns-you-must-know/",
+      "references": [
+        {
+          "title": "ByteByteGo · top eventual consistency patterns you must know",
+          "url": "https://bytebytego.com/guides/top-eventual-consistency-patterns-you-must-know/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>一个流程跨多个服务修改数据时，如何划分本地事务并比较集中编排与事件协同？</p><p>补偿动作失败、并发请求和不可逆副作用应怎样处理，为什么业务补偿不等于数据库回滚？</p>"
+    },
+    {
+      "order": 39,
+      "id": "D39",
+      "slug": "sd-event-sourcing",
+      "title": "CQRS、事件溯源与投影重建",
+      "englishTitle": "CQRS Event Sourcing",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "可靠性设计 · 一致性与事件",
+      "difficulty": "hard",
+      "tags": [
+        "系统设计",
+        "一致性与事件"
+      ],
+      "source": "https://bytebytego.com/guides/differences-in-event-sourcing-system-design/",
+      "references": [
+        {
+          "title": "ByteByteGo · differences in event sourcing system design",
+          "url": "https://bytebytego.com/guides/differences-in-event-sourcing-system-design/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>CQRS 与事件溯源分别改变什么设计决策，两者是否必须同时采用？</p><p>事件版本演进、投影重建和快照如何协作，重放历史时怎样避免重新发送通知或再次执行外部扣款？</p>"
+    },
+    {
+      "order": 40,
+      "id": "D40",
+      "slug": "sd-cdc",
+      "title": "CDC 的快照、增量与恢复",
+      "englishTitle": "CDC Snapshot Log",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "可靠性设计 · 一致性与事件",
+      "difficulty": "medium",
+      "tags": [
+        "系统设计",
+        "一致性与事件"
+      ],
+      "source": "https://bytebytego.com/guides/change-data-capture-key-to-leverage-real-time-data/",
+      "references": [
+        {
+          "title": "ByteByteGo · change data capture key to leverage real time data",
+          "url": "https://bytebytego.com/guides/change-data-capture-key-to-leverage-real-time-data/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>通过 CDC 同步数据库变更到搜索或分析存储时，如何衔接全量快照与增量日志，并保存恢复位置？</p><p>重复事件、删除标记、模式变更和日志保留不足时应怎样处理，为什么 CDC 本身不能保证所有下游自动一致？</p>"
+    },
+    {
+      "order": 41,
+      "id": "D41",
+      "slug": "sd-consistent-hashing",
+      "title": "一致性哈希与虚拟节点",
+      "englishTitle": "Consistent Hashing Virtual Nodes",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "分布式机制 · 路由与故障",
+      "difficulty": "medium",
+      "tags": [
+        "系统设计",
+        "路由与故障"
+      ],
+      "source": "https://bytebytego.com/guides/consistent-hashing/",
+      "references": [
+        {
+          "title": "ByteByteGo · consistent hashing",
+          "url": "https://bytebytego.com/guides/consistent-hashing/"
+        },
+        {
+          "title": "liquidslr 读书笔记 · 第 5 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/05.%20Consistent%20Hashing/Readme.md"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>一致性哈希相对于直接取模如何减少成员变化时的数据迁移，虚拟节点又试图改善什么问题？</p><p>遇到单个热 Key、节点能力差异或路由版本不一致时，还需要哪些机制，为什么均匀分布 Key 不等于均匀分布流量？</p>"
+    },
+    {
+      "order": 42,
+      "id": "D42",
+      "slug": "sd-global-id",
+      "title": "分布式唯一 ID 与时钟回拨",
+      "englishTitle": "Snowflake UUID ID Generator",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "分布式机制 · 路由与故障",
+      "difficulty": "medium",
+      "tags": [
+        "系统设计",
+        "路由与故障"
+      ],
+      "source": "https://bytebytego.com/guides/explaining-5-unique-id-generators-in-distributed-systems/",
+      "references": [
+        {
+          "title": "ByteByteGo · explaining 5 unique id generators in distributed systems",
+          "url": "https://bytebytego.com/guides/explaining-5-unique-id-generators-in-distributed-systems/"
+        },
+        {
+          "title": "liquidslr 读书笔记 · 第 7 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/07.%20Unique-Id%20Generator/Readme.md"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>UUID、数据库号段和 Snowflake 类方案在唯一性、顺序性、可用性与信息暴露方面有什么差异？</p><p>机器标识重复、序列耗尽或时钟回拨时应如何保证约定，怎样区分大体按时间排序与严格全局递增？</p>"
+    },
+    {
+      "order": 43,
+      "id": "D43",
+      "slug": "sd-failure-detection",
+      "title": "故障检测、心跳与误判",
+      "englishTitle": "Heartbeat Failure Detection",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "分布式机制 · 路由与故障",
+      "difficulty": "easy",
+      "tags": [
+        "系统设计",
+        "路由与故障"
+      ],
+      "source": "https://bytebytego.com/guides/how-do-we-detect-node-failures-in-distributed-systems/",
+      "references": [
+        {
+          "title": "ByteByteGo · how do we detect node failures in distributed systems",
+          "url": "https://bytebytego.com/guides/how-do-we-detect-node-failures-in-distributed-systems/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>没有按时收到心跳能证明节点已经宕机吗，网络拥塞、进程停顿和时钟差异会怎样影响判断？</p><p>检测超时、摘流和重新接纳应怎样配合，如何权衡快速恢复与错误切换？</p>"
+    },
+    {
+      "order": 44,
+      "id": "D44",
+      "slug": "sd-coordination",
+      "title": "租约、主节点与过期执行者",
+      "englishTitle": "Lease Leader Election Fencing",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "分布式机制 · 路由与故障",
+      "difficulty": "hard",
+      "tags": [
+        "系统设计",
+        "路由与故障"
+      ],
+      "source": "https://bytebytego.com/guides/why-do-we-need-to-use-a-distributed-lock/",
+      "references": [
+        {
+          "title": "ByteByteGo · why do we need to use a distributed lock",
+          "url": "https://bytebytego.com/guides/why-do-we-need-to-use-a-distributed-lock/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>多个节点竞争协调权时，锁、租约与选主分别解决什么问题，客户端长时间停顿后如何判断自己是否仍有资格执行？</p><p>下游资源应怎样拒绝旧持有者的写入，为什么仅续租或比较锁值不一定足以保护业务副作用？</p>"
+    },
+    {
+      "order": 45,
+      "id": "D45",
+      "slug": "sd-disaster-recovery",
+      "title": "跨地域容灾与切回验证",
+      "englishTitle": "RTO RPO Disaster Recovery",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "分布式机制 · 路由与故障",
+      "difficulty": "hard",
+      "tags": [
+        "系统设计",
+        "路由与故障"
+      ],
+      "source": "https://bytebytego.com/guides/cloud-disaster-recovery-strategies/",
+      "references": [
+        {
+          "title": "ByteByteGo · cloud disaster recovery strategies",
+          "url": "https://bytebytego.com/guides/cloud-disaster-recovery-strategies/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>备份恢复、温备与多地域活动部署分别需要哪些数据和流量前提，RTO 与 RPO 应如何定义和验证？</p><p>地域切换后怎样防止旧站继续写入，如何处理数据追平和切回，为什么复制副本不能替代可恢复备份？</p>"
+    },
+    {
+      "order": 46,
+      "id": "D46",
+      "slug": "sd-durable-kv",
+      "title": "设计持久化分布式键值库",
+      "englishTitle": "Durable Key Value Quorum",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "基础设施 · 完整系统设计",
+      "difficulty": "hard",
+      "tags": [
+        "系统设计",
+        "完整系统设计"
+      ],
+      "source": "https://github.com/liquidslr/system-design-notes/blob/main/06.%20Key-Value%20Store/Readme.md",
+      "references": [
+        {
+          "title": "liquidslr 读书笔记 · 第 6 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/06.%20Key-Value%20Store/Readme.md"
+        },
+        {
+          "title": "ByteByteGo · cap theorem one of the most misunderstood terms",
+          "url": "https://bytebytego.com/guides/cap-theorem-one-of-the-most-misunderstood-terms/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>如果键值库必须保存不可重新计算的业务数据，而不只是缓存，写入确认、复制和恢复需要怎样的保证？</p><p>如何设计版本、冲突处理与反熵修复，为什么读写 quorum 相交并不独立证明所有并发和故障场景下都线性一致？</p>"
+    },
+    {
+      "order": 47,
+      "id": "D47",
+      "slug": "sd-log-queue",
+      "title": "设计可重放的分布式消息队列",
+      "englishTitle": "Distributed Message Queue Log",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "基础设施 · 完整系统设计",
+      "difficulty": "hard",
+      "tags": [
+        "系统设计",
+        "完整系统设计"
+      ],
+      "source": "https://github.com/liquidslr/system-design-notes/blob/main/19.%20Distributed%20Message%20Queue/README.md",
+      "references": [
+        {
+          "title": "liquidslr 读书笔记 · 第 19 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/19.%20Distributed%20Message%20Queue/README.md"
+        },
+        {
+          "title": "ByteByteGo · delivery semantics",
+          "url": "https://bytebytego.com/guides/delivery-semantics/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>为多个独立消费者提供可重放事件日志时，应如何设计主题、分区、副本、消费位点和保留策略？</p><p>生产确认、消费者提交及分区领导者切换分别有哪些故障窗口，慢消费者和重新分配时如何控制积压与重复处理？</p>"
+    },
+    {
+      "order": 48,
+      "id": "D48",
+      "slug": "sd-object-store",
+      "title": "设计对象存储的内部服务",
+      "englishTitle": "Object Storage Metadata Erasure Coding",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "基础设施 · 完整系统设计",
+      "difficulty": "hard",
+      "tags": [
+        "系统设计",
+        "完整系统设计"
+      ],
+      "source": "https://github.com/liquidslr/system-design-notes/blob/main/24.%20S3-like%20Object%20Storage/README.md",
+      "references": [
+        {
+          "title": "liquidslr 读书笔记 · 第 24 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/24.%20S3-like%20Object%20Storage/README.md"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>从存储服务提供方而不是上传 API 使用方出发，如何拆分对象元数据、数据块、放置与修复职责？</p><p>多副本与纠删码在读写、恢复和成本上如何取舍，怎样处理元数据已提交但部分数据写入失败或删除尚未完成？</p>"
+    },
+    {
+      "order": 49,
+      "id": "D49",
+      "slug": "sd-metrics-platform",
+      "title": "设计时序指标监控平台",
+      "englishTitle": "Metrics Monitoring Time Series",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "基础设施 · 完整系统设计",
+      "difficulty": "medium",
+      "tags": [
+        "系统设计",
+        "完整系统设计"
+      ],
+      "source": "https://github.com/liquidslr/system-design-notes/blob/main/20.%20Metrics%20Monitoring%20and%20Alerting%20System/README.md",
+      "references": [
+        {
+          "title": "liquidslr 读书笔记 · 第 20 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/20.%20Metrics%20Monitoring%20and%20Alerting%20System/README.md"
+        },
+        {
+          "title": "ByteByteGo · change data capture key to leverage real time data",
+          "url": "https://bytebytego.com/guides/change-data-capture-key-to-leverage-real-time-data/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>为大量服务采集指标时，拉取与推送各有哪些服务发现、生命周期和缓冲要求？</p><p>时间序列标签基数、保留期限、降采样和查询如何影响存储预算，采集链路失效时怎样避免把没有数据当成业务正常？</p>"
+    },
+    {
+      "order": 50,
+      "id": "D50",
+      "slug": "sd-web-crawler",
+      "title": "设计分布式网页爬虫",
+      "englishTitle": "Web Crawler Frontier Deduplication",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "基础设施 · 完整系统设计",
+      "difficulty": "medium",
+      "tags": [
+        "系统设计",
+        "完整系统设计"
+      ],
+      "source": "https://github.com/liquidslr/system-design-notes/blob/main/09.%20Web%20Crawler/Readme.md",
+      "references": [
+        {
+          "title": "liquidslr 读书笔记 · 第 9 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/09.%20Web%20Crawler/Readme.md"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>在只抓取获准公开网页的前提下，如何设计 URL 调度、域名级礼貌限速、重复检测和重新抓取策略？</p><p>robots 规则、重定向环、重复内容和解析失败应怎样处理，如何避免单一站点或无限链接空间耗尽整个抓取预算？</p>"
+    },
+    {
+      "order": 51,
+      "id": "D51",
+      "slug": "sd-autocomplete",
+      "title": "设计搜索联想服务",
+      "englishTitle": "Search Autocomplete Trie",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "空间与检索 · 场景设计",
+      "difficulty": "medium",
+      "tags": [
+        "系统设计",
+        "场景设计"
+      ],
+      "source": "https://github.com/liquidslr/system-design-notes/blob/main/13.%20Search%20Autocomplete/Readme.md",
+      "references": [
+        {
+          "title": "liquidslr 读书笔记 · 第 13 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/13.%20Search%20Autocomplete/Readme.md"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>用户每输入一个前缀就需要返回候选词时，如何设计前缀索引、候选排序和在线查询路径？</p><p>热词更新、语言归一化、敏感词移除与个性化会怎样影响缓存及索引更新，如何避免把私人输入暴露给其他用户？</p>"
+    },
+    {
+      "order": 52,
+      "id": "D52",
+      "slug": "sd-nearby-business",
+      "title": "设计附近商家查询",
+      "englishTitle": "Proximity Service Geohash Quadtree",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "空间与检索 · 场景设计",
+      "difficulty": "medium",
+      "tags": [
+        "系统设计",
+        "场景设计"
+      ],
+      "source": "https://github.com/liquidslr/system-design-notes/blob/main/16.%20Proximity%20Service/Readme.md",
+      "references": [
+        {
+          "title": "liquidslr 读书笔记 · 第 16 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/16.%20Proximity%20Service/Readme.md"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>查询指定半径内的商家时，如何比较网格、Geohash 与四叉树等空间索引？</p><p>跨网格边界、半径扩大及距离排序应怎样处理，营业状态变化和商家位置变更又如何与相对静态的位置索引协作？</p>"
+    },
+    {
+      "order": 53,
+      "id": "D53",
+      "slug": "sd-nearby-friends",
+      "title": "设计附近好友的位置共享",
+      "englishTitle": "Nearby Friends Location Privacy",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "空间与检索 · 场景设计",
+      "difficulty": "hard",
+      "tags": [
+        "系统设计",
+        "场景设计"
+      ],
+      "source": "https://github.com/liquidslr/system-design-notes/blob/main/17.%20Nearby%20Friends/README.md",
+      "references": [
+        {
+          "title": "liquidslr 读书笔记 · 第 17 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/17.%20Nearby%20Friends/README.md"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>好友持续上报位置并订阅彼此距离变化时，如何设计在线连接、位置过期与订阅分发？</p><p>好友关系或共享权限变更后怎样及时撤销可见性，并在重连、多设备和热点用户场景下控制扇出成本？</p>"
+    },
+    {
+      "order": 54,
+      "id": "D54",
+      "slug": "sd-map-routing",
+      "title": "设计地图导航与路径服务",
+      "englishTitle": "Maps Navigation Routing ETA",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "空间与检索 · 场景设计",
+      "difficulty": "hard",
+      "tags": [
+        "系统设计",
+        "场景设计"
+      ],
+      "source": "https://github.com/liquidslr/system-design-notes/blob/main/18.%20Google%20Maps/README.md",
+      "references": [
+        {
+          "title": "liquidslr 读书笔记 · 第 18 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/18.%20Google%20Maps/README.md"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>地图展示、路径规划、导航指令与预计到达时间需要哪些不同数据和计算链路？</p><p>路网分区、实时路况与地图版本更新怎样影响路线结果，偏航重算和跨区域查询应如何在延迟与准确性之间取舍？</p>"
+    },
+    {
+      "order": 55,
+      "id": "D55",
+      "slug": "sd-hotel-inventory",
+      "title": "设计酒店多日库存预订",
+      "englishTitle": "Hotel Reservation Inventory",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "空间与检索 · 场景设计",
+      "difficulty": "hard",
+      "tags": [
+        "系统设计",
+        "场景设计"
+      ],
+      "source": "https://github.com/liquidslr/system-design-notes/blob/main/22.%20Hotel%20Reservation%20System/README.md",
+      "references": [
+        {
+          "title": "liquidslr 读书笔记 · 第 22 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/22.%20Hotel%20Reservation%20System/README.md"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>酒店按房型和日期管理库存时，如何判断一个跨多晚的入住区间是否可预订，并原子地占用所需日期的库存？</p><p>报价过期、超时释放、重复预订与取消应如何协作，这与锁定某个固定座位有什么数据模型差异？</p>"
+    },
+    {
+      "order": 56,
+      "id": "D56",
+      "slug": "sd-ad-clicks",
+      "title": "设计广告点击聚合与结算数据",
+      "englishTitle": "Ad Click Aggregation Event Time",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "业务系统 · 交易与内容",
+      "difficulty": "hard",
+      "tags": [
+        "系统设计",
+        "交易与内容"
+      ],
+      "source": "https://github.com/liquidslr/system-design-notes/blob/main/21.%20Ad%20Click%20Event%20Aggregation/README.md",
+      "references": [
+        {
+          "title": "liquidslr 读书笔记 · 第 21 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/21.%20Ad%20Click%20Event%20Aggregation/README.md"
+        },
+        {
+          "title": "ByteByteGo · delivery semantics",
+          "url": "https://bytebytego.com/guides/delivery-semantics/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>广告点击事件需要同时服务实时报表和后续结算时，应如何定义事件身份、时间窗口与事实来源？</p><p>重复、迟到、异常流量和历史修正如何进入计算链路，在线聚合与离线重算应怎样核对并解释差异？</p>"
+    },
+    {
+      "order": 57,
+      "id": "D57",
+      "slug": "sd-file-sync",
+      "title": "设计多设备文件同步服务",
+      "englishTitle": "File Sync Delta Conflict",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "业务系统 · 交易与内容",
+      "difficulty": "medium",
+      "tags": [
+        "系统设计",
+        "交易与内容"
+      ],
+      "source": "https://github.com/liquidslr/system-design-notes/blob/main/15.%20Google%20Drive/Readme.md",
+      "references": [
+        {
+          "title": "liquidslr 读书笔记 · 第 15 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/15.%20Google%20Drive/Readme.md"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>同一用户在多台设备离线修改、重命名或删除文件后，如何发现变化、传输差量并恢复同步？</p><p>二进制文件冲突、重复事件、版本回退和共享权限变化应如何处理，为什么上传完成与所有设备已收敛不是同一状态？</p>"
+    },
+    {
+      "order": 58,
+      "id": "D58",
+      "slug": "sd-email-service",
+      "title": "设计邮件投递与邮箱服务",
+      "englishTitle": "Email SMTP Mailbox",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "业务系统 · 交易与内容",
+      "difficulty": "hard",
+      "tags": [
+        "系统设计",
+        "交易与内容"
+      ],
+      "source": "https://github.com/liquidslr/system-design-notes/blob/main/23.%20Distributed%20Email%20Service/README.md",
+      "references": [
+        {
+          "title": "liquidslr 读书笔记 · 第 23 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/23.%20Distributed%20Email%20Service/README.md"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>如果服务不仅触发通知，还要接收邮件、保存邮箱并提供多设备访问，应如何划分发送、接收、存储和检索链路？</p><p>对方服务器暂不可达、附件过大、重复投递及垃圾邮件会怎样影响状态与重试，哪些结果只能表示已接受而不是最终送达？</p>"
+    },
+    {
+      "order": 59,
+      "id": "D59",
+      "slug": "sd-digital-wallet",
+      "title": "设计数字钱包与内部转账账本",
+      "englishTitle": "Digital Wallet Ledger Reconciliation",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "业务系统 · 交易与内容",
+      "difficulty": "hard",
+      "tags": [
+        "系统设计",
+        "交易与内容"
+      ],
+      "source": "https://github.com/liquidslr/system-design-notes/blob/main/27.%20%20Digital%20Wallet/README.md",
+      "references": [
+        {
+          "title": "liquidslr 读书笔记 · 第 27 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/27.%20%20Digital%20Wallet/README.md"
+        },
+        {
+          "title": "liquidslr 读书笔记 · 第 26 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/26.%20Payment%20System/README.md"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>为用户提供内部余额转账时，如何定义账户、不可变流水、可用余额与冻结金额之间的关系？</p><p>跨分片转账、重复请求和结果未知时怎样维护守恒及审计能力，为什么不能只依靠两次独立余额更新？</p>"
+    },
+    {
+      "order": 60,
+      "id": "D60",
+      "slug": "sd-stock-exchange",
+      "title": "设计低延迟交易撮合系统",
+      "englishTitle": "Stock Exchange Order Book Matching",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "业务系统 · 交易与内容",
+      "difficulty": "hard",
+      "tags": [
+        "系统设计",
+        "交易与内容"
+      ],
+      "source": "https://github.com/liquidslr/system-design-notes/blob/main/28.%20Stock%20Exchange/README.md",
+      "references": [
+        {
+          "title": "liquidslr 读书笔记 · 第 28 章",
+          "url": "https://github.com/liquidslr/system-design-notes/blob/main/28.%20Stock%20Exchange/README.md"
+        },
+        {
+          "title": "ByteByteGo · which latency numbers should you know",
+          "url": "https://bytebytego.com/guides/which-latency-numbers-should-you-know/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>一个交易场所需要接收订单、撤单并按约定规则撮合时，订单排序、风险检查与订单簿应如何分工？</p><p>如何比较单写入者、持久化日志、行情分发及故障恢复的延迟成本，并在切换或重放后保持可验证的确定性？</p>"
     }
   ]
 }

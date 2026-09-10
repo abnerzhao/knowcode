@@ -1,0 +1,1288 @@
+{
+  "version": 1,
+  "name": "数据结构与算法",
+  "kind": "discussion",
+  "source": "https://algs4.cs.princeton.edu/14analysis/",
+  "fetchedAt": "2026-09-10T00:00:00.000Z",
+  "editorialNote": "本站原创复习问题，共 50 题，分为 10 组。涵盖基础结构、复杂度与正确性、常用算法思想和综合面试场景，与现有编程题册互补。依据 Princeton 教材、MIT 课程与作者教材；引用语言 API 时以 Java 17 为例，数学模型与语言实现边界需区分。只提供问题与空白思路草稿，不附答案；难度为本站分级，不代表企业真题或频率统计。",
+  "groups": [
+    {
+      "name": "基础 · 复杂度与正确性",
+      "count": 5
+    },
+    {
+      "name": "结构 · 数组与链表",
+      "count": 5
+    },
+    {
+      "name": "结构 · 哈希与集合",
+      "count": 5
+    },
+    {
+      "name": "结构 · 树与堆",
+      "count": 5
+    },
+    {
+      "name": "结构 · 图与并查集",
+      "count": 5
+    },
+    {
+      "name": "算法 · 排序与二分",
+      "count": 5
+    },
+    {
+      "name": "算法 · 双指针与区间",
+      "count": 5
+    },
+    {
+      "name": "算法 · 搜索与动态规划",
+      "count": 5
+    },
+    {
+      "name": "结构 · 字符串与索引",
+      "count": 5
+    },
+    {
+      "name": "应用 · 综合面试场景",
+      "count": 5
+    }
+  ],
+  "questions": [
+    {
+      "order": 1,
+      "id": "DSA01",
+      "slug": "dsa-complexity",
+      "title": "时间复杂度与空间复杂度",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "基础 · 复杂度与正确性",
+      "difficulty": "easy",
+      "tags": [
+        "数据结构与算法",
+        "复杂度与正确性"
+      ],
+      "source": "https://algs4.cs.princeton.edu/14analysis/",
+      "references": [
+        {
+          "title": "Princeton · 算法分析",
+          "url": "https://algs4.cs.princeton.edu/14analysis/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>如何区分算法的输入规模、基本操作次数与渐进复杂度，为什么运行时间短不一定代表复杂度更低？</p><p>分析空间时，如何区分输入占用、辅助空间和递归调用栈？</p>"
+    },
+    {
+      "order": 2,
+      "id": "DSA02",
+      "slug": "dsa-bounds",
+      "title": "最好、最坏、平均与均摊复杂度",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "基础 · 复杂度与正确性",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "复杂度与正确性"
+      ],
+      "source": "https://algs4.cs.princeton.edu/14analysis/",
+      "references": [
+        {
+          "title": "Princeton · 算法分析",
+          "url": "https://algs4.cs.princeton.edu/14analysis/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>最好、最坏、平均和均摊复杂度分别描述什么，平均复杂度依赖什么输入假设？</p><p>动态数组追加时偶尔扩容，为什么单次最坏开销与一串操作的均摊开销可以不同？</p>"
+    },
+    {
+      "order": 3,
+      "id": "DSA03",
+      "slug": "dsa-invariants",
+      "title": "循环不变量与算法正确性",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "基础 · 复杂度与正确性",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "复杂度与正确性"
+      ],
+      "source": "https://algs4.cs.princeton.edu/14analysis/",
+      "references": [
+        {
+          "title": "Princeton · 算法分析",
+          "url": "https://algs4.cs.princeton.edu/14analysis/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>循环不变量应如何描述初始化、保持和终止三个阶段，边界条件为什么属于正确性的一部分？</p><p>如何用有序数组查找或数组分区的过程说明算法没有遗漏或重复处理元素？</p>"
+    },
+    {
+      "order": 4,
+      "id": "DSA04",
+      "slug": "dsa-recursion",
+      "title": "递归、递推与调用栈",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "基础 · 复杂度与正确性",
+      "difficulty": "easy",
+      "tags": [
+        "数据结构与算法",
+        "复杂度与正确性"
+      ],
+      "source": "https://algs4.cs.princeton.edu/14analysis/",
+      "references": [
+        {
+          "title": "Princeton · 算法分析",
+          "url": "https://algs4.cs.princeton.edu/14analysis/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>递归算法需要哪些终止条件，递推关系与实际函数调用树有什么区别？</p><p>如何判断递归深度及调用栈占用，改写为显式栈后是否一定减少渐进空间复杂度？</p>"
+    },
+    {
+      "order": 5,
+      "id": "DSA05",
+      "slug": "dsa-tradeoffs",
+      "title": "算法选型与时间空间权衡",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "基础 · 复杂度与正确性",
+      "difficulty": "hard",
+      "tags": [
+        "数据结构与算法",
+        "复杂度与正确性"
+      ],
+      "source": "https://algs4.cs.princeton.edu/14analysis/",
+      "references": [
+        {
+          "title": "Princeton · 算法分析",
+          "url": "https://algs4.cs.princeton.edu/14analysis/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>输入规模、数据分布、是否允许修改输入以及内存上限会怎样影响算法选择？</p><p>当一个算法渐进复杂度更好却实际更慢时，应如何设计对照测试并解释结果？</p>"
+    },
+    {
+      "order": 6,
+      "id": "DSA06",
+      "slug": "dsa-arrays-lists",
+      "title": "数组、动态数组与链表",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 数组与链表",
+      "difficulty": "easy",
+      "tags": [
+        "数据结构与算法",
+        "数组与链表"
+      ],
+      "source": "https://algs4.cs.princeton.edu/13stacks/",
+      "references": [
+        {
+          "title": "Princeton · 栈、队列与线性容器",
+          "url": "https://algs4.cs.princeton.edu/13stacks/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>数组与链表在随机访问、插入删除、内存布局和局部性上有什么差异？</p><p>声称链表插入或删除是 O(1) 时，需要事先已知什么位置或节点？</p>"
+    },
+    {
+      "order": 7,
+      "id": "DSA07",
+      "slug": "dsa-list-reversal",
+      "title": "链表反转与指针边界",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 数组与链表",
+      "difficulty": "easy",
+      "tags": [
+        "数据结构与算法",
+        "数组与链表"
+      ],
+      "source": "https://algs4.cs.princeton.edu/13stacks/",
+      "references": [
+        {
+          "title": "Princeton · 栈、队列与线性容器",
+          "url": "https://algs4.cs.princeton.edu/13stacks/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>如何设计单链表的原地反转，并说明每个指针在迭代中的含义？</p><p>空链表、单节点与局部区间反转分别有哪些连接边界，如何避免断链或产生环？</p>"
+    },
+    {
+      "order": 8,
+      "id": "DSA08",
+      "slug": "dsa-fast-slow",
+      "title": "快慢指针与环入口",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 数组与链表",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "数组与链表"
+      ],
+      "source": "https://algs4.cs.princeton.edu/13stacks/",
+      "references": [
+        {
+          "title": "Princeton · 栈、队列与线性容器",
+          "url": "https://algs4.cs.princeton.edu/13stacks/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>快慢指针如何用于判断单链表是否有环，为什么仅凭节点值相等不能判断相遇？</p><p>检测到环后如何定位入口，并解释指针移动关系及时间空间复杂度？</p>"
+    },
+    {
+      "order": 9,
+      "id": "DSA09",
+      "slug": "dsa-stack-queue",
+      "title": "栈、队列与双端队列",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 数组与链表",
+      "difficulty": "easy",
+      "tags": [
+        "数据结构与算法",
+        "数组与链表"
+      ],
+      "source": "https://algs4.cs.princeton.edu/13stacks/",
+      "references": [
+        {
+          "title": "Princeton · 栈、队列与线性容器",
+          "url": "https://algs4.cs.princeton.edu/13stacks/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>栈、队列和双端队列各允许哪些插入删除操作，分别适合什么访问顺序？</p><p>用两个栈实现队列时，单次出队的最坏复杂度与均摊复杂度如何区分？</p>"
+    },
+    {
+      "order": 10,
+      "id": "DSA10",
+      "slug": "dsa-monotonic",
+      "title": "单调栈与单调队列",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 数组与链表",
+      "difficulty": "hard",
+      "tags": [
+        "数据结构与算法",
+        "数组与链表"
+      ],
+      "source": "https://cses.fi/book/book.pdf",
+      "references": [
+        {
+          "title": "Antti Laaksonen · Competitive Programmer’s Handbook",
+          "url": "https://cses.fi/book/book.pdf"
+        },
+        {
+          "title": "Princeton · 栈、队列与线性容器",
+          "url": "https://algs4.cs.princeton.edu/13stacks/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>寻找下一个更大元素与维护滑动窗口最大值时，应如何选择单调栈或单调队列？</p><p>如何处理重复元素和过期下标，并证明虽然存在嵌套循环，总操作次数仍可以是线性的？</p>"
+    },
+    {
+      "order": 11,
+      "id": "DSA11",
+      "slug": "dsa-hashing",
+      "title": "哈希表与冲突处理",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 哈希与集合",
+      "difficulty": "easy",
+      "tags": [
+        "数据结构与算法",
+        "哈希与集合"
+      ],
+      "source": "https://algs4.cs.princeton.edu/34hash/",
+      "references": [
+        {
+          "title": "Princeton · 哈希表",
+          "url": "https://algs4.cs.princeton.edu/34hash/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>哈希函数、桶、冲突和负载因子分别是什么，拉链法与开放寻址如何处理冲突？</p><p>哈希表平均查询接近 O(1) 依赖哪些条件，最坏情况下又可能怎样？</p>"
+    },
+    {
+      "order": 12,
+      "id": "DSA12",
+      "slug": "dsa-hash-contract",
+      "title": "相等性、哈希值与可变键",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 哈希与集合",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "哈希与集合"
+      ],
+      "source": "https://algs4.cs.princeton.edu/34hash/",
+      "references": [
+        {
+          "title": "Princeton · 哈希表",
+          "url": "https://algs4.cs.princeton.edu/34hash/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>作为哈希表键的对象应如何约束相等判断与哈希值，哈希值相同是否意味着键相同？</p><p>插入后修改参与相等判断的字段，可能怎样影响查询和删除？</p>"
+    },
+    {
+      "order": 13,
+      "id": "DSA13",
+      "slug": "dsa-rehashing",
+      "title": "扩容、删除与重哈希",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 哈希与集合",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "哈希与集合"
+      ],
+      "source": "https://algs4.cs.princeton.edu/34hash/",
+      "references": [
+        {
+          "title": "Princeton · 哈希表",
+          "url": "https://algs4.cs.princeton.edu/34hash/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>哈希表扩容时为什么通常需要重新安排元素，如何分析批量插入的均摊开销？</p><p>开放寻址中直接清空被删除位置可能破坏什么性质，应怎样维持查找链？</p>"
+    },
+    {
+      "order": 14,
+      "id": "DSA14",
+      "slug": "dsa-set-counting",
+      "title": "集合去重与频次统计",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 哈希与集合",
+      "difficulty": "easy",
+      "tags": [
+        "数据结构与算法",
+        "哈希与集合"
+      ],
+      "source": "https://algs4.cs.princeton.edu/34hash/",
+      "references": [
+        {
+          "title": "Princeton · 哈希表",
+          "url": "https://algs4.cs.princeton.edu/34hash/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>只判断元素存在与统计出现次数时，应如何选择集合或计数映射？</p><p>处理重复值、零次计数和空输入时，哪些细节会影响两数配对、字符统计或交集问题的正确性？</p>"
+    },
+    {
+      "order": 15,
+      "id": "DSA15",
+      "slug": "dsa-ordered-map",
+      "title": "有序映射与哈希表选型",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 哈希与集合",
+      "difficulty": "hard",
+      "tags": [
+        "数据结构与算法",
+        "哈希与集合"
+      ],
+      "source": "https://algs4.cs.princeton.edu/32bst/",
+      "references": [
+        {
+          "title": "Princeton · 二叉搜索树",
+          "url": "https://algs4.cs.princeton.edu/32bst/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>需要范围查询、前驱后继或有序遍历时，哈希表与平衡搜索树有什么取舍？</p><p>在强调可预测最坏延迟或遭遇大量冲突的场景中，应怎样重新评估数据结构选择？</p>"
+    },
+    {
+      "order": 16,
+      "id": "DSA16",
+      "slug": "dsa-tree-traversal",
+      "title": "二叉树遍历与显式栈",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 树与堆",
+      "difficulty": "easy",
+      "tags": [
+        "数据结构与算法",
+        "树与堆"
+      ],
+      "source": "https://algs4.cs.princeton.edu/32bst/",
+      "references": [
+        {
+          "title": "Princeton · 二叉搜索树",
+          "url": "https://algs4.cs.princeton.edu/32bst/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>前序、中序、后序和层序遍历的访问顺序分别是什么，递归实现需要保存哪些状态？</p><p>如何改写为迭代形式，并根据树高或最大层宽分析辅助空间？</p>"
+    },
+    {
+      "order": 17,
+      "id": "DSA17",
+      "slug": "dsa-bst",
+      "title": "二叉搜索树与退化",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 树与堆",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "树与堆"
+      ],
+      "source": "https://algs4.cs.princeton.edu/32bst/",
+      "references": [
+        {
+          "title": "Princeton · 二叉搜索树",
+          "url": "https://algs4.cs.princeton.edu/32bst/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>二叉搜索树应保持什么有序性质，插入和删除会如何维护它？</p><p>为什么普通搜索树可能退化成链，查找复杂度应按树高而不是无条件按 log n 描述？</p>"
+    },
+    {
+      "order": 18,
+      "id": "DSA18",
+      "slug": "dsa-balanced-tree",
+      "title": "平衡树与旋转",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 树与堆",
+      "difficulty": "hard",
+      "tags": [
+        "数据结构与算法",
+        "树与堆"
+      ],
+      "source": "https://algs4.cs.princeton.edu/33balanced/",
+      "references": [
+        {
+          "title": "Princeton · 平衡搜索树",
+          "url": "https://algs4.cs.princeton.edu/33balanced/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>平衡搜索树通过什么约束限制高度，旋转为什么能够改变结构而保持中序顺序？</p><p>AVL 与红黑树在平衡约束、更新成本和适用场景上有哪些比较维度？</p>"
+    },
+    {
+      "order": 19,
+      "id": "DSA19",
+      "slug": "dsa-heap",
+      "title": "二叉堆与优先队列",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 树与堆",
+      "difficulty": "easy",
+      "tags": [
+        "数据结构与算法",
+        "树与堆"
+      ],
+      "source": "https://algs4.cs.princeton.edu/24pq/",
+      "references": [
+        {
+          "title": "Princeton · 优先队列",
+          "url": "https://algs4.cs.princeton.edu/24pq/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>二叉堆需要满足什么结构和顺序性质，它是否保证整个数组有序？</p><p>插入、取出堆顶和查找任意元素的代价如何区分，最小堆与最大堆分别适合什么需求？</p>"
+    },
+    {
+      "order": 20,
+      "id": "DSA20",
+      "slug": "dsa-heapify",
+      "title": "建堆、Top K 与动态中位数",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 树与堆",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "树与堆"
+      ],
+      "source": "https://algs4.cs.princeton.edu/24pq/",
+      "references": [
+        {
+          "title": "Princeton · 优先队列",
+          "url": "https://algs4.cs.princeton.edu/24pq/"
+        },
+        {
+          "title": "Antti Laaksonen · Competitive Programmer’s Handbook",
+          "url": "https://cses.fi/book/book.pdf"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>自底向上建堆与逐个插入建堆的复杂度有什么差异，如何解释差异来源？</p><p>处理 Top K 或持续到达的数据中位数时，堆中应保留什么元素并维护什么不变量？</p>"
+    },
+    {
+      "order": 21,
+      "id": "DSA21",
+      "slug": "dsa-graph-model",
+      "title": "图的表示与遍历",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 图与并查集",
+      "difficulty": "easy",
+      "tags": [
+        "数据结构与算法",
+        "图与并查集"
+      ],
+      "source": "https://algs4.cs.princeton.edu/41graph/",
+      "references": [
+        {
+          "title": "Princeton · 无向图",
+          "url": "https://algs4.cs.princeton.edu/41graph/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>邻接矩阵与邻接表的空间及遍历成本分别如何随顶点数和边数变化？</p><p>如何区分有向图、无向图、连通性和环，并保证 DFS 或 BFS 不会重复访问同一顶点？</p>"
+    },
+    {
+      "order": 22,
+      "id": "DSA22",
+      "slug": "dsa-bfs-path",
+      "title": "BFS 与无权最短路径",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 图与并查集",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "图与并查集"
+      ],
+      "source": "https://algs4.cs.princeton.edu/41graph/",
+      "references": [
+        {
+          "title": "Princeton · 无向图",
+          "url": "https://algs4.cs.princeton.edu/41graph/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>为什么 BFS 可以求无权图或等权边图的最少边数路径，DFS 能否直接保证这一点？</p><p>如何保存路径并处理不可达顶点，多源 BFS 的初始化又有什么不同？</p>"
+    },
+    {
+      "order": 23,
+      "id": "DSA23",
+      "slug": "dsa-topological",
+      "title": "拓扑排序与依赖环",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 图与并查集",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "图与并查集"
+      ],
+      "source": "https://algs4.cs.princeton.edu/42digraph/",
+      "references": [
+        {
+          "title": "Princeton · 有向图",
+          "url": "https://algs4.cs.princeton.edu/42digraph/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>拓扑排序适用于什么类型的图，入度法与 DFS 方法分别如何检测依赖环？</p><p>结果不唯一意味着什么，如何解释无法处理所有顶点的情况？</p>"
+    },
+    {
+      "order": 24,
+      "id": "DSA24",
+      "slug": "dsa-shortest-path",
+      "title": "Dijkstra、负权边与最短路径",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 图与并查集",
+      "difficulty": "hard",
+      "tags": [
+        "数据结构与算法",
+        "图与并查集"
+      ],
+      "source": "https://algs4.cs.princeton.edu/44sp/",
+      "references": [
+        {
+          "title": "Princeton · 最短路径",
+          "url": "https://algs4.cs.princeton.edu/44sp/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Dijkstra 对边权有什么前提，为什么不能直接套用到含负权边的图？</p><p>Bellman–Ford 如何处理负权及可达负环，选择算法时如何结合图规模与是否需要所有点对路径？</p>"
+    },
+    {
+      "order": 25,
+      "id": "DSA25",
+      "slug": "dsa-union-find",
+      "title": "并查集与动态连通性",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 图与并查集",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "图与并查集"
+      ],
+      "source": "https://algs4.cs.princeton.edu/15uf/",
+      "references": [
+        {
+          "title": "Princeton · 并查集",
+          "url": "https://algs4.cs.princeton.edu/15uf/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>并查集的 find 与 union 各表示什么，路径压缩和按秩或大小合并如何影响开销？</p><p>它适合哪些连通性问题，又为什么不能直接支持任意删边后的连通性查询？</p>"
+    },
+    {
+      "order": 26,
+      "id": "DSA26",
+      "slug": "dsa-sort-properties",
+      "title": "排序稳定性与原地排序",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "算法 · 排序与二分",
+      "difficulty": "easy",
+      "tags": [
+        "数据结构与算法",
+        "排序与二分"
+      ],
+      "source": "https://algs4.cs.princeton.edu/21elementary/",
+      "references": [
+        {
+          "title": "Princeton · 基础排序",
+          "url": "https://algs4.cs.princeton.edu/21elementary/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>稳定排序保留的是什么相对顺序，它与算法是否原地有什么区别？</p><p>多字段排序、对象排序或额外空间受限时，这些性质会如何影响选择？</p>"
+    },
+    {
+      "order": 27,
+      "id": "DSA27",
+      "slug": "dsa-quick-merge",
+      "title": "快速排序与归并排序",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "算法 · 排序与二分",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "排序与二分"
+      ],
+      "source": "https://algs4.cs.princeton.edu/23quicksort/",
+      "references": [
+        {
+          "title": "Princeton · 快速排序",
+          "url": "https://algs4.cs.princeton.edu/23quicksort/"
+        },
+        {
+          "title": "Princeton · 归并排序",
+          "url": "https://algs4.cs.princeton.edu/22mergesort/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>快速排序与归并排序如何划分和合并子问题，平均与最坏复杂度各有什么前提？</p><p>大量重复值或已排序输入会带来哪些风险，如何讨论随机化、稳定性与额外空间？</p>"
+    },
+    {
+      "order": 28,
+      "id": "DSA28",
+      "slug": "dsa-counting-radix",
+      "title": "计数排序、基数排序与下界",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "算法 · 排序与二分",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "排序与二分"
+      ],
+      "source": "https://algs4.cs.princeton.edu/51radix/",
+      "references": [
+        {
+          "title": "Princeton · 字符串排序",
+          "url": "https://algs4.cs.princeton.edu/51radix/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>基于比较的排序下界适用于什么计算模型，计数排序和基数排序为什么不与该下界矛盾？</p><p>它们对键范围、位数和辅助排序稳定性分别有哪些要求？</p>"
+    },
+    {
+      "order": 29,
+      "id": "DSA29",
+      "slug": "dsa-binary-boundary",
+      "title": "二分查找与左右边界",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "算法 · 排序与二分",
+      "difficulty": "easy",
+      "tags": [
+        "数据结构与算法",
+        "排序与二分"
+      ],
+      "source": "https://algs4.cs.princeton.edu/14analysis/",
+      "references": [
+        {
+          "title": "Princeton · 算法分析",
+          "url": "https://algs4.cs.princeton.edu/14analysis/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>二分查找如何定义区间、循环条件和中点更新，闭区间与半开区间能否混用？</p><p>如何查找重复值的最左或最右位置，并验证空数组、越界目标和全部相同元素？</p>"
+    },
+    {
+      "order": 30,
+      "id": "DSA30",
+      "slug": "dsa-binary-answer",
+      "title": "二分答案与单调判定",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "算法 · 排序与二分",
+      "difficulty": "hard",
+      "tags": [
+        "数据结构与算法",
+        "排序与二分"
+      ],
+      "source": "https://cses.fi/book/book.pdf",
+      "references": [
+        {
+          "title": "Antti Laaksonen · Competitive Programmer’s Handbook",
+          "url": "https://cses.fi/book/book.pdf"
+        },
+        {
+          "title": "Princeton · 算法分析",
+          "url": "https://algs4.cs.princeton.edu/14analysis/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>把最小可行容量或最小最大值问题转成对最优值的二分查找，需要证明什么单调性？</p><p>怎样确定搜索上下界、设计可行性检查，并把检查成本计入总复杂度？</p>"
+    },
+    {
+      "order": 31,
+      "id": "DSA31",
+      "slug": "dsa-two-pointers",
+      "title": "双指针的移动依据",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "算法 · 双指针与区间",
+      "difficulty": "easy",
+      "tags": [
+        "数据结构与算法",
+        "双指针与区间"
+      ],
+      "source": "https://cses.fi/book/book.pdf",
+      "references": [
+        {
+          "title": "Antti Laaksonen · Competitive Programmer’s Handbook",
+          "url": "https://cses.fi/book/book.pdf"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>同向与相向双指针分别适合什么数据条件，移动某一端需要排除什么不可能的候选？</p><p>在有序数组去重或配对问题中，如何证明指针移动不会漏解？</p>"
+    },
+    {
+      "order": 32,
+      "id": "DSA32",
+      "slug": "dsa-sliding-window",
+      "title": "滑动窗口与负数边界",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "算法 · 双指针与区间",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "双指针与区间"
+      ],
+      "source": "https://cses.fi/book/book.pdf",
+      "references": [
+        {
+          "title": "Antti Laaksonen · Competitive Programmer’s Handbook",
+          "url": "https://cses.fi/book/book.pdf"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>固定长度窗口与可变长度窗口分别如何维护状态，何时应扩张或收缩？</p><p>为什么某些依赖区间和单调变化的窗口策略遇到负数会失效，而无重复字符窗口不依赖这一数值前提？</p>"
+    },
+    {
+      "order": 33,
+      "id": "DSA33",
+      "slug": "dsa-prefix-sum",
+      "title": "前缀和与区间计数",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "算法 · 双指针与区间",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "双指针与区间"
+      ],
+      "source": "https://cses.fi/book/book.pdf",
+      "references": [
+        {
+          "title": "Antti Laaksonen · Competitive Programmer’s Handbook",
+          "url": "https://cses.fi/book/book.pdf"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>前缀和如何把连续区间求和转成两个边界的关系，为什么常需要一个空前缀？</p><p>统计和为目标值的子数组时，如何处理重复前缀和、负数以及当前前缀的记录时机？</p>"
+    },
+    {
+      "order": 34,
+      "id": "DSA34",
+      "slug": "dsa-difference",
+      "title": "差分数组与区间更新",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "算法 · 双指针与区间",
+      "difficulty": "easy",
+      "tags": [
+        "数据结构与算法",
+        "双指针与区间"
+      ],
+      "source": "https://cses.fi/book/book.pdf",
+      "references": [
+        {
+          "title": "Antti Laaksonen · Competitive Programmer’s Handbook",
+          "url": "https://cses.fi/book/book.pdf"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>差分数组如何表达多次区间增减，它与前缀和有什么关系？</p><p>如何处理区间右端、单点更新与最终还原，什么情况下离线差分不能满足实时查询需求？</p>"
+    },
+    {
+      "order": 35,
+      "id": "DSA35",
+      "slug": "dsa-interval-sweep",
+      "title": "区间合并与扫描线",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "算法 · 双指针与区间",
+      "difficulty": "hard",
+      "tags": [
+        "数据结构与算法",
+        "双指针与区间"
+      ],
+      "source": "https://algs4.cs.princeton.edu/21elementary/",
+      "references": [
+        {
+          "title": "Princeton · 基础排序",
+          "url": "https://algs4.cs.princeton.edu/21elementary/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>合并重叠区间前为什么通常先排序，如何维护当前合并结果的右边界？</p><p>统计同时存在的区间数时，开闭区间和相同位置的事件顺序会怎样影响扫描线结果？</p>"
+    },
+    {
+      "order": 36,
+      "id": "DSA36",
+      "slug": "dsa-backtracking",
+      "title": "回溯、搜索树与剪枝",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "算法 · 搜索与动态规划",
+      "difficulty": "easy",
+      "tags": [
+        "数据结构与算法",
+        "搜索与动态规划"
+      ],
+      "source": "https://cses.fi/book/book.pdf",
+      "references": [
+        {
+          "title": "Antti Laaksonen · Competitive Programmer’s Handbook",
+          "url": "https://cses.fi/book/book.pdf"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>回溯搜索中路径、候选集合与结束条件分别是什么，为什么撤销选择必须和状态修改对应？</p><p>全排列、组合与子集问题的搜索树有什么不同，剪枝应如何保证不删除合法解？</p>"
+    },
+    {
+      "order": 37,
+      "id": "DSA37",
+      "slug": "dsa-dp-state",
+      "title": "动态规划的状态与转移",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "算法 · 搜索与动态规划",
+      "difficulty": "easy",
+      "tags": [
+        "数据结构与算法",
+        "搜索与动态规划"
+      ],
+      "source": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-fall-2011/pages/lecture-notes/",
+      "references": [
+        {
+          "title": "MIT 6.006 · 动态规划讲义 19–22",
+          "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-fall-2011/pages/lecture-notes/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>动态规划的状态应包含哪些足以决定后续选择的信息，状态定义和转移方程怎样保持一致？</p><p>如何确定初始值、计算顺序和最终结果位置，并区分无解与合法的零值？</p>"
+    },
+    {
+      "order": 38,
+      "id": "DSA38",
+      "slug": "dsa-knapsack",
+      "title": "0/1 背包与完全背包",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "算法 · 搜索与动态规划",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "搜索与动态规划"
+      ],
+      "source": "https://cses.fi/book/book.pdf",
+      "references": [
+        {
+          "title": "Antti Laaksonen · Competitive Programmer’s Handbook",
+          "url": "https://cses.fi/book/book.pdf"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>0/1 背包和完全背包对物品使用次数有什么不同，压缩成一维数组后遍历方向为什么重要？</p><p>要求恰好装满与容量不超过上限时，初始化和不可达状态应如何区分？</p>"
+    },
+    {
+      "order": 39,
+      "id": "DSA39",
+      "slug": "dsa-subsequence-dp",
+      "title": "子序列、子串与状态压缩",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "算法 · 搜索与动态规划",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "搜索与动态规划"
+      ],
+      "source": "https://cses.fi/book/book.pdf",
+      "references": [
+        {
+          "title": "Antti Laaksonen · Competitive Programmer’s Handbook",
+          "url": "https://cses.fi/book/book.pdf"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>最长公共子序列与最长公共子串对连续性的要求有什么不同，应如何影响状态转移？</p><p>压缩二维 DP 时，如何判断哪些旧状态仍会被使用，避免覆盖所需信息？</p>"
+    },
+    {
+      "order": 40,
+      "id": "DSA40",
+      "slug": "dsa-greedy-proof",
+      "title": "贪心选择与动态规划的边界",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "算法 · 搜索与动态规划",
+      "difficulty": "hard",
+      "tags": [
+        "数据结构与算法",
+        "搜索与动态规划"
+      ],
+      "source": "https://algs4.cs.princeton.edu/43mst/",
+      "references": [
+        {
+          "title": "Princeton · 最小生成树与贪心",
+          "url": "https://algs4.cs.princeton.edu/43mst/"
+        },
+        {
+          "title": "Antti Laaksonen · Competitive Programmer’s Handbook",
+          "url": "https://cses.fi/book/book.pdf"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>贪心算法为什么需要证明局部选择不会破坏全局最优，交换论证可以怎样使用？</p><p>面对区间选择、找零或路径问题时，应如何寻找反例并判断是否需要动态规划？</p>"
+    },
+    {
+      "order": 41,
+      "id": "DSA41",
+      "slug": "dsa-string-model",
+      "title": "字符串编码、字符与下标",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 字符串与索引",
+      "difficulty": "easy",
+      "tags": [
+        "数据结构与算法",
+        "字符串与索引"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Character.html",
+      "references": [
+        {
+          "title": "Java 17 · 字符与码点",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Character.html"
+        },
+        {
+          "title": "Unicode · 字素边界",
+          "url": "https://www.unicode.org/reports/tr29/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>字节、Unicode 码点和用户感知字符有什么区别，为什么字符串长度不一定等于看到的字符数？</p><p>设计算法时，应该怎样声明字符集、索引单位和大小写或规范化规则？</p>"
+    },
+    {
+      "order": 42,
+      "id": "DSA42",
+      "slug": "dsa-kmp",
+      "title": "KMP 与前缀函数",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 字符串与索引",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "字符串与索引"
+      ],
+      "source": "https://algs4.cs.princeton.edu/53substring/",
+      "references": [
+        {
+          "title": "Princeton · 子串查找",
+          "url": "https://algs4.cs.princeton.edu/53substring/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>朴素字符串匹配在失配后会重复哪些比较，KMP 的前缀信息如何减少重复工作？</p><p>如何解释匹配位置回退的依据，以及空模式串、重复字符和重叠匹配的处理？</p>"
+    },
+    {
+      "order": 43,
+      "id": "DSA43",
+      "slug": "dsa-trie",
+      "title": "Trie 与前缀检索",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 字符串与索引",
+      "difficulty": "easy",
+      "tags": [
+        "数据结构与算法",
+        "字符串与索引"
+      ],
+      "source": "https://algs4.cs.princeton.edu/52trie/",
+      "references": [
+        {
+          "title": "Princeton · Trie",
+          "url": "https://algs4.cs.princeton.edu/52trie/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Trie 如何组织字符串公共前缀，检索成本应如何用键长和字符集表示？</p><p>与哈希表相比，前缀查询、内存开销和节点压缩分别有什么取舍？</p>"
+    },
+    {
+      "order": 44,
+      "id": "DSA44",
+      "slug": "dsa-rolling-hash",
+      "title": "滚动哈希与碰撞",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 字符串与索引",
+      "difficulty": "hard",
+      "tags": [
+        "数据结构与算法",
+        "字符串与索引"
+      ],
+      "source": "https://algs4.cs.princeton.edu/53substring/",
+      "references": [
+        {
+          "title": "Princeton · 子串查找",
+          "url": "https://algs4.cs.princeton.edu/53substring/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>滚动哈希怎样复用相邻子串的计算，哈希值相等能否证明两个子串相同？</p><p>需要确定正确性时应如何处理碰撞，并评估二次比对对最坏复杂度的影响？</p>"
+    },
+    {
+      "order": 45,
+      "id": "DSA45",
+      "slug": "dsa-range-index",
+      "title": "树状数组与线段树",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构 · 字符串与索引",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "字符串与索引"
+      ],
+      "source": "https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/SegmentTree.java.html",
+      "references": [
+        {
+          "title": "Princeton · 线段树实现",
+          "url": "https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/SegmentTree.java.html"
+        },
+        {
+          "title": "Princeton · 树状数组实现",
+          "url": "https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/FenwickTree.java.html"
+        },
+        {
+          "title": "Antti Laaksonen · Competitive Programmer’s Handbook",
+          "url": "https://cses.fi/book/book.pdf"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>需要交错执行单点更新和区间查询时，前缀和、树状数组和线段树如何比较？</p><p>区间操作的结合性、可逆性以及是否需要懒标记，会怎样限制数据结构与操作设计？</p>"
+    },
+    {
+      "order": 46,
+      "id": "DSA46",
+      "slug": "dsa-lru",
+      "title": "LRU 缓存的数据结构设计",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "应用 · 综合面试场景",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "综合面试场景"
+      ],
+      "source": "https://algs4.cs.princeton.edu/34hash/",
+      "references": [
+        {
+          "title": "Princeton · 哈希表",
+          "url": "https://algs4.cs.princeton.edu/34hash/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>实现支持查询、更新及容量淘汰的 LRU 缓存，应如何维护键定位和最近使用顺序？</p><p>命中、覆盖已有键与容量为零分别怎样影响结构，如何解释期望时间复杂度的前提？</p>"
+    },
+    {
+      "order": 47,
+      "id": "DSA47",
+      "slug": "dsa-merge-streams",
+      "title": "多路有序合并与外部排序",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "应用 · 综合面试场景",
+      "difficulty": "hard",
+      "tags": [
+        "数据结构与算法",
+        "综合面试场景"
+      ],
+      "source": "https://algs4.cs.princeton.edu/24pq/",
+      "references": [
+        {
+          "title": "Princeton · 优先队列",
+          "url": "https://algs4.cs.princeton.edu/24pq/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>合并多条有序流时，如何用优先队列维护下一个输出元素，并分析流数量与总元素数的影响？</p><p>当数据无法全部放入内存时，如何将排序与合并阶段组织为受内存预算约束的过程？</p>"
+    },
+    {
+      "order": 48,
+      "id": "DSA48",
+      "slug": "dsa-dependency-plan",
+      "title": "任务依赖与执行次序",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "应用 · 综合面试场景",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "综合面试场景"
+      ],
+      "source": "https://algs4.cs.princeton.edu/42digraph/",
+      "references": [
+        {
+          "title": "Princeton · 有向图",
+          "url": "https://algs4.cs.princeton.edu/42digraph/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>给定任务及前置依赖，如何判断能否全部执行并产生一种合法顺序？</p><p>若要在多个任务同时就绪时按优先级选择，应怎样组合数据结构，并处理失败或新增依赖的边界？</p>"
+    },
+    {
+      "order": 49,
+      "id": "DSA49",
+      "slug": "dsa-test-cases",
+      "title": "算法边界用例与反例构造",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "应用 · 综合面试场景",
+      "difficulty": "easy",
+      "tags": [
+        "数据结构与算法",
+        "综合面试场景"
+      ],
+      "source": "https://algs4.cs.princeton.edu/14analysis/",
+      "references": [
+        {
+          "title": "Princeton · 算法分析",
+          "url": "https://algs4.cs.princeton.edu/14analysis/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>验证数组、链表或图算法时，应如何构造空输入、重复值、极端形态和数值溢出用例？</p><p>随机测试与小规模暴力对照各能发现什么问题，为什么通过有限用例不等于正确性证明？</p>"
+    },
+    {
+      "order": 50,
+      "id": "DSA50",
+      "slug": "dsa-bit-manipulation",
+      "title": "位运算与数值边界",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "应用 · 综合面试场景",
+      "difficulty": "medium",
+      "tags": [
+        "数据结构与算法",
+        "综合面试场景"
+      ],
+      "source": "https://docs.oracle.com/javase/specs/jls/se17/html/jls-15.html#jls-15.19",
+      "references": [
+        {
+          "title": "Java 17 · 位移运算",
+          "url": "https://docs.oracle.com/javase/specs/jls/se17/html/jls-15.html#jls-15.19"
+        },
+        {
+          "title": "Antti Laaksonen · Competitive Programmer’s Handbook",
+          "url": "https://cses.fi/book/book.pdf"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>按位与、或、异或及移位如何用于标记集合、统计位或处理配对抵消问题？</p><p>实现时需要明确哪些整数位宽、符号和移位规则，为什么数学整数上的推导可能在机器整数上失效？</p>"
+    }
+  ]
+}

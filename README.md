@@ -6,7 +6,7 @@
 
 ## 习题册
 
-目前提供 **9 本习题册、656 个题目条目**。
+目前提供 **11 本习题册、834 个题目条目**。
 
 | 习题册 | 题数 | 内容 |
 | --- | ---: | --- |
@@ -14,11 +14,13 @@
 | 面试经典 150 | 150 | 常见算法与数据结构题 |
 | 剑指 Offer | 75 | 对应原 `-lcof` 题目，保留当前官方 LCR 编号和题干 |
 | 场景实战 | 20 | 缓存、一致性、并发、故障排查等工程场景 |
-| 系统设计 | 20 | 需求分析、容量估算、架构与故障取舍 |
+| 系统设计 | 60 | 原有场景设计 20 题；基于 ByteByteGo Guides 与 liquidslr 笔记补充设计基础、分布式机制及专项系统设计 40 题 |
 | DevOps / SRE | 61 | 交付、基础设施、排障，以及 SLO、可观测性、应急、容量和容灾 |
 | 数据与中间件 | 80 | MySQL、Redis、Elasticsearch、Apache Kafka，各 20 题 |
 | 操作系统与网络 | 60 | 操作系统、Linux 常用命令、计算机网络，各 20 题 |
-| 语言与框架 | 90 | Java、Python、Go 各 20 道语言题与 10 道 Web 框架题；覆盖 Spring Boot、Django、FastAPI、Gin |
+| 语言与框架 | 138 | Java、Python、Go 基础与 Web 框架 90 题，Git、Docker、Maven、JDK、Go、uv 工具 36 题，Java 内存与 GC 排查 12 题 |
+| 数据结构与算法 | 50 | 复杂度、线性结构、哈希、树与图、排序、双指针、动态规划、字符串及综合选型 |
+| 设计模式 | 40 | 设计原则 5 题、GoF 23 种模式、模式比较与工程场景 12 题 |
 
 不同算法题库可能包含相同题目，条目总数不代表互不重复的题数。讨论题为本站原创整理，不标榜企业真题或未经验证的面试频率排名。
 
@@ -106,7 +108,7 @@ npm run test:browser
 
 代码编辑框不会编译或运行代码，没有隐藏测试用例与自动评分。“去验证”会打开对应力扣原题，需要自行选择语言并粘贴代码。讨论题不提供标准答案，也不会自动评价作答。
 
-DevOps / SRE 原有 36 题保留场景、设计和知识提纲；新增 25 道日常工作题，以及数据与中间件、操作系统与网络、语言与框架三册，仅提供问题与空白草稿。所有运维场景均用于文本推演，不要求在生产环境执行操作。
+系统设计原有 20 题、DevOps / SRE 原有 36 题保留场景、示例和草稿提纲；两册各自新增的 40 题和 25 题，以及数据与中间件、操作系统与网络、语言与框架、数据结构与算法、设计模式五册，仅提供问题与空白草稿。数据结构与算法册侧重概念、正确性与选型，不是额外的在线编程题库。所有运维场景均用于文本推演，不要求在生产环境执行操作。
 
 ## 题库来源
 
@@ -125,10 +127,12 @@ JSON 保存每题来源、分类、顺序和数据更新时间；题目示意图
 根据第一方技术资料及有注明来源的讨论主题重新编写，不转载整篇资料或答案。选题依据、技术版本和适用边界见：
 
 - [场景实战与系统设计](docs/interview-sources.md)
+- [系统设计补全来源](docs/system-design-expansion-sources.md)：对照 [ByteByteGo Guides](https://bytebytego.com/guides/) 和 [liquidslr/system-design-notes](https://github.com/liquidslr/system-design-notes) 原创编排。补充容量估算、接口与流量、存储、一致性、协调机制，以及爬虫、联想、地图、消息队列、对象存储、钱包与撮合等主题；不复制原文解法或图解。
 - [DevOps / SRE 与日常工作](docs/devops-sre-sources.md)
 - [数据与中间件](docs/data-middleware-sources.md)
 - [操作系统与网络](docs/os-network-sources.md)
-- [语言与框架](docs/language-framework-sources.md)：Java SE 17、Python 3.13、Go；Java Web 采用 Spring Framework 6.2 / Boot 3.5 / Security 6.5，Python Web 包含 Django 5.2 与 FastAPI，Go Web 包含 Gin 与 net/http。各语言分为 8 道基础、12 道核心考点；各生态另有 10 道框架题，其中 Django、FastAPI 各 5 道。
+- [语言与框架](docs/language-framework-sources.md)：Java SE 17、Python 3.13、Go；Java Web 采用 Spring Framework 6.2 / Boot 3.5 / Security 6.5，Python Web 包含 Django 5.2 与 FastAPI，Go Web 包含 Gin 与 net/http。原有各语言 8 道基础、12 道核心考点及 10 道框架题保持不变；另含六组开发工具题（每组 6 道），以及 Java 17 HotSpot 内存与 GC 排查 12 题。均只提供问题，不附答案。
+- [数据结构与算法、设计模式](docs/foundations-patterns-sources.md)：依据 Princeton 算法教材、MIT 课程、作者教材及 GoF 出版社资料整理；模式示例参考 Java 17、Python 3.13 与 Spring Framework 6.2。题目包含基础知识、适用条件、常见比较和工程取舍，不转载教材练习或答案。
 
 ### 更新题库
 
@@ -163,7 +167,7 @@ src/
   core.js                   校验、筛选、随机队列与路由
   content.js                题干 HTML 白名单处理
 public/
-  data/                     9 个静态题库
+  data/                     11 个静态题库
   images/                   本地题目示意图
   favicon.svg               网站图标
 docs/                       选题来源与核验记录

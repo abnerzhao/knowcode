@@ -224,6 +224,18 @@ button:hover:not(:disabled) {
   --cover-secondary:#6a584f
 }
 
+.workbook[data-bank=data-structures-algorithms] {
+  --cover:#c6d4c1;
+  --cover-text:#34482f;
+  --cover-secondary:#53654e
+}
+
+.workbook[data-bank=design-patterns] {
+  --cover:#d5cddd;
+  --cover-text:#493e53;
+  --cover-secondary:#63566d
+}
+
 .book-object {
   display:block;
   position:relative;

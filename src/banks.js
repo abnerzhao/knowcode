@@ -3,11 +3,13 @@ export const BANKS = [
   { id: 'interview150', name: '面试经典 150', count: 150, file: 'interview150.json', plan: 'top-interview-150' },
   { id: 'offer', name: '剑指 Offer', count: 75, file: 'offer.json', plan: 'coding-interviews' },
   { id: 'scenarios', name: '场景实战', count: 20, file: 'scenarios.json', kind: 'discussion' },
-  { id: 'system-design', name: '系统设计', count: 20, file: 'system-design.json', kind: 'discussion' },
+  { id: 'system-design', name: '系统设计', count: 60, file: 'system-design.json', kind: 'discussion' },
   { id: 'devops-sre', name: 'DevOps / SRE', count: 61, file: 'devops-sre.json', kind: 'discussion' },
   { id: 'data-middleware', name: '数据与中间件', count: 80, file: 'data-middleware.json', kind: 'discussion' },
   { id: 'os-network', name: '操作系统与网络', count: 60, file: 'os-network.json', kind: 'discussion' },
-  { id: 'languages-frameworks', name: '语言与框架', count: 90, file: 'languages-frameworks.json', kind: 'discussion' },
+  { id: 'languages-frameworks', name: '语言与框架', count: 138, file: 'languages-frameworks.json', kind: 'discussion' },
+  { id: 'data-structures-algorithms', name: '数据结构与算法', count: 50, file: 'data-structures-algorithms.json', kind: 'discussion' },
+  { id: 'design-patterns', name: '设计模式', count: 40, file: 'design-patterns.json', kind: 'discussion' },
 ];
 
 export function bankById(id) {

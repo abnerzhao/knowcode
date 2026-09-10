@@ -3,8 +3,8 @@
   "name": "语言与框架",
   "kind": "discussion",
   "source": "https://docs.oracle.com/javase/specs/jls/se17/html/index.html",
-  "fetchedAt": "2026-09-09T00:00:00.000Z",
-  "editorialNote": "本站原创面试复习问题，共 90 题：Java、Python、Go 各 8 道基础知识、12 道核心考点及 10 道 Web 框架题。Java SE 17、Python/CPython 3.13、Spring Framework 6.2 / Boot 3.5 / Security 6.5、Django 5.2 为参考范围；Go、FastAPI、Gin 依据核验时官方文档，题目涉及版本差异时明确限定。仅提供问题与空白草稿，不附答案、示例或提示。难度为本站练习分级，不代表企业真题或频率统计。",
+  "fetchedAt": "2026-09-10T00:00:00.000Z",
+  "editorialNote": "本站原创面试复习问题，共 138 题：原有 90 题为Java、Python、Go 各 8 道基础知识、12 道核心考点及 10 道 Web 框架题。新增 Git、Docker、Maven、JDK 命令、Go / go mod、Python / uv 六组工具题，每组 6 题，另有 12 道 Java 内存与 GC 排查题。Java 诊断以 Java 17 HotSpot 为边界。Java SE 17、Python/CPython 3.13、Spring Framework 6.2 / Boot 3.5 / Security 6.5、Django 5.2 为参考范围；Go、FastAPI、Gin 依据核验时官方文档，题目涉及版本差异时明确限定。仅提供问题与空白草稿，不附答案、示例或提示。难度为本站练习分级，不代表企业真题或频率统计。",
   "groups": [
     {
       "name": "Java · 基础知识",
@@ -45,6 +45,34 @@
     {
       "name": "Go Web · Gin",
       "count": 10
+    },
+    {
+      "name": "工具 · Git",
+      "count": 6
+    },
+    {
+      "name": "工具 · Docker",
+      "count": 6
+    },
+    {
+      "name": "工具 · Maven",
+      "count": 6
+    },
+    {
+      "name": "工具 · JDK 命令",
+      "count": 6
+    },
+    {
+      "name": "工具 · Go / go mod",
+      "count": 6
+    },
+    {
+      "name": "工具 · Python / uv",
+      "count": 6
+    },
+    {
+      "name": "Java · 内存与 GC 排查",
+      "count": 12
     }
   ],
   "questions": [
@@ -2239,6 +2267,1246 @@
       ],
       "answerTemplate": "",
       "content": "<p>Gin 服务收到终止信号时，应如何停止接收请求、等待正在处理的请求并关闭依赖资源？</p><p>net/http 的 Shutdown 对长连接和后台 goroutine 有哪些边界，超时后如何处理？</p>"
+    },
+    {
+      "order": 91,
+      "id": "TOOLGIT01",
+      "slug": "tool-git-working-tree",
+      "title": "git status、diff 与暂存区",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Git",
+      "difficulty": "easy",
+      "tags": [
+        "Git",
+        "开发工具"
+      ],
+      "source": "https://git-scm.com/docs/git-diff",
+      "references": [
+        {
+          "title": "Git · diff",
+          "url": "https://git-scm.com/docs/git-diff"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Git 的工作区、暂存区与最近一次提交分别保存什么？</p><p>git status、git diff 和 git diff --cached 各在比较哪些内容，部分暂存后再次编辑文件会怎样？</p>"
+    },
+    {
+      "order": 92,
+      "id": "TOOLGIT02",
+      "slug": "tool-git-commit-history",
+      "title": "git add、commit 与历史查看",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Git",
+      "difficulty": "easy",
+      "tags": [
+        "Git",
+        "开发工具"
+      ],
+      "source": "https://git-scm.com/docs/git-add",
+      "references": [
+        {
+          "title": "Git · add",
+          "url": "https://git-scm.com/docs/git-add"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>如何只提交同一文件中的部分改动，并检查提交是否包含预期内容？</p><p>git log、git show 和 git blame 分别适合回答什么问题，为什么忽略规则不会自动停止跟踪已有文件？</p>"
+    },
+    {
+      "order": 93,
+      "id": "TOOLGIT03",
+      "slug": "tool-git-remote-sync",
+      "title": "fetch、pull、push 与远程跟踪",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Git",
+      "difficulty": "medium",
+      "tags": [
+        "Git",
+        "开发工具"
+      ],
+      "source": "https://git-scm.com/docs/git-fetch",
+      "references": [
+        {
+          "title": "Git · fetch",
+          "url": "https://git-scm.com/docs/git-fetch"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>git fetch、git pull 和 git push 分别改变本地或远程的什么状态？</p><p>远程跟踪分支与 upstream 有什么区别，push 被拒绝为非快进时应先检查什么？</p>"
+    },
+    {
+      "order": 94,
+      "id": "TOOLGIT04",
+      "slug": "tool-git-merge-rebase",
+      "title": "merge、rebase 与冲突处理",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Git",
+      "difficulty": "medium",
+      "tags": [
+        "Git",
+        "开发工具"
+      ],
+      "source": "https://git-scm.com/docs/git-rebase",
+      "references": [
+        {
+          "title": "Git · rebase",
+          "url": "https://git-scm.com/docs/git-rebase"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>git merge 与 git rebase 如何影响提交历史与提交标识？</p><p>遇到冲突时，如何检查、解决、继续或退出当前操作，为什么共享分支上的历史改写需要特别谨慎？</p>"
+    },
+    {
+      "order": 95,
+      "id": "TOOLGIT05",
+      "slug": "tool-git-stash-cherry-pick",
+      "title": "stash、cherry-pick 与临时切换",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Git",
+      "difficulty": "medium",
+      "tags": [
+        "Git",
+        "开发工具"
+      ],
+      "source": "https://git-scm.com/docs/git-stash",
+      "references": [
+        {
+          "title": "Git · stash",
+          "url": "https://git-scm.com/docs/git-stash"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>手头存在未提交改动但需要处理另一项任务时，stash 有哪些使用边界？</p><p>stash apply、stash pop 与 cherry-pick 分别适合什么场景，发生冲突后如何确认改动没有丢失？</p>"
+    },
+    {
+      "order": 96,
+      "id": "TOOLGIT06",
+      "slug": "tool-git-undo-recover",
+      "title": "reset、restore、revert 与 reflog",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Git",
+      "difficulty": "hard",
+      "tags": [
+        "Git",
+        "开发工具"
+      ],
+      "source": "https://git-scm.com/docs/git-reset",
+      "references": [
+        {
+          "title": "Git · reset",
+          "url": "https://git-scm.com/docs/git-reset"
+        },
+        {
+          "title": "Git · reflog",
+          "url": "https://git-scm.com/docs/git-reflog"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>reset 的 soft、mixed、hard 模式与 restore、revert 分别改变什么，哪些操作可能丢失未提交改动或改写历史？</p><p>误操作后如何利用 reflog 评估可恢复范围，什么情况下不能依赖它找回数据？</p>"
+    },
+    {
+      "order": 97,
+      "id": "TOOLDOCKER01",
+      "slug": "tool-docker-images-containers",
+      "title": "镜像、容器与 docker run",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Docker",
+      "difficulty": "easy",
+      "tags": [
+        "Docker",
+        "开发工具"
+      ],
+      "source": "https://docs.docker.com/engine/containers/run/",
+      "references": [
+        {
+          "title": "Docker · 运行容器",
+          "url": "https://docs.docker.com/engine/containers/run/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>镜像与容器是什么关系，docker run、start、stop 和 rm 分别操作什么？</p><p>如何理解容器主进程、前后台运行和退出状态，为什么容器停止不等于镜像被删除？</p>"
+    },
+    {
+      "order": 98,
+      "id": "TOOLDOCKER02",
+      "slug": "tool-docker-build-context",
+      "title": "Dockerfile、构建上下文与标签",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Docker",
+      "difficulty": "easy",
+      "tags": [
+        "Docker",
+        "开发工具"
+      ],
+      "source": "https://docs.docker.com/build/concepts/context/",
+      "references": [
+        {
+          "title": "Docker · 构建上下文",
+          "url": "https://docs.docker.com/build/concepts/context/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>docker build 的构建上下文和 Dockerfile 路径分别是什么，.dockerignore 会影响哪些文件？</p><p>镜像标签与 digest 有什么区别，为什么同一个标签不一定始终指向相同内容？</p>"
+    },
+    {
+      "order": 99,
+      "id": "TOOLDOCKER03",
+      "slug": "tool-docker-layers-cache",
+      "title": "构建缓存与多阶段构建",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Docker",
+      "difficulty": "medium",
+      "tags": [
+        "Docker",
+        "开发工具"
+      ],
+      "source": "https://docs.docker.com/build/cache/",
+      "references": [
+        {
+          "title": "Docker · 构建缓存",
+          "url": "https://docs.docker.com/build/cache/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Dockerfile 指令顺序如何影响缓存命中，COPY 与 RUN 的变化会让哪些步骤重建？</p><p>多阶段构建如何区分构建工具和运行产物，怎样检查最终镜像是否误带源码、缓存或凭据？</p>"
+    },
+    {
+      "order": 100,
+      "id": "TOOLDOCKER04",
+      "slug": "tool-docker-storage",
+      "title": "bind mount、volume 与数据保留",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Docker",
+      "difficulty": "medium",
+      "tags": [
+        "Docker",
+        "开发工具"
+      ],
+      "source": "https://docs.docker.com/engine/storage/volumes/",
+      "references": [
+        {
+          "title": "Docker · 卷",
+          "url": "https://docs.docker.com/engine/storage/volumes/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>bind mount、命名 volume 与容器可写层在生命周期和权限上有什么区别？</p><p>删除容器或执行清理操作之前，如何确认业务数据存放位置，以及哪些内容有备份或可以重建？</p>"
+    },
+    {
+      "order": 101,
+      "id": "TOOLDOCKER05",
+      "slug": "tool-docker-compose-network",
+      "title": "端口映射、网络与 Compose",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Docker",
+      "difficulty": "medium",
+      "tags": [
+        "Docker",
+        "开发工具"
+      ],
+      "source": "https://docs.docker.com/engine/network/port-publishing/",
+      "references": [
+        {
+          "title": "Docker · 发布端口",
+          "url": "https://docs.docker.com/engine/network/port-publishing/"
+        },
+        {
+          "title": "Docker · Compose CLI",
+          "url": "https://docs.docker.com/reference/cli/docker/compose/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>docker run 的端口映射与 Dockerfile 中的 EXPOSE 有什么区别，容器里的 localhost 指向哪里？</p><p>使用 Docker Compose 时，如何通过服务名访问依赖，服务已启动与真正可接收请求又有什么区别？</p>"
+    },
+    {
+      "order": 102,
+      "id": "TOOLDOCKER06",
+      "slug": "tool-docker-debug-safely",
+      "title": "logs、inspect、exec 与安全排查",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Docker",
+      "difficulty": "hard",
+      "tags": [
+        "Docker",
+        "开发工具"
+      ],
+      "source": "https://docs.docker.com/reference/",
+      "references": [
+        {
+          "title": "Docker · 命令参考",
+          "url": "https://docs.docker.com/reference/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>一个容器反复退出或无法访问依赖时，docker logs、inspect、exec 和 stats 分别能提供什么证据？</p><p>如何在确认容器状态、资源限制和挂载配置后选择排查动作，并避免泄露环境变量或直接修改不可追踪的运行环境？</p>"
+    },
+    {
+      "order": 103,
+      "id": "TOOLMAVEN01",
+      "slug": "tool-maven-lifecycle",
+      "title": "Maven 生命周期与常见阶段",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Maven",
+      "difficulty": "easy",
+      "tags": [
+        "Maven",
+        "Java",
+        "开发工具"
+      ],
+      "source": "https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html",
+      "references": [
+        {
+          "title": "Maven · 构建生命周期",
+          "url": "https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>mvn clean、test、package、verify、install 和 deploy 分别在什么阶段执行，阶段与插件目标是什么关系？</p><p>install 安装到哪里，deploy 是否等同于把应用发布到运行服务器？</p>"
+    },
+    {
+      "order": 104,
+      "id": "TOOLMAVEN02",
+      "slug": "tool-maven-pom-dependencies",
+      "title": "POM、依赖作用域与传递依赖",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Maven",
+      "difficulty": "easy",
+      "tags": [
+        "Maven",
+        "Java",
+        "开发工具"
+      ],
+      "source": "https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html",
+      "references": [
+        {
+          "title": "Maven · 依赖机制",
+          "url": "https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>POM 中 dependencies、dependencyManagement 与 plugins 各负责什么？</p><p>compile、provided、runtime 和 test 作用域如何影响编译、测试、运行及传递依赖？</p>"
+    },
+    {
+      "order": 105,
+      "id": "TOOLMAVEN03",
+      "slug": "tool-maven-dependency-conflict",
+      "title": "依赖冲突与有效配置排查",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Maven",
+      "difficulty": "medium",
+      "tags": [
+        "Maven",
+        "Java",
+        "开发工具"
+      ],
+      "source": "https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html",
+      "references": [
+        {
+          "title": "Maven · 依赖机制",
+          "url": "https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html"
+        },
+        {
+          "title": "Maven · dependency:tree",
+          "url": "https://maven.apache.org/plugins/maven-dependency-plugin/tree-mojo.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>同一依赖通过不同路径引入多个版本时，Maven 如何决定最终版本？</p><p>如何利用 dependency:tree 和 help:effective-pom 检查来源、版本管理、排除规则与父 POM 的实际影响？</p>"
+    },
+    {
+      "order": 106,
+      "id": "TOOLMAVEN04",
+      "slug": "tool-maven-multimodule",
+      "title": "多模块构建与 Reactor",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Maven",
+      "difficulty": "medium",
+      "tags": [
+        "Maven",
+        "Java",
+        "开发工具"
+      ],
+      "source": "https://maven.apache.org/guides/mini/guide-multiple-modules.html",
+      "references": [
+        {
+          "title": "Maven · 多模块构建",
+          "url": "https://maven.apache.org/guides/mini/guide-multiple-modules.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Maven 的聚合与继承有什么区别，Reactor 如何确定模块构建顺序？</p><p>只构建某个模块时，-pl、-am 与 -rf 分别适合什么场景，哪些本地仓库残留会掩盖依赖问题？</p>"
+    },
+    {
+      "order": 107,
+      "id": "TOOLMAVEN05",
+      "slug": "tool-maven-test-controls",
+      "title": "测试阶段与跳过测试参数",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Maven",
+      "difficulty": "medium",
+      "tags": [
+        "Maven",
+        "Java",
+        "开发工具"
+      ],
+      "source": "https://maven.apache.org/surefire/maven-surefire-plugin/examples/skipping-tests.html",
+      "references": [
+        {
+          "title": "Maven · 跳过测试",
+          "url": "https://maven.apache.org/surefire/maven-surefire-plugin/examples/skipping-tests.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>在常见的 Compiler、Surefire 和 Failsafe 配置下，单元测试与集成测试分别如何进入构建生命周期？</p><p>-DskipTests 与 -Dmaven.test.skip=true 有什么区别，为什么需要检查测试编译和插件配置而不能只看构建成功？</p>"
+    },
+    {
+      "order": 108,
+      "id": "TOOLMAVEN06",
+      "slug": "tool-maven-reproducible-build",
+      "title": "Wrapper、settings 与可复现构建",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Maven",
+      "difficulty": "hard",
+      "tags": [
+        "Maven",
+        "Java",
+        "开发工具"
+      ],
+      "source": "https://maven.apache.org/tools/wrapper/",
+      "references": [
+        {
+          "title": "Maven · Wrapper",
+          "url": "https://maven.apache.org/tools/wrapper/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>mvn 与项目里的 mvnw 在 Maven 版本管理上有什么区别，settings.xml 与项目 POM 应分别管理什么？</p><p>当本地构建成功而 CI 失败时，如何检查 JDK、镜像仓库、profiles、插件版本与 SNAPSHOT 依赖，并保护仓库凭据？</p>"
+    },
+    {
+      "order": 109,
+      "id": "TOOLJDK01",
+      "slug": "tool-jdk-javac",
+      "title": "javac 编译、包路径与 classpath",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · JDK 命令",
+      "difficulty": "easy",
+      "tags": [
+        "JDK",
+        "Java",
+        "开发工具"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/javac.html",
+      "references": [
+        {
+          "title": "Java 17 · javac",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/javac.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>使用 JDK 17 的 javac 编译带 package 声明且依赖外部 JAR 的源文件时，应如何理解源文件路径、-d 输出目录和 classpath？</p><p>javac 编译成功后，为什么执行 java 仍可能找不到主类或依赖类？</p>"
+    },
+    {
+      "order": 110,
+      "id": "TOOLJDK02",
+      "slug": "tool-jdk-java",
+      "title": "java 启动、版本与 JVM 参数",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · JDK 命令",
+      "difficulty": "easy",
+      "tags": [
+        "JDK",
+        "Java",
+        "开发工具"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/java.html",
+      "references": [
+        {
+          "title": "Java 17 · java",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/java.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>java、javac 与 JAVA_HOME 分别如何影响实际使用的 JDK，怎样确认编译和运行使用的版本？</p><p>java 的 JVM 选项、主类或 -jar 以及应用参数的顺序有什么意义？</p>"
+    },
+    {
+      "order": 111,
+      "id": "TOOLJDK03",
+      "slug": "tool-jdk-compatibility",
+      "title": "--release、模块路径与版本兼容",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · JDK 命令",
+      "difficulty": "medium",
+      "tags": [
+        "JDK",
+        "Java",
+        "开发工具"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/javac.html",
+      "references": [
+        {
+          "title": "Java 17 · javac",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/javac.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>javac 的 --release 与只设置 -source、-target 有什么区别？</p><p>编译和运行时的 classpath、module-path 如何区分，遇到 UnsupportedClassVersionError 时应如何定位版本边界？</p>"
+    },
+    {
+      "order": 112,
+      "id": "TOOLJDK04",
+      "slug": "tool-jdk-jar",
+      "title": "jar 打包、清单与可执行产物",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · JDK 命令",
+      "difficulty": "medium",
+      "tags": [
+        "JDK",
+        "Java",
+        "开发工具"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/jar.html",
+      "references": [
+        {
+          "title": "Java 17 · jar",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/jar.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>JDK 的 jar 工具如何创建、查看和提取归档，MANIFEST.MF 中的 Main-Class 有什么作用？</p><p>普通 JAR、模块化 JAR 与包含第三方依赖的应用包有什么不同，java -jar 能否自动解决全部依赖？</p>"
+    },
+    {
+      "order": 113,
+      "id": "TOOLJDK05",
+      "slug": "tool-jdk-javap-jdeps-jshell",
+      "title": "javap、jdeps 与 jshell",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · JDK 命令",
+      "difficulty": "medium",
+      "tags": [
+        "JDK",
+        "Java",
+        "开发工具"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/javap.html",
+      "references": [
+        {
+          "title": "Java 17 · javap",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/javap.html"
+        },
+        {
+          "title": "Java 17 · jdeps",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/jdeps.html"
+        },
+        {
+          "title": "Java 17 · jshell",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/jshell.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>检查一个 class 文件的方法签名或字节码、分析 JAR 的类级或模块依赖、快速验证一段 Java 表达式时，javap、jdeps 和 jshell 应如何选择？</p><p>这些工具的输出各有哪些边界，为什么静态依赖分析不一定覆盖反射加载？</p>"
+    },
+    {
+      "order": 114,
+      "id": "TOOLJDK06",
+      "slug": "tool-jdk-runtime-diagnostics",
+      "title": "jcmd、jstack 与 jmap",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · JDK 命令",
+      "difficulty": "hard",
+      "tags": [
+        "JDK",
+        "Java",
+        "开发工具"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/jcmd.html",
+      "references": [
+        {
+          "title": "Java 17 · jcmd",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/jcmd.html"
+        },
+        {
+          "title": "Java 17 · jstack",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/jstack.html"
+        },
+        {
+          "title": "Java 17 · jmap",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/jmap.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>排查 Java 进程高 CPU、线程阻塞或内存增长时，jcmd、jstack 和 jmap 各适合获取什么证据？</p><p>执行诊断前，如何检查进程权限、JDK 兼容、停顿风险、磁盘空间和转储中的敏感信息？</p>"
+    },
+    {
+      "order": 115,
+      "id": "TOOLGO01",
+      "slug": "tool-go-run-build-install",
+      "title": "go run、build 与 install",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Go / go mod",
+      "difficulty": "easy",
+      "tags": [
+        "Go 工具链",
+        "Go",
+        "开发工具"
+      ],
+      "source": "https://pkg.go.dev/cmd/go",
+      "references": [
+        {
+          "title": "Go · 命令参考",
+          "url": "https://pkg.go.dev/cmd/go"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>go run、go build 和 go install 分别产生或安装什么结果？</p><p>运行单个文件与运行一个包有什么区别，带版本后缀安装命令行工具时是否会修改当前项目依赖？</p>"
+    },
+    {
+      "order": 116,
+      "id": "TOOLGO02",
+      "slug": "tool-go-format-vet-test",
+      "title": "gofmt、go vet 与 go test",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Go / go mod",
+      "difficulty": "easy",
+      "tags": [
+        "Go 工具链",
+        "Go",
+        "开发工具"
+      ],
+      "source": "https://pkg.go.dev/cmd/go",
+      "references": [
+        {
+          "title": "Go · 命令参考",
+          "url": "https://pkg.go.dev/cmd/go"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>gofmt、go vet 和 go test 分别检查什么，三者能否互相替代？</p><p>如何理解测试缓存、指定包路径与 ./...，为什么测试成功不等于已经检查所有运行路径？</p>"
+    },
+    {
+      "order": 117,
+      "id": "TOOLGO03",
+      "slug": "tool-go-modules",
+      "title": "go mod init、tidy 与依赖文件",
+      "englishTitle": "gomod",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Go / go mod",
+      "difficulty": "medium",
+      "tags": [
+        "Go 工具链",
+        "Go",
+        "开发工具"
+      ],
+      "source": "https://go.dev/ref/mod",
+      "references": [
+        {
+          "title": "Go · Modules Reference",
+          "url": "https://go.dev/ref/mod"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>go mod init 和 go mod tidy 分别如何改变模块配置，go.mod 与 go.sum 有什么区别？</p><p>为什么 tidy 会增加或移除依赖，go.sum 能否等同于固定完整依赖版本的锁文件？</p>"
+    },
+    {
+      "order": 118,
+      "id": "TOOLGO04",
+      "slug": "tool-go-get-download",
+      "title": "go get、download 与依赖升级",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Go / go mod",
+      "difficulty": "medium",
+      "tags": [
+        "Go 工具链",
+        "Go",
+        "开发工具"
+      ],
+      "source": "https://go.dev/ref/mod",
+      "references": [
+        {
+          "title": "Go · Modules Reference",
+          "url": "https://go.dev/ref/mod"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>在基于 modules 的 Go 项目中，go get、go mod download 与 go install 命令路径@版本分别解决什么问题？</p><p>升级或降级依赖后，如何检查 go.mod、go.sum 和间接依赖的变化？</p>"
+    },
+    {
+      "order": 119,
+      "id": "TOOLGO05",
+      "slug": "tool-go-workspace-env",
+      "title": "go work、go env 与私有依赖",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Go / go mod",
+      "difficulty": "medium",
+      "tags": [
+        "Go 工具链",
+        "Go",
+        "开发工具"
+      ],
+      "source": "https://go.dev/ref/mod",
+      "references": [
+        {
+          "title": "Go · Modules Reference",
+          "url": "https://go.dev/ref/mod"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>go work 如何把多个本地模块放进同一个工作区，与各模块自己的 go.mod 有什么关系？</p><p>私有依赖下载失败时，如何检查 GOPROXY、GOPRIVATE、校验数据库与认证配置，而不在日志中泄露凭据？</p>"
+    },
+    {
+      "order": 120,
+      "id": "TOOLGO06",
+      "slug": "tool-go-build-debug",
+      "title": "跨平台构建、竞态检测与性能测试",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Go / go mod",
+      "difficulty": "hard",
+      "tags": [
+        "Go 工具链",
+        "Go",
+        "开发工具"
+      ],
+      "source": "https://pkg.go.dev/cmd/go",
+      "references": [
+        {
+          "title": "Go · 命令参考",
+          "url": "https://pkg.go.dev/cmd/go"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>GOOS、GOARCH 和 CGO_ENABLED 如何影响构建结果，为什么跨平台产物不一定能直接运行？</p><p>如何区分 go test -race、基准测试、覆盖率和 profile 的用途，并控制测试负载与观测开销？</p>"
+    },
+    {
+      "order": 121,
+      "id": "TOOLUV01",
+      "slug": "tool-uv-environments",
+      "title": "uv、pip、venv 与环境选择",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Python / uv",
+      "difficulty": "easy",
+      "tags": [
+        "uv",
+        "Python",
+        "开发工具"
+      ],
+      "source": "https://docs.astral.sh/uv/pip/environments/",
+      "references": [
+        {
+          "title": "uv · Python 环境",
+          "url": "https://docs.astral.sh/uv/pip/environments/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>uv 的项目管理、uv pip 接口与标准 pip、venv 各解决什么问题？</p><p>如何确认当前命令使用的解释器和虚拟环境，为什么激活环境、选择解释器与安装依赖不是同一件事？</p>"
+    },
+    {
+      "order": 122,
+      "id": "TOOLUV02",
+      "slug": "tool-uv-project-add",
+      "title": "uv init、add、remove 与项目声明",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Python / uv",
+      "difficulty": "easy",
+      "tags": [
+        "uv",
+        "Python",
+        "开发工具"
+      ],
+      "source": "https://docs.astral.sh/uv/guides/projects/",
+      "references": [
+        {
+          "title": "uv · 项目管理",
+          "url": "https://docs.astral.sh/uv/guides/projects/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>uv init、uv add 和 uv remove 分别如何影响项目文件与依赖声明？</p><p>把库加入项目依赖、开发依赖组或直接安装进某个环境有什么区别？</p>"
+    },
+    {
+      "order": 123,
+      "id": "TOOLUV03",
+      "slug": "tool-uv-lock-sync",
+      "title": "uv lock、sync 与 CI 一致性",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Python / uv",
+      "difficulty": "medium",
+      "tags": [
+        "uv",
+        "Python",
+        "开发工具"
+      ],
+      "source": "https://docs.astral.sh/uv/concepts/projects/sync/",
+      "references": [
+        {
+          "title": "uv · 锁定与同步",
+          "url": "https://docs.astral.sh/uv/concepts/projects/sync/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>pyproject.toml、uv.lock 和项目虚拟环境分别是什么关系，uv lock 与 uv sync 各会更新什么？</p><p>在 CI 中使用 --locked 与 --frozen 有什么区别，依赖声明与锁文件不一致时应如何发现问题？</p>"
+    },
+    {
+      "order": 124,
+      "id": "TOOLUV04",
+      "slug": "tool-uv-run-tool",
+      "title": "uv run、uvx 与工具隔离",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Python / uv",
+      "difficulty": "medium",
+      "tags": [
+        "uv",
+        "Python",
+        "开发工具"
+      ],
+      "source": "https://docs.astral.sh/uv/guides/tools/",
+      "references": [
+        {
+          "title": "uv · 工具管理",
+          "url": "https://docs.astral.sh/uv/guides/tools/"
+        },
+        {
+          "title": "uv · 锁定与同步",
+          "url": "https://docs.astral.sh/uv/concepts/projects/sync/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>uv run 与 uv tool run（uvx）使用的环境有什么区别？</p><p>运行项目脚本和临时命令行工具时如何选择，怎样固定工具版本并避免意外使用其他环境里的依赖？</p>"
+    },
+    {
+      "order": 125,
+      "id": "TOOLUV05",
+      "slug": "tool-uv-python-version",
+      "title": "uv python、pin 与解释器版本",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Python / uv",
+      "difficulty": "medium",
+      "tags": [
+        "uv",
+        "Python",
+        "开发工具"
+      ],
+      "source": "https://docs.astral.sh/uv/concepts/python-versions/",
+      "references": [
+        {
+          "title": "uv · Python 版本",
+          "url": "https://docs.astral.sh/uv/concepts/python-versions/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>uv python install、uv python pin 和 .python-version 分别解决什么问题？</p><p>解释器选择与 pyproject.toml 的 requires-python 如何配合，多个开发环境或 CI 使用不同 Python 版本时应怎样核对？</p>"
+    },
+    {
+      "order": 126,
+      "id": "TOOLUV06",
+      "slug": "tool-uv-build-publish",
+      "title": "uv build、publish 与包发布检查",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "工具 · Python / uv",
+      "difficulty": "hard",
+      "tags": [
+        "uv",
+        "Python",
+        "开发工具"
+      ],
+      "source": "https://docs.astral.sh/uv/guides/package/",
+      "references": [
+        {
+          "title": "uv · 构建与发布",
+          "url": "https://docs.astral.sh/uv/guides/package/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>uv build 生成的 wheel 与源码分发包有什么区别，发布前如何检查包内容、版本和依赖元数据？</p><p>uv publish 与本地构建的外部影响有什么不同，如何选择目标仓库并保护发布凭据，避免误发正式仓库？</p>"
+    },
+    {
+      "order": 127,
+      "id": "JVM01",
+      "slug": "java-memory-oom-triage",
+      "title": "Java OOM 类型与第一现场",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 内存与 GC 排查",
+      "difficulty": "easy",
+      "tags": [
+        "Java",
+        "JVM",
+        "内存与 GC 排查"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/troubleshoot/troubleshooting-memory-leaks.html",
+      "references": [
+        {
+          "title": "Java 17 · 内存泄漏与 OOM 排查",
+          "url": "https://docs.oracle.com/en/java/javase/17/troubleshoot/troubleshooting-memory-leaks.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>以 Java 17 HotSpot 为例，遇到 OutOfMemoryError 时，如何根据完整异常信息区分堆、元空间、直接内存和线程创建失败？</p><p>在重启之前应保留哪些日志、运行参数与监控证据，为什么没有 heap dump 不能直接排除内存问题？</p>"
+    },
+    {
+      "order": 128,
+      "id": "JVM02",
+      "slug": "java-memory-heap-oom",
+      "title": "Java heap space 与堆容量排查",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 内存与 GC 排查",
+      "difficulty": "medium",
+      "tags": [
+        "Java",
+        "JVM",
+        "内存与 GC 排查"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/troubleshoot/troubleshooting-memory-leaks.html",
+      "references": [
+        {
+          "title": "Java 17 · 内存泄漏与 OOM 排查",
+          "url": "https://docs.oracle.com/en/java/javase/17/troubleshoot/troubleshooting-memory-leaks.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>服务报 Java heap space 时，如何区分堆容量不足、单次大对象分配、突发并发与对象长期积压？</p><p>如果调大 -Xmx 后故障只是延后出现，应如何继续验证原因，并评估对容器总内存预算的影响？</p>"
+    },
+    {
+      "order": 129,
+      "id": "JVM03",
+      "slug": "java-memory-metaspace",
+      "title": "Metaspace OOM 与类加载器泄漏",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 内存与 GC 排查",
+      "difficulty": "medium",
+      "tags": [
+        "Java",
+        "JVM",
+        "内存与 GC 排查"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/troubleshoot/troubleshooting-memory-leaks.html",
+      "references": [
+        {
+          "title": "Java 17 · 内存泄漏与 OOM 排查",
+          "url": "https://docs.oracle.com/en/java/javase/17/troubleshoot/troubleshooting-memory-leaks.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>服务报 Metaspace 相关 OOM 时，应该关注哪些类加载、卸载、类加载器与本地内存指标？</p><p>如何验证动态生成类、重复部署或类加载器引用是否有关，为什么仅查看 Java 堆使用率可能发现不了容量问题？</p>"
+    },
+    {
+      "order": 130,
+      "id": "JVM04",
+      "slug": "java-memory-native-memory",
+      "title": "直接内存、RSS 与 NMT 分析",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 内存与 GC 排查",
+      "difficulty": "hard",
+      "tags": [
+        "Java",
+        "JVM",
+        "内存与 GC 排查"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/vm/native-memory-tracking.html",
+      "references": [
+        {
+          "title": "Java 17 · Native Memory Tracking",
+          "url": "https://docs.oracle.com/en/java/javase/17/vm/native-memory-tracking.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>堆占用稳定但进程 RSS 持续增长时，如何排查直接缓冲区、线程栈、JVM 本地内存和本地库分配？</p><p>Native Memory Tracking 的启用前提、统计范围及开销是什么，为什么 NMT 的 committed 数值不能直接当作进程 RSS？</p>"
+    },
+    {
+      "order": 131,
+      "id": "JVM05",
+      "slug": "java-memory-native-thread",
+      "title": "unable to create native thread 排查",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 内存与 GC 排查",
+      "difficulty": "medium",
+      "tags": [
+        "Java",
+        "JVM",
+        "内存与 GC 排查"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/troubleshoot/troubleshooting-memory-leaks.html",
+      "references": [
+        {
+          "title": "Java 17 · 内存泄漏与 OOM 排查",
+          "url": "https://docs.oracle.com/en/java/javase/17/troubleshoot/troubleshooting-memory-leaks.html"
+        },
+        {
+          "title": "OpenJDK 17u · 线程创建实现",
+          "url": "https://github.com/openjdk/jdk17u/blob/master/src/hotspot/share/prims/jvm.cpp"
+        },
+        {
+          "title": "Kubernetes · PID 限制",
+          "url": "https://kubernetes.io/docs/concepts/policy/pid-limiting/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>出现 unable to create native thread 时，如何区分线程数量失控、本地内存不足与系统或容器任务数限制？</p><p>线程转储、线程池指标和系统资源信息各能提供什么证据，为什么单纯增加 Java 堆可能加重问题？</p>"
+    },
+    {
+      "order": 132,
+      "id": "JVM06",
+      "slug": "java-memory-container-oom",
+      "title": "容器 OOMKilled 与 JVM OOM",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 内存与 GC 排查",
+      "difficulty": "medium",
+      "tags": [
+        "Java",
+        "JVM",
+        "内存与 GC 排查"
+      ],
+      "source": "https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/",
+      "references": [
+        {
+          "title": "Kubernetes · 容器内存限制",
+          "url": "https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Java 服务被标记为 OOMKilled，但没有 Java OutOfMemoryError 日志时，该如何关联容器内存上限、内核或容器事件与进程指标？</p><p>退出码 137 能否独立证明发生了 OOM，堆、元空间、线程栈和堆外分配应如何纳入容量预算？</p>"
+    },
+    {
+      "order": 133,
+      "id": "JVM07",
+      "slug": "java-memory-heap-dump-mat",
+      "title": "Heap Dump、MAT 与 GC Roots",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 内存与 GC 排查",
+      "difficulty": "hard",
+      "tags": [
+        "Java",
+        "JVM",
+        "内存与 GC 排查"
+      ],
+      "source": "https://help.eclipse.org/latest/topic/org.eclipse.mat.ui.help/concepts/shallowretainedheap.html",
+      "references": [
+        {
+          "title": "Eclipse MAT · Shallow / Retained Heap",
+          "url": "https://help.eclipse.org/latest/topic/org.eclipse.mat.ui.help/concepts/shallowretainedheap.html"
+        },
+        {
+          "title": "Eclipse MAT · GC Roots",
+          "url": "https://help.eclipse.org/latest/topic/org.eclipse.mat.ui.help/concepts/gcroots.html"
+        },
+        {
+          "title": "Eclipse MAT · Dominator Tree",
+          "url": "https://help.eclipse.org/latest/topic/org.eclipse.mat.ui.help/concepts/dominatortree.html"
+        },
+        {
+          "title": "Java 17 · jcmd 与 JFR",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/jcmd.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>获取 heap dump 前应如何评估停顿、磁盘容量和敏感数据风险，故障已结束时还有哪些证据可用？</p><p>使用 Eclipse MAT 时，Shallow Heap、Retained Heap、Dominator Tree 和到 GC Roots 的引用路径分别帮助回答什么问题？</p>"
+    },
+    {
+      "order": 134,
+      "id": "JVM08",
+      "slug": "java-memory-leak-vs-pressure",
+      "title": "内存泄漏与分配压力的区别",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 内存与 GC 排查",
+      "difficulty": "easy",
+      "tags": [
+        "Java",
+        "JVM",
+        "内存与 GC 排查"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/troubleshoot/troubleshooting-memory-leaks.html",
+      "references": [
+        {
+          "title": "Java 17 · 内存泄漏与 OOM 排查",
+          "url": "https://docs.oracle.com/en/java/javase/17/troubleshoot/troubleshooting-memory-leaks.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>内存使用率持续升高是否一定代表泄漏，如何结合 GC 后存活量、分配速率和负载变化进行判断？</p><p>针对缓存、队列、ThreadLocal 或监听器引用，应如何验证对象持有链是否超出预期生命周期？</p>"
+    },
+    {
+      "order": 135,
+      "id": "JVM09",
+      "slug": "java-memory-gc-logs",
+      "title": "Java 17 GC 日志与指标分析",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 内存与 GC 排查",
+      "difficulty": "medium",
+      "tags": [
+        "Java",
+        "JVM",
+        "内存与 GC 排查"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/java.html",
+      "references": [
+        {
+          "title": "Java 17 · java",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/java.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Java 17 统一日志中的 -Xlog:gc 与更详细的 GC 日志应如何选择和管理轮转？</p><p>分析日志时，如何关联 GC 原因、回收前后占用、暂停时间、频率与应用延迟，并区分 GC 暂停和其他 safepoint 停顿？</p>"
+    },
+    {
+      "order": 136,
+      "id": "JVM10",
+      "slug": "java-memory-full-gc",
+      "title": "Full GC 频繁与回收效果分析",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 内存与 GC 排查",
+      "difficulty": "hard",
+      "tags": [
+        "Java",
+        "JVM",
+        "内存与 GC 排查"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/gctuning/garbage-first-garbage-collector-tuning.html",
+      "references": [
+        {
+          "title": "Java 17 · G1 调优",
+          "url": "https://docs.oracle.com/en/java/javase/17/gctuning/garbage-first-garbage-collector-tuning.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>Full GC 频繁但每次回收很少时，应如何结合收集器类型、GC 原因、存活对象和元空间情况建立假设？</p><p>如何区分显式 GC、老年代压力与回收失败相关问题，为什么不能只通过增大堆或禁用显式 GC 判断根因已经解决？</p>"
+    },
+    {
+      "order": 137,
+      "id": "JVM11",
+      "slug": "java-memory-g1-pauses",
+      "title": "G1 长暂停与 Humongous 对象",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 内存与 GC 排查",
+      "difficulty": "hard",
+      "tags": [
+        "Java",
+        "JVM",
+        "内存与 GC 排查"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/gctuning/garbage-first-garbage-collector-tuning.html",
+      "references": [
+        {
+          "title": "Java 17 · G1 调优",
+          "url": "https://docs.oracle.com/en/java/javase/17/gctuning/garbage-first-garbage-collector-tuning.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>在 Java 17 HotSpot 的 G1 下，Humongous 对象、并发标记进度和可用空间如何影响回收行为？</p><p>发生长暂停或 Full GC 时，应该先从哪些日志证据区分分配压力、存活集过大和 CPU 资源不足，怎样验证调参对吞吐及尾延迟的影响？</p>"
+    },
+    {
+      "order": 138,
+      "id": "JVM12",
+      "slug": "java-memory-jfr-validation",
+      "title": "JFR 内存分析与修复验证",
+      "englishTitle": "",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "Java · 内存与 GC 排查",
+      "difficulty": "hard",
+      "tags": [
+        "Java",
+        "JVM",
+        "内存与 GC 排查"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/jcmd.html",
+      "references": [
+        {
+          "title": "Java 17 · jcmd 与 JFR",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/specs/man/jcmd.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>如何利用 Java Flight Recorder 的分配、GC 和线程相关事件，把内存变化与业务调用或负载关联起来？</p><p>诊断事件的采样、阈值、记录时长和开销会怎样影响结论，修复后应通过哪些对照指标及观察周期确认问题没有复发？</p>"
     }
   ]
 }

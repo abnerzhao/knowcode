@@ -247,13 +247,16 @@ test('操作系统与网络覆盖三类六组，保留纯问题、空白草稿�
 
 test('语言与框架涵盖三种语言与四个框架，只提供问题，版本边界明确', async () => {
   const data = JSON.parse(await readFile(new URL('../public/data/languages-frameworks.json', import.meta.url), 'utf8'));
-  assert.equal(validateDataset(data, 90), true);
-  assert.equal(new Set(data.questions.map(q => q.id)).size, 90);
-  assert.equal(new Set(data.questions.map(q => q.title)).size, 90);
+  assert.equal(validateDataset(data, 138), true);
+  assert.equal(new Set(data.questions.map(q => q.id)).size, 138);
+  assert.equal(new Set(data.questions.map(q => q.title)).size, 138);
   const expected = [
     ['Java · 基础知识', 8], ['Java · 核心考点', 12], ['Java Web · Spring', 10],
     ['Python · 基础知识', 8], ['Python · 核心考点', 12], ['Python Web · Django', 5], ['Python Web · FastAPI', 5],
     ['Go · 基础知识', 8], ['Go · 核心考点', 12], ['Go Web · Gin', 10],
+    ['工具 · Git', 6], ['工具 · Docker', 6], ['工具 · Maven', 6],
+    ['工具 · JDK 命令', 6], ['工具 · Go / go mod', 6], ['工具 · Python / uv', 6],
+    ['Java · 内存与 GC 排查', 12],
   ].map(([name, count]) => ({ name, count }));
   assert.deepEqual(data.groups, expected);
   for (const q of data.questions) {
@@ -265,7 +268,7 @@ test('语言与框架涵盖三种语言与四个框架，只提供问题，版�
     assert.doesNotMatch(q.content, /答案|提示|示例|考点清单|参考来源/);
   }
   for (const language of ['Java', 'Python', 'Go']) {
-    const pool = data.questions.filter(q => q.tags.includes(language));
+    const pool = data.questions.slice(0, 90).filter(q => q.tags.includes(language));
     assert.equal(pool.length, 30);
     for (const difficulty of Object.keys(DIFFICULTIES)) assert.ok(filterQuestions(pool, difficulty).length > 0);
   }
@@ -280,7 +283,234 @@ test('语言与框架涵盖三种语言与四个框架，只提供问题，版�
     const url = `https://${host}.evil.example/`;
     broken.questions[0].source = url;
     broken.questions[0].references = [{ title: '伪造来源', url }];
-    assert.throws(() => validateDataset(broken, 90));
+    assert.throws(() => validateDataset(broken, 138));
+  }
+});
+
+test('开发工具追加36题，分类、命令检索与安全来源完整', async () => {
+  const data = JSON.parse(await readFile(new URL('../public/data/languages-frameworks.json', import.meta.url), 'utf8'));
+  const added = data.questions.slice(90, 126);
+  assert.equal(added.length, 36);
+  assert.equal(data.questions[0].slug, 'java-types');
+  assert.equal(data.questions[89].slug, 'gin-shutdown');
+  assert.equal(new Set(added.map(q => q.category)).size, 6);
+  for (const [i, q] of added.entries()) {
+    assert.equal(q.order, i + 91);
+    assert.match(q.slug, /^tool-/);
+    assert.equal(q.kind, 'discussion');
+    assert.equal(q.format, 'questions-only');
+    assert.equal(q.answerTemplate, '');
+    assert.equal(initialCode(q, 'text'), '');
+    assert.match(q.content, /^(<p>[^<>]+？<\/p>)+$/);
+    assert.doesNotMatch(q.content, /答案|示例|答题提示|参考来源/);
+  }
+  for (const group of data.groups.slice(10, 16)) {
+    const pool = filterQuestions(added, 'all', group.name);
+    assert.equal(pool.length, 6);
+    for (const difficulty of Object.keys(DIFFICULTIES)) assert.ok(filterQuestions(pool, difficulty).length > 0);
+  }
+  for (const query of ['git', 'docker', 'maven', 'javac', 'java', 'jar', 'javap', 'jdeps', 'jshell', 'jcmd', 'go mod', 'gomod', 'gofmt', 'go vet', 'uv', 'uvx']) {
+    assert.ok(filterQuestions(added, 'all', query).length > 0, query);
+  }
+  for (const host of ['git-scm.com', 'docs.docker.com', 'maven.apache.org', 'docs.astral.sh']) {
+    const broken = structuredClone(data);
+    const url = `https://${host}.evil.example/`;
+    broken.questions[90].source = url;
+    broken.questions[90].references = [{ title: '伪造来源', url }];
+    assert.throws(() => validateDataset(broken, 138));
+  }
+});
+
+test('Java 内存与 GC 追加12题，覆盖故障证据、分析工具和修复验证', async () => {
+  const data = JSON.parse(await readFile(new URL('../public/data/languages-frameworks.json', import.meta.url), 'utf8'));
+  const pool = data.questions.slice(126);
+  assert.equal(pool.length, 12);
+  assert.equal(filterQuestions(data.questions, 'all', 'Java · 内存与 GC 排查').length, 12);
+  for (const [i, q] of pool.entries()) {
+    assert.equal(q.order, 127 + i);
+    assert.match(q.slug, /^java-memory-/);
+    assert.equal(q.category, 'Java · 内存与 GC 排查');
+    assert.equal(q.format, 'questions-only');
+    assert.equal(initialCode(q, 'text'), '');
+  }
+  for (const difficulty of Object.keys(DIFFICULTIES)) assert.ok(filterQuestions(pool, difficulty).length > 0);
+  for (const query of ['OOM', 'Metaspace', 'NMT', 'native thread', 'OOMKilled', 'MAT', 'GC Roots', 'GC 日志', 'Full GC', 'G1', 'JFR']) {
+    assert.ok(filterQuestions(pool, 'all', query).length > 0, query);
+  }
+  assert.match(pool.find(q => q.slug === 'java-memory-container-oom').content, /137.*独立证明/);
+  assert.match(pool.find(q => q.slug === 'java-memory-heap-dump-mat').content, /停顿.*磁盘.*敏感数据/);
+  assert.match(pool.find(q => q.slug === 'java-memory-native-memory').content, /NMT.*committed.*RSS/);
+  const broken = structuredClone(data);
+  broken.questions[126].source = 'https://help.eclipse.org.evil.example/';
+  broken.questions[126].references = [{ title: '伪造来源', url: broken.questions[126].source }];
+  assert.throws(() => validateDataset(broken, 138));
+});
+
+for (const [bankId, count, prefix, expectedGroups] of [
+  [
+    "data-structures-algorithms",
+    50,
+    "dsa-",
+    [
+      {
+        "name": "基础 · 复杂度与正确性",
+        "count": 5
+      },
+      {
+        "name": "结构 · 数组与链表",
+        "count": 5
+      },
+      {
+        "name": "结构 · 哈希与集合",
+        "count": 5
+      },
+      {
+        "name": "结构 · 树与堆",
+        "count": 5
+      },
+      {
+        "name": "结构 · 图与并查集",
+        "count": 5
+      },
+      {
+        "name": "算法 · 排序与二分",
+        "count": 5
+      },
+      {
+        "name": "算法 · 双指针与区间",
+        "count": 5
+      },
+      {
+        "name": "算法 · 搜索与动态规划",
+        "count": 5
+      },
+      {
+        "name": "结构 · 字符串与索引",
+        "count": 5
+      },
+      {
+        "name": "应用 · 综合面试场景",
+        "count": 5
+      }
+    ]
+  ],
+  [
+    "design-patterns",
+    40,
+    "pattern-",
+    [
+      {
+        "name": "基础 · 设计原则",
+        "count": 5
+      },
+      {
+        "name": "创建型 · 对象构建",
+        "count": 5
+      },
+      {
+        "name": "结构型 · 组织与适配",
+        "count": 7
+      },
+      {
+        "name": "行为型 · 协作与控制",
+        "count": 11
+      },
+      {
+        "name": "场景 · 模式选型与重构",
+        "count": 12
+      }
+    ]
+  ]
+]) {
+  test(`${bankId} 覆盖基础与应用，只给问题并支持独立检索`, async () => {
+    const data = JSON.parse(await readFile(new URL(`../public/data/${bankId}.json`, import.meta.url), 'utf8'));
+    assert.equal(validateDataset(data, count), true);
+    assert.deepEqual(data.groups, expectedGroups);
+    assert.equal(new Set(data.questions.map(q => q.title)).size, count);
+    for (const q of data.questions) {
+      assert.ok(q.slug.startsWith(prefix));
+      assert.equal(q.kind, 'discussion');
+      assert.equal(q.format, 'questions-only');
+      assert.equal(q.answerTemplate, '');
+      assert.equal(initialCode(q, 'text'), '');
+      assert.match(q.content, /^(<p>[^<>]+？<\/p>)+$/);
+      assert.doesNotMatch(q.content, /答案|提示|示例|参考来源|练习假设/);
+      assert.equal(filterQuestions(data.questions, 'all', q.id).length, 1);
+    }
+    for (const group of expectedGroups) {
+      const pool = filterQuestions(data.questions, 'all', group.name);
+      assert.equal(pool.length, group.count);
+      for (const difficulty of Object.keys(DIFFICULTIES)) {
+        assert.ok(filterQuestions(pool, difficulty).length > 0, `${group.name} / ${difficulty}`);
+      }
+    }
+    if (bankId === 'data-structures-algorithms') {
+      for (const query of ['复杂度', '链表', '哈希', '平衡树', 'Top K', 'BFS', 'Dijkstra', '并查集', '排序', '二分', '滑动窗口', '前缀和', '动态规划', 'KMP', 'Trie', '线段树', 'LRU']) {
+        assert.ok(filterQuestions(data.questions, 'all', query).length > 0, query);
+      }
+      assert.match(data.questions.find(q => q.slug === 'dsa-sliding-window').content, /负数.*失效/);
+      assert.match(data.questions.find(q => q.slug === 'dsa-hashing').content, /平均.*条件.*最坏/);
+    } else {
+      const patternSlugs = ["pattern-singleton","pattern-factory-method","pattern-abstract-factory","pattern-builder","pattern-prototype","pattern-adapter","pattern-bridge","pattern-composite","pattern-decorator","pattern-facade","pattern-flyweight","pattern-proxy","pattern-chain","pattern-command","pattern-interpreter","pattern-iterator","pattern-mediator","pattern-memento","pattern-observer","pattern-state","pattern-strategy","pattern-template-method","pattern-visitor"];
+      assert.deepEqual(data.questions.slice(5, 28).map(q => q.slug), patternSlugs);
+      assert.equal(new Set(patternSlugs).size, 23);
+      assert.equal(filterQuestions(data.questions, 'all', 'Abstract Factory').length, 1);
+      assert.match(data.questions.find(q => q.slug === 'pattern-singleton').content, /进程.*类加载器.*容器作用域/);
+      assert.match(data.questions.find(q => q.slug === 'pattern-observer').content, /不保证可靠投递/);
+    }
+    for (const host of ['algs4.cs.princeton.edu', 'ocw.mit.edu', 'cses.fi', 'www.informit.com', 'www.unicode.org', 'blog.cleancoder.com']) {
+      const broken = structuredClone(data);
+      const url = `https://${host}.evil.example/`;
+      broken.questions[0].source = url;
+      broken.questions[0].references = [{ title: '伪造来源', url }];
+      assert.throws(() => validateDataset(broken, count));
+    }
+  });
+}
+
+test('系统设计保留20道场景题，按指定双来源补全40道纯问题', async () => {
+  const data = JSON.parse(await readFile(new URL('../public/data/system-design.json', import.meta.url), 'utf8'));
+  assert.equal(validateDataset(data, 60), true);
+  assert.equal(new Set(data.questions.map(q => q.id)).size, 60);
+  assert.equal(new Set(data.questions.map(q => q.title)).size, 60);
+  assert.deepEqual(data.groups, [{"name":"基础服务","count":5},{"name":"交易系统","count":5},{"name":"内容与互动","count":5},{"name":"数据与协作","count":5},{"name":"设计基础 · 方法与扩展","count":5},{"name":"流量设计 · 接口与分发","count":5},{"name":"数据设计 · 存储与扩容","count":5},{"name":"可靠性设计 · 一致性与事件","count":5},{"name":"分布式机制 · 路由与故障","count":5},{"name":"基础设施 · 完整系统设计","count":5},{"name":"空间与检索 · 场景设计","count":5},{"name":"业务系统 · 交易与内容","count":5}]);
+  const original = data.questions.slice(0, 20);
+  assert.deepEqual(original.map(q => q.slug), ["url-shortener","activation-code-service","api-rate-limiter","distributed-cache","job-scheduler","flash-sale-platform","seat-reservation","order-platform","payment-integration","subscription-entitlements","social-feed","instant-messaging","notification-hub","file-storage-sharing","video-on-demand","nearby-drivers","sales-leaderboard","content-search","analytics-alerting","collaborative-documents"]);
+  assert.ok(original.every(q => q.format === undefined && q.answerTemplate.includes('容量估算')));
+  assert.equal(new Set(original.map(q => q.answerTemplate)).size, 1);
+  const added = data.questions.slice(20);
+  for (const [i, q] of added.entries()) {
+    assert.equal(q.order, 21 + i);
+    assert.equal(q.id, `D${21 + i}`);
+    assert.match(q.slug, /^sd-[a-z-]+$/);
+    assert.equal(q.kind, 'discussion');
+    assert.equal(q.format, 'questions-only');
+    assert.equal(q.answerTemplate, '');
+    assert.equal(initialCode(q, 'text'), '');
+    assert.match(q.content, /^(<p>[^<>]+？<\/p>)+$/);
+    assert.doesNotMatch(q.content, /答案|提示|示例|参考来源|练习假设|<img/);
+    assert.ok(q.references.every(ref => ref.url.startsWith('https://bytebytego.com/guides/') ||
+      ref.url.startsWith('https://github.com/liquidslr/system-design-notes/blob/main/')));
+  }
+  assert.ok(added.some(q => q.source.startsWith('https://bytebytego.com/')));
+  assert.ok(added.some(q => q.source.startsWith('https://github.com/liquidslr/')));
+  for (const group of data.groups.slice(4)) {
+    const pool = filterQuestions(added, 'all', group.name);
+    assert.equal(pool.length, 5);
+    assert.deepEqual(new Set(randomRound(pool)), new Set(pool.map(q => q.slug)));
+  }
+  for (const difficulty of Object.keys(DIFFICULTIES)) assert.ok(filterQuestions(added, difficulty).length > 0);
+  for (const query of ['容量', 'CAP', 'SSE', 'CDC', 'Quorum', '一致性哈希', '唯一 ID', '爬虫', '联想', '地图', '消息队列', '对象存储', '文件同步', '钱包', '撮合']) {
+    assert.ok(filterQuestions(added, 'all', query).length > 0, query);
+  }
+  assert.match(added.find(q => q.slug === 'sd-durable-kv').content, /quorum.*并不独立证明/);
+  assert.match(added.find(q => q.slug === 'sd-delivery').content, /处理边界.*外部支付/);
+  assert.match(added.find(q => q.slug === 'sd-global-id').content, /时钟回拨/);
+  for (const url of ['https://bytebytego.com.evil.example/guides/', 'http://bytebytego.com/guides/', 'https://user:pass@bytebytego.com/guides/']) {
+    const broken = structuredClone(data);
+    broken.questions[20].source = url;
+    broken.questions[20].references = [{ title: '不安全来源', url }];
+    assert.throws(() => validateDataset(broken, 60));
   }
 });
 

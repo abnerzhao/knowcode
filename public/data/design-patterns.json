@@ -1,0 +1,1016 @@
+{
+  "version": 1,
+  "name": "设计模式",
+  "kind": "discussion",
+  "source": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610",
+  "fetchedAt": "2026-09-10T00:00:00.000Z",
+  "editorialNote": "本站原创复习问题，共 40 题：基础原则 5 题、创建型 5 题、结构型 7 题、行为型 11 题和应用场景 12 题。覆盖 GoF 23 种模式，简单工厂、依赖注入等只作为比较主题，不计入 GoF 分类。框架示例参考 Java 17、Python 3.13 与 Spring Framework 6.2，API 与模式的对应属于教学分析。只提供问题与空白思路草稿，不附答案；难度为本站分级，不代表企业真题或频率统计。",
+  "groups": [
+    {
+      "name": "基础 · 设计原则",
+      "count": 5
+    },
+    {
+      "name": "创建型 · 对象构建",
+      "count": 5
+    },
+    {
+      "name": "结构型 · 组织与适配",
+      "count": 7
+    },
+    {
+      "name": "行为型 · 协作与控制",
+      "count": 11
+    },
+    {
+      "name": "场景 · 模式选型与重构",
+      "count": 12
+    }
+  ],
+  "questions": [
+    {
+      "order": 1,
+      "id": "PAT01",
+      "slug": "pattern-intent",
+      "title": "设计模式的意图与适用边界",
+      "englishTitle": "Design Patterns",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "基础 · 设计原则",
+      "difficulty": "easy",
+      "tags": [
+        "设计模式",
+        "设计原则"
+      ],
+      "source": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610",
+      "references": [
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        },
+        {
+          "title": "GoF · 原作者访谈",
+          "url": "https://www.informit.com/articles/article.aspx?p=1404056"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>设计模式解决的是哪一类反复出现的设计问题，它与算法、框架或代码模板有什么区别？</p><p>选择模式前应如何描述变化点和约束，为什么使用更多模式不代表设计更好？</p>"
+    },
+    {
+      "order": 2,
+      "id": "PAT02",
+      "slug": "pattern-solid",
+      "title": "SOLID 原则与变化方向",
+      "englishTitle": "SOLID",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "基础 · 设计原则",
+      "difficulty": "medium",
+      "tags": [
+        "设计模式",
+        "设计原则"
+      ],
+      "source": "https://blog.cleancoder.com/uncle-bob/2020/10/18/Solid-Relevance.html",
+      "references": [
+        {
+          "title": "Robert C. Martin · SOLID Relevance",
+          "url": "https://blog.cleancoder.com/uncle-bob/2020/10/18/Solid-Relevance.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>单一职责、开闭、里氏替换、接口隔离和依赖倒置分别关注什么问题？</p><p>如果满足某项原则会显著增加间接层，应如何依据真实变化需求和维护成本做取舍？</p>"
+    },
+    {
+      "order": 3,
+      "id": "PAT03",
+      "slug": "pattern-composition",
+      "title": "组合、继承与对象协作",
+      "englishTitle": "Composition Inheritance",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "基础 · 设计原则",
+      "difficulty": "easy",
+      "tags": [
+        "设计模式",
+        "设计原则"
+      ],
+      "source": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610",
+      "references": [
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>通过继承复用和通过组合委托行为有什么区别，二者会怎样影响替换能力与耦合？</p><p>当父类变化频繁或子类需要拒绝部分父类行为时，应如何重新审视这种继承关系？</p>"
+    },
+    {
+      "order": 4,
+      "id": "PAT04",
+      "slug": "pattern-dependency-injection",
+      "title": "依赖倒置、依赖注入与 IoC",
+      "englishTitle": "Dependency Injection IoC",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "基础 · 设计原则",
+      "difficulty": "medium",
+      "tags": [
+        "设计模式",
+        "设计原则"
+      ],
+      "source": "https://docs.spring.io/spring-framework/reference/6.2/core/beans/dependencies/factory-collaborators.html",
+      "references": [
+        {
+          "title": "Spring 6.2 · 依赖注入",
+          "url": "https://docs.spring.io/spring-framework/reference/6.2/core/beans/dependencies/factory-collaborators.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>依赖倒置、依赖注入和控制反转分别描述什么，使用依赖注入容器是否自动满足依赖倒置？</p><p>接口应放在哪一侧，如何在可替换性、测试便利性与抽象数量之间取舍？</p>"
+    },
+    {
+      "order": 5,
+      "id": "PAT05",
+      "slug": "pattern-contracts",
+      "title": "接口契约、可替换性与测试",
+      "englishTitle": "Liskov Substitution Contract",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "基础 · 设计原则",
+      "difficulty": "hard",
+      "tags": [
+        "设计模式",
+        "设计原则"
+      ],
+      "source": "https://blog.cleancoder.com/uncle-bob/2020/10/18/Solid-Relevance.html",
+      "references": [
+        {
+          "title": "Robert C. Martin · SOLID Relevance",
+          "url": "https://blog.cleancoder.com/uncle-bob/2020/10/18/Solid-Relevance.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>替换实现时，输入前提、返回语义、异常和副作用应满足怎样的契约？</p><p>如何通过行为测试发现名义上实现了同一接口、实际却破坏调用方假设的设计？</p>"
+    },
+    {
+      "order": 6,
+      "id": "PAT06",
+      "slug": "pattern-singleton",
+      "title": "单例模式与生命周期",
+      "englishTitle": "Singleton",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "创建型 · 对象构建",
+      "difficulty": "medium",
+      "tags": [
+        "设计模式",
+        "对象构建"
+      ],
+      "source": "https://docs.spring.io/spring-framework/reference/6.2/core/beans/factory-scopes.html",
+      "references": [
+        {
+          "title": "Spring 6.2 · Bean 作用域",
+          "url": "https://docs.spring.io/spring-framework/reference/6.2/core/beans/factory-scopes.html"
+        },
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>单例模式需要保证什么范围内的实例唯一，进程、类加载器与容器作用域是否相同？</p><p>并发初始化、序列化、全局状态与测试隔离会带来哪些问题，什么时候不应使用单例？</p>"
+    },
+    {
+      "order": 7,
+      "id": "PAT07",
+      "slug": "pattern-factory-method",
+      "title": "工厂方法与对象创建扩展",
+      "englishTitle": "Factory Method",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "创建型 · 对象构建",
+      "difficulty": "easy",
+      "tags": [
+        "设计模式",
+        "对象构建"
+      ],
+      "source": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610",
+      "references": [
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>工厂方法把哪部分创建决策交给子类或扩展点，与在一个方法中写分支的简单工厂有什么区别？</p><p>新增产品类型时，调用方与创建者分别需要知道什么？</p>"
+    },
+    {
+      "order": 8,
+      "id": "PAT08",
+      "slug": "pattern-abstract-factory",
+      "title": "抽象工厂与产品族",
+      "englishTitle": "Abstract Factory",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "创建型 · 对象构建",
+      "difficulty": "medium",
+      "tags": [
+        "设计模式",
+        "对象构建"
+      ],
+      "source": "https://www.informit.com/articles/article.aspx?p=1398599",
+      "references": [
+        {
+          "title": "GoF · 抽象工厂原书摘录",
+          "url": "https://www.informit.com/articles/article.aspx?p=1398599"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>抽象工厂如何保证一组相关产品协同工作，它与工厂方法关注的变化维度有什么不同？</p><p>新增一个产品族和给所有产品族新增一种产品，各会影响哪些接口与实现？</p>"
+    },
+    {
+      "order": 9,
+      "id": "PAT09",
+      "slug": "pattern-builder",
+      "title": "建造者模式与复杂对象",
+      "englishTitle": "Builder",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "创建型 · 对象构建",
+      "difficulty": "easy",
+      "tags": [
+        "设计模式",
+        "对象构建"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.net.http/java/net/http/HttpRequest.Builder.html",
+      "references": [
+        {
+          "title": "Java 17 · HttpRequest.Builder",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.net.http/java/net/http/HttpRequest.Builder.html"
+        },
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>建造者如何把对象构建步骤与最终表示分开，它与链式 setter 是否等同？</p><p>面对大量可选参数、必填约束和不可变结果时，应在哪里完成校验并防止产生不完整对象？</p>"
+    },
+    {
+      "order": 10,
+      "id": "PAT10",
+      "slug": "pattern-prototype",
+      "title": "原型模式与复制语义",
+      "englishTitle": "Prototype",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "创建型 · 对象构建",
+      "difficulty": "hard",
+      "tags": [
+        "设计模式",
+        "对象构建"
+      ],
+      "source": "https://docs.python.org/3.13/library/copy.html",
+      "references": [
+        {
+          "title": "Python 3.13 · copy",
+          "url": "https://docs.python.org/3.13/library/copy.html"
+        },
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>原型模式适合在什么情况下通过已有对象创建新对象，它与工厂创建有什么差别？</p><p>复制对象图时，浅拷贝、深拷贝、共享引用、循环引用及外部资源应如何定义和处理？</p>"
+    },
+    {
+      "order": 11,
+      "id": "PAT11",
+      "slug": "pattern-adapter",
+      "title": "适配器模式与接口转换",
+      "englishTitle": "Adapter",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构型 · 组织与适配",
+      "difficulty": "easy",
+      "tags": [
+        "设计模式",
+        "组织与适配"
+      ],
+      "source": "https://www.informit.com/articles/article.aspx?p=1398600",
+      "references": [
+        {
+          "title": "GoF · 适配器原书摘录",
+          "url": "https://www.informit.com/articles/article.aspx?p=1398600"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>适配器如何让已有实现满足调用方期待的接口，它与直接修改原实现有什么取舍？</p><p>当两侧的错误语义、同步方式或数据模型不一致时，单纯转换方法签名是否足够？</p>"
+    },
+    {
+      "order": 12,
+      "id": "PAT12",
+      "slug": "pattern-bridge",
+      "title": "桥接模式与独立变化维度",
+      "englishTitle": "Bridge",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构型 · 组织与适配",
+      "difficulty": "hard",
+      "tags": [
+        "设计模式",
+        "组织与适配"
+      ],
+      "source": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610",
+      "references": [
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>桥接模式如何拆开抽象与实现两个可独立变化的维度，与适配器的出发点有什么不同？</p><p>面对多个渠道和多种消息实现时，怎样避免用继承组合出大量子类？</p>"
+    },
+    {
+      "order": 13,
+      "id": "PAT13",
+      "slug": "pattern-composite",
+      "title": "组合模式与树形对象",
+      "englishTitle": "Composite",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构型 · 组织与适配",
+      "difficulty": "medium",
+      "tags": [
+        "设计模式",
+        "组织与适配"
+      ],
+      "source": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610",
+      "references": [
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>组合模式如何让单个对象与对象集合被统一处理，树形结构中的叶子和组合节点分别承担什么职责？</p><p>统一接口与类型安全有什么取舍，如何避免循环引用破坏树形假设？</p>"
+    },
+    {
+      "order": 14,
+      "id": "PAT14",
+      "slug": "pattern-decorator",
+      "title": "装饰器模式与行为叠加",
+      "englishTitle": "Decorator",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构型 · 组织与适配",
+      "difficulty": "easy",
+      "tags": [
+        "设计模式",
+        "组织与适配"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/FilterInputStream.html",
+      "references": [
+        {
+          "title": "Java 17 · FilterInputStream",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/FilterInputStream.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>装饰器如何在不修改原对象的情况下附加行为，它与继承扩展或代理的意图有什么区别？</p><p>多个装饰器嵌套时，顺序、资源关闭和异常传播应怎样约定？</p>"
+    },
+    {
+      "order": 15,
+      "id": "PAT15",
+      "slug": "pattern-facade",
+      "title": "外观模式与子系统边界",
+      "englishTitle": "Facade",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构型 · 组织与适配",
+      "difficulty": "easy",
+      "tags": [
+        "设计模式",
+        "组织与适配"
+      ],
+      "source": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610",
+      "references": [
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>外观模式如何为复杂子系统提供较简单的入口，它是否要求隐藏或禁止全部底层接口？</p><p>如何避免外观逐渐承担所有业务规则并演变成难以维护的大对象？</p>"
+    },
+    {
+      "order": 16,
+      "id": "PAT16",
+      "slug": "pattern-flyweight",
+      "title": "享元模式与共享状态",
+      "englishTitle": "Flyweight",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构型 · 组织与适配",
+      "difficulty": "hard",
+      "tags": [
+        "设计模式",
+        "组织与适配"
+      ],
+      "source": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610",
+      "references": [
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>享元模式需要区分哪些可共享状态与上下文相关状态，共享实例能节省什么成本？</p><p>缓存命中率、并发修改、对象生命周期和键数量增长会怎样影响其收益？</p>"
+    },
+    {
+      "order": 17,
+      "id": "PAT17",
+      "slug": "pattern-proxy",
+      "title": "代理模式与访问控制",
+      "englishTitle": "Proxy",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "结构型 · 组织与适配",
+      "difficulty": "medium",
+      "tags": [
+        "设计模式",
+        "组织与适配"
+      ],
+      "source": "https://docs.spring.io/spring-framework/reference/6.2/core/aop/proxying.html",
+      "references": [
+        {
+          "title": "Spring 6.2 · 代理机制",
+          "url": "https://docs.spring.io/spring-framework/reference/6.2/core/aop/proxying.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>代理模式在访问真实对象前后可以承担哪些职责，与装饰器和适配器如何按意图区分？</p><p>远程、延迟加载或缓存代理是否改变调用成本、异常及一致性，调用方需要知道哪些边界？</p>"
+    },
+    {
+      "order": 18,
+      "id": "PAT18",
+      "slug": "pattern-chain",
+      "title": "责任链模式与处理边界",
+      "englishTitle": "Chain of Responsibility",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "行为型 · 协作与控制",
+      "difficulty": "medium",
+      "tags": [
+        "设计模式",
+        "协作与控制"
+      ],
+      "source": "https://www.informit.com/articles/article.aspx?p=1398601",
+      "references": [
+        {
+          "title": "GoF · 责任链原书摘录",
+          "url": "https://www.informit.com/articles/article.aspx?p=1398601"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>责任链如何把请求发送者与具体处理者解耦，每个节点可以选择哪些后续动作？</p><p>如果请求没有被处理、被多次处理或某个节点异常，应怎样定义传播和终止规则？</p>"
+    },
+    {
+      "order": 19,
+      "id": "PAT19",
+      "slug": "pattern-command",
+      "title": "命令模式与请求对象",
+      "englishTitle": "Command",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "行为型 · 协作与控制",
+      "difficulty": "medium",
+      "tags": [
+        "设计模式",
+        "协作与控制"
+      ],
+      "source": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610",
+      "references": [
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>命令模式为什么把操作封装为对象，接收者、调用者与命令分别负责什么？</p><p>支持排队、重试或撤销时，需要额外保存哪些状态，哪些操作不能简单通过反向命令恢复？</p>"
+    },
+    {
+      "order": 20,
+      "id": "PAT20",
+      "slug": "pattern-interpreter",
+      "title": "解释器模式与语法规则",
+      "englishTitle": "Interpreter",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "行为型 · 协作与控制",
+      "difficulty": "hard",
+      "tags": [
+        "设计模式",
+        "协作与控制"
+      ],
+      "source": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610",
+      "references": [
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>解释器模式如何表示一套简单语言的语法与解释过程，终结符和非终结符表达式各是什么？</p><p>当规则复杂、语法频繁变化或性能要求提高时，应如何判断是否改用解析器或专用引擎？</p>"
+    },
+    {
+      "order": 21,
+      "id": "PAT21",
+      "slug": "pattern-iterator",
+      "title": "迭代器模式与遍历状态",
+      "englishTitle": "Iterator",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "行为型 · 协作与控制",
+      "difficulty": "easy",
+      "tags": [
+        "设计模式",
+        "协作与控制"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Iterator.html",
+      "references": [
+        {
+          "title": "Java 17 · Iterator",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Iterator.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>迭代器如何让调用方遍历集合而不依赖内部表示，遍历位置应该由谁保存？</p><p>遍历中修改集合、重复迭代和并发访问时，应怎样明确行为，而不把某种实现的检查机制当作通用保证？</p>"
+    },
+    {
+      "order": 22,
+      "id": "PAT22",
+      "slug": "pattern-mediator",
+      "title": "中介者模式与对象通信",
+      "englishTitle": "Mediator",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "行为型 · 协作与控制",
+      "difficulty": "medium",
+      "tags": [
+        "设计模式",
+        "协作与控制"
+      ],
+      "source": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610",
+      "references": [
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>中介者如何减少多个对象之间的直接依赖，它与外观对外提供统一入口有什么不同？</p><p>如何划分协调职责，避免中介者知道所有业务细节或成为单一复杂度中心？</p>"
+    },
+    {
+      "order": 23,
+      "id": "PAT23",
+      "slug": "pattern-memento",
+      "title": "备忘录模式与状态恢复",
+      "englishTitle": "Memento",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "行为型 · 协作与控制",
+      "difficulty": "medium",
+      "tags": [
+        "设计模式",
+        "协作与控制"
+      ],
+      "source": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610",
+      "references": [
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>备忘录如何在保持封装的前提下保存并恢复对象状态，原发器、备忘录与管理者如何分工？</p><p>状态快照涉及大型对象或外部系统时，存储成本、兼容性和恢复一致性应如何处理？</p>"
+    },
+    {
+      "order": 24,
+      "id": "PAT24",
+      "slug": "pattern-observer",
+      "title": "观察者模式与事件通知",
+      "englishTitle": "Observer",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "行为型 · 协作与控制",
+      "difficulty": "easy",
+      "tags": [
+        "设计模式",
+        "协作与控制"
+      ],
+      "source": "https://docs.spring.io/spring-framework/reference/6.2/core/beans/context-introduction.html",
+      "references": [
+        {
+          "title": "Spring 6.2 · 应用上下文事件",
+          "url": "https://docs.spring.io/spring-framework/reference/6.2/core/beans/context-introduction.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>观察者模式如何组织订阅和通知，同步回调与异步事件的语义有什么不同？</p><p>订阅者异常、重入、顺序及取消订阅应如何约定，为什么观察者模式本身不保证可靠投递？</p>"
+    },
+    {
+      "order": 25,
+      "id": "PAT25",
+      "slug": "pattern-state",
+      "title": "状态模式与合法转换",
+      "englishTitle": "State",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "行为型 · 协作与控制",
+      "difficulty": "medium",
+      "tags": [
+        "设计模式",
+        "协作与控制"
+      ],
+      "source": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610",
+      "references": [
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>状态模式如何把行为随状态变化的逻辑分散到不同对象，与用枚举配合分支相比有什么代价？</p><p>状态转换应该由谁控制，如何防止非法跃迁并保持外部可观察行为一致？</p>"
+    },
+    {
+      "order": 26,
+      "id": "PAT26",
+      "slug": "pattern-strategy",
+      "title": "策略模式与算法替换",
+      "englishTitle": "Strategy",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "行为型 · 协作与控制",
+      "difficulty": "easy",
+      "tags": [
+        "设计模式",
+        "协作与控制"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Comparator.html",
+      "references": [
+        {
+          "title": "Java 17 · Comparator",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Comparator.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>策略模式如何封装可替换的算法或规则，调用方应怎样选择并提供所需上下文？</p><p>用函数对象实现策略与定义一组策略类有什么取舍，它是否自动消除了所有条件分支？</p>"
+    },
+    {
+      "order": 27,
+      "id": "PAT27",
+      "slug": "pattern-template-method",
+      "title": "模板方法与扩展钩子",
+      "englishTitle": "Template Method",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "行为型 · 协作与控制",
+      "difficulty": "medium",
+      "tags": [
+        "设计模式",
+        "协作与控制"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractList.html",
+      "references": [
+        {
+          "title": "Java 17 · AbstractList 扩展机制",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractList.html"
+        },
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>模板方法如何固定流程骨架并开放部分步骤，与通过组合使用策略有什么不同？</p><p>如何避免子类破坏流程顺序，哪些钩子应该可选，哪些不应暴露为扩展点？</p>"
+    },
+    {
+      "order": 28,
+      "id": "PAT28",
+      "slug": "pattern-visitor",
+      "title": "访问者模式与双分派",
+      "englishTitle": "Visitor",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "行为型 · 协作与控制",
+      "difficulty": "hard",
+      "tags": [
+        "设计模式",
+        "协作与控制"
+      ],
+      "source": "https://docs.python.org/3.13/library/ast.html#ast.NodeVisitor",
+      "references": [
+        {
+          "title": "Python 3.13 · ast.NodeVisitor",
+          "url": "https://docs.python.org/3.13/library/ast.html#ast.NodeVisitor"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>访问者如何把操作与相对稳定的对象结构分离，双分派解决了什么选择问题？</p><p>新增一种操作与新增一种元素类型分别需要修改哪里，何时这种取舍不再适合？</p>"
+    },
+    {
+      "order": 29,
+      "id": "PAT29",
+      "slug": "pattern-payment",
+      "title": "支付渠道的策略与工厂",
+      "englishTitle": "Payment Strategy Factory Adapter",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "场景 · 模式选型与重构",
+      "difficulty": "medium",
+      "tags": [
+        "设计模式",
+        "模式选型与重构"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Comparator.html",
+      "references": [
+        {
+          "title": "Java 17 · Comparator",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Comparator.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>多个支付渠道具有相同支付入口但不同协议与参数时，应如何划分选择策略、创建实现和接口适配的职责？</p><p>如何保持错误语义、超时与幂等边界清晰，而不把所有差异堆进一个大分支？</p>"
+    },
+    {
+      "order": 30,
+      "id": "PAT30",
+      "slug": "pattern-pipeline",
+      "title": "校验流程与责任链",
+      "englishTitle": "Validation Chain",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "场景 · 模式选型与重构",
+      "difficulty": "easy",
+      "tags": [
+        "设计模式",
+        "模式选型与重构"
+      ],
+      "source": "https://www.informit.com/articles/article.aspx?p=1398601",
+      "references": [
+        {
+          "title": "GoF · 责任链原书摘录",
+          "url": "https://www.informit.com/articles/article.aspx?p=1398601"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>一个请求需要执行身份校验、参数检查和业务校验时，应如何组织可配置的处理顺序？</p><p>哪些失败需要立即终止，哪些结果需要聚合，如何判断责任链是否比固定顺序调用更合适？</p>"
+    },
+    {
+      "order": 31,
+      "id": "PAT31",
+      "slug": "pattern-notification",
+      "title": "多渠道通知与桥接",
+      "englishTitle": "Notification Bridge",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "场景 · 模式选型与重构",
+      "difficulty": "medium",
+      "tags": [
+        "设计模式",
+        "模式选型与重构"
+      ],
+      "source": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610",
+      "references": [
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>通知既有邮件、短信等渠道，又有普通、紧急等业务类型时，应如何识别可独立变化的维度？</p><p>桥接、策略或简单组合各需要哪些前提，如何在新增渠道时减少已有类型的改动？</p>"
+    },
+    {
+      "order": 32,
+      "id": "PAT32",
+      "slug": "pattern-cache-proxy",
+      "title": "缓存代理与一致性边界",
+      "englishTitle": "Cache Proxy",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "场景 · 模式选型与重构",
+      "difficulty": "hard",
+      "tags": [
+        "设计模式",
+        "模式选型与重构"
+      ],
+      "source": "https://docs.spring.io/spring-framework/reference/6.2/core/aop/proxying.html",
+      "references": [
+        {
+          "title": "Spring 6.2 · 代理机制",
+          "url": "https://docs.spring.io/spring-framework/reference/6.2/core/aop/proxying.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>给已有查询接口增加缓存时，哪些行为可由代理或装饰器承担，哪些必须由业务契约决定？</p><p>缓存键、失效、空值、并发加载和异常结果会怎样影响接口的可替换性？</p>"
+    },
+    {
+      "order": 33,
+      "id": "PAT33",
+      "slug": "pattern-plugin",
+      "title": "插件加载与创建机制",
+      "englishTitle": "Plugin ServiceLoader Factory",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "场景 · 模式选型与重构",
+      "difficulty": "medium",
+      "tags": [
+        "设计模式",
+        "模式选型与重构"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ServiceLoader.html",
+      "references": [
+        {
+          "title": "Java 17 · ServiceLoader",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ServiceLoader.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>一个应用需要在运行时发现并加载第三方实现时，如何分离发现、创建、能力检查和生命周期管理？</p><p>工厂、注册表与 Java ServiceLoader 等机制各解决哪一部分问题，为什么它们不自动提供插件安全隔离？</p>"
+    },
+    {
+      "order": 34,
+      "id": "PAT34",
+      "slug": "pattern-undo",
+      "title": "编辑器撤销：命令还是备忘录",
+      "englishTitle": "Undo Command Memento",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "场景 · 模式选型与重构",
+      "difficulty": "hard",
+      "tags": [
+        "设计模式",
+        "模式选型与重构"
+      ],
+      "source": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610",
+      "references": [
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>编辑器需要撤销和重做时，记录操作命令与保存状态快照各有哪些时间、空间和正确性取舍？</p><p>合并连续操作、分叉历史或涉及不可逆外部副作用时，应怎样定义可撤销范围？</p>"
+    },
+    {
+      "order": 35,
+      "id": "PAT35",
+      "slug": "pattern-workflow",
+      "title": "订单状态与状态机",
+      "englishTitle": "Workflow State",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "场景 · 模式选型与重构",
+      "difficulty": "medium",
+      "tags": [
+        "设计模式",
+        "模式选型与重构"
+      ],
+      "source": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610",
+      "references": [
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>订单可能支付、取消、发货和退款时，如何表达状态、事件与合法转换，而不依赖散落的状态判断？</p><p>引入状态模式后，并发请求、持久化与重复事件带来的问题还需要哪些独立机制处理？</p>"
+    },
+    {
+      "order": 36,
+      "id": "PAT36",
+      "slug": "pattern-event-boundary",
+      "title": "观察者与发布订阅的边界",
+      "englishTitle": "Observer Publish Subscribe",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "场景 · 模式选型与重构",
+      "difficulty": "hard",
+      "tags": [
+        "设计模式",
+        "模式选型与重构"
+      ],
+      "source": "https://docs.spring.io/spring-framework/reference/6.2/core/beans/context-introduction.html",
+      "references": [
+        {
+          "title": "Spring 6.2 · 应用上下文事件",
+          "url": "https://docs.spring.io/spring-framework/reference/6.2/core/beans/context-introduction.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>进程内观察者与通过消息系统发布订阅，在耦合、失败和生命周期上有哪些差异？</p><p>如果需要重试、去重、顺序或持久化，哪些保障来自传输系统和应用设计，而不是观察者模式本身？</p>"
+    },
+    {
+      "order": 37,
+      "id": "PAT37",
+      "slug": "pattern-framework-hook",
+      "title": "框架扩展：模板、策略与组合",
+      "englishTitle": "Template Strategy Extension",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "场景 · 模式选型与重构",
+      "difficulty": "medium",
+      "tags": [
+        "设计模式",
+        "模式选型与重构"
+      ],
+      "source": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractList.html",
+      "references": [
+        {
+          "title": "Java 17 · AbstractList 扩展机制",
+          "url": "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractList.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>需要允许业务方定制通用处理流程时，什么时候采用继承钩子，什么时候注入策略或组合多个步骤？</p><p>如何控制扩展点数量，并通过兼容性测试保护框架升级后的行为？</p>"
+    },
+    {
+      "order": 38,
+      "id": "PAT38",
+      "slug": "pattern-shared-objects",
+      "title": "共享对象池、享元与缓存",
+      "englishTitle": "Flyweight Pool Cache",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "场景 · 模式选型与重构",
+      "difficulty": "hard",
+      "tags": [
+        "设计模式",
+        "模式选型与重构"
+      ],
+      "source": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610",
+      "references": [
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>共享大量重复配置对象时，享元、缓存和对象池在目标、所有权及生命周期上有什么不同？</p><p>对象含可变状态或外部资源时，如何判断共享是否安全，并控制回收和容量上限？</p>"
+    },
+    {
+      "order": 39,
+      "id": "PAT39",
+      "slug": "pattern-refactor-branches",
+      "title": "从条件分支到模式的重构时机",
+      "englishTitle": "Refactoring Strategy State",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "场景 · 模式选型与重构",
+      "difficulty": "easy",
+      "tags": [
+        "设计模式",
+        "模式选型与重构"
+      ],
+      "source": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610",
+      "references": [
+        {
+          "title": "GoF · 原书出版社目录与模式范围",
+          "url": "https://www.informit.com/store/design-patterns-elements-of-reusable-object-oriented-9780201633610"
+        },
+        {
+          "title": "GoF · 原作者访谈",
+          "url": "https://www.informit.com/articles/article.aspx?p=1404056"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>一个只有少量稳定分支的实现是否需要立即改成策略或状态对象，哪些变化信号才说明抽象可能有价值？</p><p>重构时应如何保持外部行为不变，并避免为假设需求增加大量类和配置？</p>"
+    },
+    {
+      "order": 40,
+      "id": "PAT40",
+      "slug": "pattern-pattern-review",
+      "title": "模式设计评审与最小实现",
+      "englishTitle": "Design Review SOLID",
+      "kind": "discussion",
+      "format": "questions-only",
+      "category": "场景 · 模式选型与重构",
+      "difficulty": "medium",
+      "tags": [
+        "设计模式",
+        "模式选型与重构"
+      ],
+      "source": "https://blog.cleancoder.com/uncle-bob/2020/10/18/Solid-Relevance.html",
+      "references": [
+        {
+          "title": "Robert C. Martin · SOLID Relevance",
+          "url": "https://blog.cleancoder.com/uncle-bob/2020/10/18/Solid-Relevance.html"
+        }
+      ],
+      "answerTemplate": "",
+      "content": "<p>评审一个使用多种模式的模块时，如何从需求、依赖方向、变化范围和测试成本判断设计是否有效？</p><p>如果去掉某个抽象层仍然满足当前需求，应如何比较简化收益与未来扩展风险？</p>"
+    }
+  ]
+}
