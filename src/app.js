@@ -1,4 +1,5 @@
 import { DIFFICULTIES, LANGUAGES, draftKey, initialCode, indentedNewline, validateDataset, filterQuestions, randomRound, normalizeSaved, parsePracticeRoute, practiceHash } from './core.js';
+import { highlightCode } from './highlight.js';
 import { BANKS, bankById, storageKey } from './banks.js';
 import { renderProblemHTML } from './content.js';
 
@@ -133,7 +134,25 @@ function renderEditor() {
   $('reset-code').textContent = current.format === 'questions-only' ? '清空草稿' : discussion || language === 'java' ? '重置模板' : '清空草稿';
   $('reset-code').title = discussion ? '重置本题的思路草稿' : `重置本题的 ${config.label} 草稿`;
   updateEditorInfo();
+  renderHighlight();
 }
+
+function syncEditorScroll() {
+  const editor = $('code-editor');
+  $('line-numbers').scrollTop = editor.scrollTop;
+  $('code-highlight').style.width = `${editor.clientWidth}px`;
+  $('code-highlight').style.height = `${editor.clientHeight}px`;
+  $('highlight-content').style.transform = `translate(${-editor.scrollLeft}px, ${-editor.scrollTop}px)`;
+}
+
+function renderHighlight() {
+  const editor = $('code-editor');
+  $('highlight-content').innerHTML = isDiscussion() ? '' : highlightCode(editor.value, language);
+  editor.classList.toggle('highlighted', !isDiscussion());
+  syncEditorScroll();
+}
+
+new ResizeObserver(syncEditorScroll).observe($('code-editor'));
 
 function updateEditorInfo() {
   const editor = $('code-editor');
@@ -388,11 +407,11 @@ $('next').addEventListener('click', () => {
   else if (current.order < data.questions.length) visit(data.questions[current.order].slug);
 });
 $('code-editor').addEventListener('input', () => {
-  syncDraft(); updateEditorInfo();
+  syncDraft(); updateEditorInfo(); renderHighlight();
   $('save-status').textContent = '保存中…';
   clearTimeout(saveTimer); saveTimer = setTimeout(persist, 250);
 });
-$('code-editor').addEventListener('scroll', () => { $('line-numbers').scrollTop = $('code-editor').scrollTop; });
+$('code-editor').addEventListener('scroll', syncEditorScroll);
 $('code-editor').addEventListener('beforeinput', event => {
   if (isDiscussion() || event.isComposing || !event.cancelable ||
       !['insertLineBreak', 'insertParagraph'].includes(event.inputType)) return;

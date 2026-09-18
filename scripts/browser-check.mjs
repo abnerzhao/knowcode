@@ -187,6 +187,82 @@ try {
   await indentContext.close();
   checks.push('六种代码语言换行保留缩进，行中/选区替换、撤销重做、输入法与保存正常；思路草稿不自动缩进');
 
+  const highlightContext = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+  const highlightPage = await highlightContext.newPage();
+  highlightPage.on('pageerror', error => errors.push(error.message));
+  await highlightPage.goto('http://127.0.0.1:4173/#/hot100/ordered/two-sum');
+  await highlightPage.locator('#workspace').waitFor({ state: 'visible' });
+  const highlightEditor = highlightPage.locator('#code-editor');
+  const highlighted = highlightPage.locator('#highlight-content');
+  for (const [language, source] of [
+    ['java', 'public int n = 42; // 中文\nString s = "hello";'],
+    ['javascript', 'const n = 42; // 中文\nlet s = "hello";'],
+    ['typescript', 'const n: number = 42; // 中文\nlet s = "hello";'],
+    ['python', 'def f(): # 中文\n    return "hello", 42'],
+    ['cpp', 'int n = 42; // 中文\nstring s = "hello";'],
+    ['go', 'func f() { // 中文\n s := "hello"; n := 42\n}'],
+  ]) {
+    await highlightPage.locator('#code-language').selectOption(language);
+    await highlightEditor.fill(source);
+    assert.equal(await highlighted.textContent(), source);
+    for (const type of ['keyword', 'string', 'comment', 'number']) {
+      assert.ok(await highlighted.locator(`.syntax-${type}`).count() > 0, language);
+    }
+  }
+  await highlightPage.locator('#code-language').selectOption('java');
+  const sample = '\tpublic class Demo {\n    String s = "<img src=x onerror=alert(1)>"; // 中文😀\n}\n';
+  await highlightEditor.fill(sample);
+  assert.equal(await highlighted.textContent(), sample);
+  assert.equal(await highlighted.locator('img, script').count(), 0);
+  await highlightContext.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await highlightPage.locator('#copy-code').click();
+  assert.equal(await highlightPage.evaluate(() => navigator.clipboard.readText()), sample);
+  const lightColor = await highlighted.locator('.syntax-keyword').first().evaluate(el => getComputedStyle(el).color);
+  await highlightPage.locator('#editor-theme').selectOption('dark');
+  assert.notEqual(await highlighted.locator('.syntax-keyword').first().evaluate(el => getComputedStyle(el).color), lightColor);
+  assert.equal(await highlightEditor.inputValue(), sample);
+  await highlightPage.screenshot({ path: `${screenshots}/syntax-dark.png`, fullPage: true });
+  await highlightPage.locator('#editor-theme').selectOption('light');
+  await highlightPage.screenshot({ path: `${screenshots}/syntax-light.png`, fullPage: true });
+  await highlightPage.locator('#next').click();
+  await highlightPage.locator('#previous').click();
+  assert.equal(await highlighted.textContent(), sample);
+  await highlightPage.reload();
+  await highlightPage.locator('#workspace').waitFor({ state: 'visible' });
+  assert.equal(await highlighted.textContent(), sample);
+  await highlightEditor.fill(Array.from({ length: 100 }, (_, i) => `\tint value${i} = ${i}; // ${'long line '.repeat(40)}`).join('\n') + '\n');
+  await highlightEditor.evaluate(el => { el.scrollTop = el.scrollHeight; el.scrollLeft = el.scrollWidth; });
+  await highlightPage.waitForFunction(() => {
+    const editor = document.getElementById('code-editor');
+    return document.getElementById('highlight-content').style.transform === `translate(${-editor.scrollLeft}px, ${-editor.scrollTop}px)`;
+  });
+  assert.ok(await highlightEditor.evaluate(el => el.scrollTop > 0 && el.scrollLeft > 0));
+  for (const width of [390, 1440, 1920]) {
+    await highlightPage.setViewportSize({ width, height: 844 });
+    if (await highlightPage.locator('#show-editor').isVisible()) await highlightPage.locator('#show-editor').click();
+    await highlightPage.waitForFunction(() => document.getElementById('code-highlight').clientWidth === document.getElementById('code-editor').clientWidth);
+    assert.ok(await highlightPage.evaluate(() => {
+      const editor = document.getElementById('code-editor');
+      const layer = document.getElementById('code-highlight');
+      const a = getComputedStyle(editor), b = getComputedStyle(layer);
+      return ['fontFamily', 'fontSize', 'lineHeight', 'letterSpacing', 'tabSize'].every(key => a[key] === b[key]) &&
+        editor.getBoundingClientRect().x === layer.getBoundingClientRect().x &&
+        editor.getBoundingClientRect().y === layer.getBoundingClientRect().y && document.documentElement.scrollWidth <= innerWidth;
+    }));
+  }
+  await highlightPage.emulateMedia({ forcedColors: 'active' });
+  assert.equal(await highlightPage.locator('#code-highlight').isVisible(), false);
+  assert.notEqual(await highlightEditor.evaluate(el => getComputedStyle(el).color), 'rgba(0, 0, 0, 0)');
+  await highlightPage.emulateMedia({ forcedColors: 'none' });
+  await highlightPage.goto('http://127.0.0.1:4173/#/system-design/ordered/sd-requirements');
+  await highlightPage.locator('#workspace').waitFor({ state: 'visible' });
+  await highlightEditor.fill('class 是思路文本，不着色');
+  assert.equal(await highlightPage.locator('#code-highlight').isVisible(), false);
+  assert.equal(await highlighted.textContent(), '');
+  assert.notEqual(await highlightEditor.evaluate(el => getComputedStyle(el).color), 'rgba(0, 0, 0, 0)');
+  await highlightContext.close();
+  checks.push('六种语言基础高亮、HTML 转义、浅深色、滚动/移动端对齐、切题保存、高对比度与纯文本思路草稿正常');
+
   assert.equal(await page.locator('#problem-content').evaluate(el => getComputedStyle(el).fontSize), '14px');
   await page.locator('#code-editor').fill('// Java 独立草稿');
   for (const [language, config] of Object.entries(LANGUAGES)) {
