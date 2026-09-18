@@ -1,11 +1,22 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
-import { DIFFICULTIES, LANGUAGES, draftKey, initialCode, filterQuestions, randomRound, normalizeSaved, validateDataset, parsePracticeRoute, practiceHash } from '../src/core.js';
+import { DIFFICULTIES, LANGUAGES, draftKey, initialCode, indentedNewline, filterQuestions, randomRound, normalizeSaved, validateDataset, parsePracticeRoute, practiceHash } from '../src/core.js';
 import { BANKS, storageKey } from '../src/banks.js';
 
 const dataset = JSON.parse(await readFile(new URL('../public/data/questions.json', import.meta.url), 'utf8'));
 const questions = dataset.questions;
+
+test('代码换行沿用当前行缩进，保留空格与 Tab 且不复制光标后的缩进', () => {
+  for (const [value, position, expected] of [
+    ['', 0, '\n'], ['hello', 5, '\n'], ['    return x;', 13, '\n    '],
+    ['\t\treturn x;', 11, '\n\t\t'], [' \t  value', 9, '\n \t  '],
+    ['    first\n  second', 18, '\n  '], ['    ', 4, '\n    '],
+    ['    value', 0, '\n'], ['    value', 2, '\n  '],
+    ['    value', 7, '\n    '], ['    first\n', 10, '\n'],
+    ['\n    value', 0, '\n'], ['    if (ok) {', 13, '\n    '],
+  ]) assert.equal(indentedNewline(value, position), expected, JSON.stringify([value, position]));
+});
 
 test('首页先选择题库，练习链接保留题库、模式、题目和难度，兼容旧链接', () => {
   for (const hash of ['', '#/', '#rotate-array', '#/unknown/two-sum']) {

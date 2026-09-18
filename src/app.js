@@ -1,4 +1,4 @@
-import { DIFFICULTIES, LANGUAGES, draftKey, initialCode, validateDataset, filterQuestions, randomRound, normalizeSaved, parsePracticeRoute, practiceHash } from './core.js';
+import { DIFFICULTIES, LANGUAGES, draftKey, initialCode, indentedNewline, validateDataset, filterQuestions, randomRound, normalizeSaved, parsePracticeRoute, practiceHash } from './core.js';
 import { BANKS, bankById, storageKey } from './banks.js';
 import { renderProblemHTML } from './content.js';
 
@@ -393,6 +393,20 @@ $('code-editor').addEventListener('input', () => {
   clearTimeout(saveTimer); saveTimer = setTimeout(persist, 250);
 });
 $('code-editor').addEventListener('scroll', () => { $('line-numbers').scrollTop = $('code-editor').scrollTop; });
+$('code-editor').addEventListener('beforeinput', event => {
+  if (isDiscussion() || event.isComposing || !event.cancelable ||
+      !['insertLineBreak', 'insertParagraph'].includes(event.inputType)) return;
+  const editor = event.currentTarget;
+  const text = indentedNewline(editor.value, editor.selectionStart);
+  if (text === '\n') return; // Leave unindented newlines to the browser.
+  event.preventDefault();
+  // Native insertion preserves undo history; setRangeText is the fallback.
+  let inserted = false;
+  try { inserted = document.execCommand('insertText', false, text); }
+  catch { /* Some browsers do not support native text insertion. */ }
+  if (!inserted) editor.setRangeText(text, editor.selectionStart, editor.selectionEnd, 'end');
+  editor.dispatchEvent(new Event('input', { bubbles: true }));
+});
 for (const event of ['click', 'keyup', 'select']) $('code-editor').addEventListener(event, updateEditorInfo);
 $('code-editor').addEventListener('keydown', event => {
   if (event.key === 'Tab' && !event.shiftKey) {

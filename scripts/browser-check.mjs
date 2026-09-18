@@ -113,6 +113,80 @@ try {
   assert.equal(await page.locator('#code-editor').inputValue(), data.questions[0].java);
   checks.push('草稿在切题、刷新后保留，空草稿、Tab 缩进及重置确认正常');
 
+  const indentContext = await browser.newContext();
+  const indentPage = await indentContext.newPage();
+  indentPage.on('pageerror', error => errors.push(error.message));
+  await indentPage.goto('http://127.0.0.1:4173/#/hot100/ordered/two-sum');
+  await indentPage.locator('#workspace').waitFor({ state: 'visible' });
+  const indentEditor = indentPage.locator('#code-editor');
+  for (const language of Object.keys(LANGUAGES)) {
+    await indentPage.locator('#code-language').selectOption(language);
+    await indentEditor.fill('    work();');
+    await indentEditor.press('End');
+    await indentEditor.press('Enter');
+    assert.equal(await indentEditor.inputValue(), '    work();\n    ');
+    assert.equal(await indentPage.locator('#cursor-position').innerText(), 'Ln 2, Col 5');
+    assert.equal(await indentPage.locator('#line-numbers').innerText(), '1\n2');
+  }
+  for (const [value, start, end, expected, caret] of [
+    ['\t\tvalue', 7, 7, '\t\tvalue\n\t\t', 10],
+    ['  \tvalue', 5, 5, '  \tva\n  \tlue', 9],
+    ['    value', 2, 2, '  \n    value', 5],
+    ['    value', 0, 0, '\n    value', 1],
+    ['    abcXYZ', 7, 10, '    abc\n    ', 12],
+    ['  a\n    b', 3, 9, '  a\n  ', 6],
+    ['    ', 4, 4, '    \n    ', 9],
+    ['', 0, 0, '\n', 1],
+  ]) {
+    await indentEditor.fill(value);
+    await indentEditor.evaluate((el, range) => el.setSelectionRange(...range), [start, end]);
+    await indentEditor.press('Enter');
+    assert.equal(await indentEditor.inputValue(), expected);
+    assert.deepEqual(await indentEditor.evaluate(el => [el.selectionStart, el.selectionEnd]), [caret, caret]);
+  }
+  await indentEditor.fill('    original');
+  await indentEditor.press('End');
+  await indentEditor.press('Enter');
+  await indentEditor.press(process.platform === 'darwin' ? 'Meta+z' : 'Control+z');
+  assert.equal(await indentEditor.inputValue(), '    original');
+  await indentEditor.press(process.platform === 'darwin' ? 'Meta+Shift+z' : 'Control+Shift+z');
+  assert.equal(await indentEditor.inputValue(), '    original\n    ');
+  await indentEditor.press('Shift+Enter');
+  assert.equal(await indentEditor.inputValue(), '    original\n    \n    ');
+  await indentPage.locator('#next').click();
+  await indentPage.locator('#previous').click();
+  assert.equal(await indentEditor.inputValue(), '    original\n    \n    ');
+  await indentPage.reload();
+  await indentPage.locator('#workspace').waitFor({ state: 'visible' });
+  assert.equal(await indentEditor.inputValue(), '    original\n    \n    ');
+  await indentEditor.fill('    中文');
+  assert.equal(await indentEditor.evaluate(el => {
+    const event = new InputEvent('beforeinput', { inputType: 'insertLineBreak', isComposing: true, cancelable: true });
+    el.dispatchEvent(event);
+    return event.defaultPrevented;
+  }), false);
+  assert.equal(await indentEditor.inputValue(), '    中文');
+  await indentEditor.evaluate(el => {
+    const original = document.execCommand;
+    document.execCommand = () => false;
+    try {
+      el.focus();
+      el.setSelectionRange(el.value.length, el.value.length);
+      el.dispatchEvent(new InputEvent('beforeinput', { inputType: 'insertParagraph', cancelable: true }));
+    } finally { document.execCommand = original; }
+  });
+  assert.equal(await indentEditor.inputValue(), '    中文\n    ');
+  await indentEditor.press('Shift+Tab');
+  assert.equal(await indentEditor.evaluate(el => document.activeElement === el), false);
+  await indentPage.goto('http://127.0.0.1:4173/#/system-design/ordered/sd-requirements');
+  await indentPage.locator('#workspace').waitFor({ state: 'visible' });
+  await indentEditor.fill('    思路');
+  await indentEditor.press('End');
+  await indentEditor.press('Enter');
+  assert.equal(await indentEditor.inputValue(), '    思路\n');
+  await indentContext.close();
+  checks.push('六种代码语言换行保留缩进，行中/选区替换、撤销重做、输入法与保存正常；思路草稿不自动缩进');
+
   assert.equal(await page.locator('#problem-content').evaluate(el => getComputedStyle(el).fontSize), '14px');
   await page.locator('#code-editor').fill('// Java 独立草稿');
   for (const [language, config] of Object.entries(LANGUAGES)) {

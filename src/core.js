@@ -11,6 +11,12 @@ export const LANGUAGES = {
   go: { label: 'Go', file: 'solution.go' },
 };
 
+export function indentedNewline(value, position) {
+  const before = value.slice(0, position);
+  const line = before.slice(before.lastIndexOf('\n') + 1);
+  return '\n' + line.match(/^[\t ]*/)[0];
+}
+
 // Keep the original Java keys so existing drafts need no migration.
 export function draftKey(slug, language) {
   return language === 'java' ? slug : `${slug}:${language}`;
