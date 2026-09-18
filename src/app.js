@@ -1,5 +1,6 @@
 import { DIFFICULTIES, LANGUAGES, draftKey, initialCode, indentedNewline, validateDataset, filterQuestions, randomRound, normalizeSaved, parsePracticeRoute, practiceHash } from './core.js';
 import { highlightCode } from './highlight.js';
+import { canFormat, formatDraft } from './formatter.js';
 import { BANKS, bankById, storageKey } from './banks.js';
 import { renderProblemHTML } from './content.js';
 
@@ -34,6 +35,8 @@ let historyIndex = -1;
 let query = '';
 let toastTimer;
 let saveTimer;
+let editorRevision = 0;
+let formatting = false;
 let storageWarning = false;
 let memoryWarning = false;
 let saved;
@@ -107,6 +110,7 @@ function syncDraft() {
 }
 
 function renderEditor() {
+  editorRevision++;
   const discussion = isDiscussion();
   const config = LANGUAGES[language];
   const editor = $('code-editor');
@@ -135,6 +139,16 @@ function renderEditor() {
   $('reset-code').title = discussion ? '重置本题的思路草稿' : `重置本题的 ${config.label} 草稿`;
   updateEditorInfo();
   renderHighlight();
+  updateFormatButton();
+}
+
+function updateFormatButton() {
+  const button = $('format-code');
+  button.hidden = isDiscussion();
+  button.disabled = formatting || !canFormat(language);
+  button.textContent = formatting ? '格式化中…' : '格式化';
+  button.title = canFormat(language) ? '格式化当前代码，可用 Ctrl / ⌘ + Z 撤销'
+    : '暂支持 Java、JavaScript、TypeScript 格式化';
 }
 
 function syncEditorScroll() {
@@ -407,6 +421,7 @@ $('next').addEventListener('click', () => {
   else if (current.order < data.questions.length) visit(data.questions[current.order].slug);
 });
 $('code-editor').addEventListener('input', () => {
+  editorRevision++;
   syncDraft(); updateEditorInfo(); renderHighlight();
   $('save-status').textContent = '保存中…';
   clearTimeout(saveTimer); saveTimer = setTimeout(persist, 250);
@@ -435,6 +450,54 @@ $('code-editor').addEventListener('keydown', event => {
     editor.dispatchEvent(new Event('input'));
   }
   // Shift+Tab retains the browser's normal focus escape for keyboard access.
+});
+document.addEventListener('keydown', event => {
+  if (!(event.ctrlKey || event.metaKey) || event.key.toLowerCase() !== 's' ||
+      event.altKey || event.shiftKey || event.isComposing || !current || $('workspace').hidden) return;
+  event.preventDefault();
+  if (event.repeat) return;
+  syncDraft();
+  persist();
+  if (storageWarning) {
+    notify('保存失败，请复制草稿备份。');
+  } else {
+    $('save-status').textContent = '已保存到此浏览器';
+    notify(isDiscussion() ? '思路草稿已保存到此浏览器。' : '代码草稿已保存到此浏览器。');
+  }
+});
+$('format-code').addEventListener('click', async () => {
+  if (!current || isDiscussion() || !canFormat(language) || formatting) return;
+  const editor = $('code-editor');
+  if (!editor.value.trim()) { notify('先写一点代码再格式化。'); return; }
+  const revision = editorRevision;
+  const route = routeVersion;
+  const source = editor.value;
+  const cursor = editor.selectionStart;
+  formatting = true;
+  updateFormatButton();
+  try {
+    const result = await formatDraft(source, language, cursor);
+    if (revision !== editorRevision || route !== routeVersion) {
+      notify('草稿或题目已变化，本次格式化结果未应用。');
+      return;
+    }
+    if (result.formatted === source) { notify('代码已是规范格式。'); return; }
+    editor.focus();
+    editor.select();
+    let inserted = false;
+    try { inserted = document.execCommand('insertText', false, result.formatted); }
+    catch { /* Fall back when native text insertion is unavailable. */ }
+    if (!inserted) editor.setRangeText(result.formatted, 0, source.length, 'end');
+    editor.setSelectionRange(result.cursorOffset, result.cursorOffset);
+    editor.dispatchEvent(new Event('input', { bubbles: true }));
+    persist();
+    notify(storageWarning ? '已格式化，但保存失败，请复制草稿备份。' : '已格式化并保存到此浏览器。');
+  } catch (error) {
+    notify(error.message);
+  } finally {
+    formatting = false;
+    updateFormatButton();
+  }
 });
 $('copy-code').addEventListener('click', async () => {
   try { await navigator.clipboard.writeText($('code-editor').value); notify(isDiscussion() ? '思路已复制。' : '代码已复制，可粘贴到力扣验证。'); }

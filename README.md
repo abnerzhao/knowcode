@@ -2,7 +2,7 @@
 
 从算法到系统设计，选一本，练一题。
 
-一个面向开发者的日常练习与面试复习网站。以书架组织习题册，支持顺序练习、按难度随机抽题，以及本地保存的代码和思路草稿。使用原生 HTML、CSS、JavaScript 构建，无后端、无运行时依赖，可部署为纯静态站点。
+一个面向开发者的日常练习与面试复习网站。以书架组织习题册，支持顺序练习、按难度随机抽题，以及本地保存的代码和思路草稿。使用原生 HTML、CSS、JavaScript 构建，无后端、无外部服务依赖，可部署为纯静态站点。
 
 ## 习题册
 
@@ -32,7 +32,7 @@
 
 - **顺序练习**：通过目录、搜索和上一题／下一题导航；算法题沿用题单顺序，讨论题按主题编排。
 - **随机练习**：直接开始抽题，在练习页切换全部、简单、中等或困难；同一轮不重复，下一轮避免立即重复上一题。
-- **代码草稿**：支持 Java、JavaScript、TypeScript、Python、C++、Go，提供适配浅色 / 深色的基础语法高亮（关键词、字符串、注释、数字与常用内置类型）。换行自动沿用当前行缩进（保留空格或 Tab），Tab 插入四个空格，Shift+Tab 可移出编辑框。Java 提供初始模板，其他语言从空白开始；不会自动推断括号或语法块的额外缩进。高亮仅做词法着色，不提供语法检查。
+- **代码草稿**：支持 Java、JavaScript、TypeScript、Python、C++、Go，提供适配浅色 / 深色的基础语法高亮（关键词、字符串、注释、数字与常用内置类型）。换行自动沿用当前行缩进（保留空格或 Tab），Tab 插入四个空格，Shift+Tab 可移出编辑框。练习页按 Ctrl+S（Mac 也支持 ⌘+S）立即保存当前代码或思路草稿到此浏览器，不触发网页另存为；自动保存仍然保留。Java 提供初始模板，其他语言从空白开始；不会自动推断括号或语法块的额外缩进。高亮仅做词法着色，不提供语法检查。
 - **思路草稿**：讨论题使用可换行的纯文本编辑框；纯问题题目不附答案或答题提纲。
 - **编辑与保存**：支持复制、重置确认和本地自动保存；默认浅色，可手动切换深色并记住偏好。
 - **移动端**：支持切换题目描述与编辑区，题目目录可折叠。
@@ -68,12 +68,29 @@ npm run preview  # 预览 dist/，默认使用 4173 端口
 
 构建只校验并复制仓库内的静态文件，不访问外部接口，也不会自动抓取题库。开发服务和预览服务默认使用相同端口，请避免同时启动，或通过 `PORT` 区分。
 
+### 代码格式化
+
+代码工具栏的「格式化」支持 Java、JavaScript、TypeScript；Python、Go、C++ 暂不支持，思路草稿不显示此按钮。采用四空格缩进，保留代码语义；语法不完整时提示失败，不改原文。可用 Ctrl / ⌘ + Z 撤销格式化，格式化后的草稿仍保存在本浏览器。
+
+格式化器使用 [Prettier 浏览器版](https://prettier.io/docs/browser) 与 [Java 插件](https://github.com/jhipster/prettier-java)，资源随仓库分发，仅点击时在 Web Worker 中本地加载；代码不上传，不依赖 CDN 或后台服务。切题或继续输入会丢弃旧结果，单次超过 10 万字符或 15 秒时提示使用本地编辑器 / 重试。Java 的 WASM 解析器需要 CSP 的 `wasm-unsafe-eval`，不启用 JavaScript 的 `unsafe-eval`。
+
+仅升级格式化器时需要安装开发依赖并重新生成静态资源（正常开发与构建不需要）：
+
+```sh
+npm ci --ignore-scripts
+npm run vendor:formatter
+npm run check
+```
+
+升级时一并提交 `package-lock.json`、`public/formatter/` 下的资源和许可证；`engine.js` 为手写适配层，不由生成脚本覆盖。
+
 ### 可选：浏览器回归
 
 先在默认端口启动网站，再运行：
 
 ```sh
 npm run test:browser
+npm run test:formatter-browser  # 格式化器与部署 CSP 的专项检查
 ```
 
 该检查需要额外提供 Playwright 及浏览器环境，不是网站运行依赖。可以设置 `PLAYWRIGHT_MODULE` 指向本机已有 Playwright 的 `index.mjs`，设置 `BROWSER_CHANNEL=chrome` 使用已安装的 Chrome。
@@ -166,7 +183,11 @@ src/
   banks.js                  习题册目录与存储键
   core.js                   校验、筛选、随机队列与路由
   content.js                题干 HTML 白名单处理
+  highlight.js              轻量语法高亮
+  formatter.js              格式化任务与超时管理
+  format-worker.js          后台线程格式化
 public/
+  formatter/                本地格式化器、WASM 与第三方许可
   data/                     11 个静态题库
   images/                   本地题目示意图
   favicon.svg               网站图标

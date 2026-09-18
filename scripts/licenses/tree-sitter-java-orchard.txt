@@ -1,19 +1,10 @@
-Local code formatters in formatter/:
-Prettier 3.9.8 (MIT), prettier-plugin-java 2.10.4 (Apache-2.0),
-web-tree-sitter 0.27.0 (MIT), tree-sitter-java-orchard 0.5.18 (MIT).
-Full licenses: formatter/LICENSES.txt
-Prettier bundled dependency notices: formatter/NOTICES.txt
-Sources: https://github.com/prettier/prettier
-https://github.com/jhipster/prettier-java
-https://github.com/tree-sitter/tree-sitter
-https://www.npmjs.com/package/tree-sitter-java-orchard
-
-Tabler Icons book-2 glyph used in favicon.svg
-Source: https://github.com/tabler/tabler-icons/blob/main/icons/outline/book-2.svg
+tree-sitter-java-orchard 0.5.18
+Source: https://codeberg.org/grammar-orchard/tree-sitter-java-orchard
+The WASM grammar is distributed inside prettier-plugin-java 2.10.4.
 
 MIT License
 
-Copyright (c) 2020-2026 Paweł Kuna
+Copyright (c) 2017 Ayman Nadeem
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

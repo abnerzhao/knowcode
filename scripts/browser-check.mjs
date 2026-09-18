@@ -263,6 +263,64 @@ try {
   await highlightContext.close();
   checks.push('六种语言基础高亮、HTML 转义、浅深色、滚动/移动端对齐、切题保存、高对比度与纯文本思路草稿正常');
 
+  const saveContext = await browser.newContext();
+  const savePage = await saveContext.newPage();
+  savePage.on('pageerror', error => errors.push(error.message));
+  await savePage.goto('http://127.0.0.1:4173/#/hot100/ordered/two-sum');
+  await savePage.locator('#workspace').waitFor({ state: 'visible' });
+  for (const language of Object.keys(LANGUAGES)) {
+    await savePage.locator('#code-language').selectOption(language);
+    // Check storage synchronously, before the 250 ms autosave can run.
+    const result = await savePage.evaluate(language => {
+      const editor = document.getElementById('code-editor');
+      editor.value = `// ${language} 手动保存`;
+      editor.dispatchEvent(new Event('input', { bubbles: true }));
+      const event = new KeyboardEvent('keydown', { key: 's', ctrlKey: true, bubbles: true, cancelable: true });
+      editor.dispatchEvent(event);
+      return { prevented: event.defaultPrevented, draft: JSON.parse(localStorage.getItem('hot100-review:v1')).drafts[language === 'java' ? 'two-sum' : `two-sum:${language}`] };
+    }, language);
+    assert.deepEqual(result, { prevented: true, draft: `// ${language} 手动保存` });
+  }
+  for (const shortcut of ['Control+s', 'Meta+s']) {
+    await savePage.locator('#code-editor').fill(`// ${shortcut}`);
+    await savePage.locator('#search').focus();
+    await savePage.keyboard.press(shortcut);
+    assert.equal(await savePage.locator('#save-status').innerText(), '已保存到此浏览器');
+    assert.equal(await savePage.locator('#toast').innerText(), '代码草稿已保存到此浏览器。');
+    assert.equal(await savePage.evaluate(() => JSON.parse(localStorage.getItem('hot100-review:v1')).drafts['two-sum:go']), `// ${shortcut}`);
+  }
+  await savePage.reload();
+  await savePage.locator('#workspace').waitFor({ state: 'visible' });
+  assert.equal(await savePage.locator('#code-editor').inputValue(), '// Meta+s');
+  const dispatchSave = options => savePage.evaluate(options => {
+    const event = new KeyboardEvent('keydown', { key: 's', ctrlKey: true, bubbles: true, cancelable: true, ...options });
+    document.dispatchEvent(event);
+    return event.defaultPrevented;
+  }, options);
+  for (const options of [{ ctrlKey: false }, { shiftKey: true }, { altKey: true }, { isComposing: true }]) {
+    assert.equal(await dispatchSave(options), false);
+  }
+  await savePage.goto('http://127.0.0.1:4173/#/system-design/ordered/sd-requirements');
+  await savePage.locator('#workspace').waitFor({ state: 'visible' });
+  await savePage.locator('#code-editor').fill('系统设计思路');
+  await savePage.keyboard.press('Control+s');
+  assert.equal(await savePage.locator('#toast').innerText(), '思路草稿已保存到此浏览器。');
+  assert.equal(await savePage.evaluate(() => JSON.parse(localStorage.getItem('hot100-review:v1:system-design')).drafts['sd-requirements:text']), '系统设计思路');
+  await savePage.evaluate(() => { Storage.prototype.setItem = () => { throw new Error('Storage blocked'); }; });
+  for (let attempt = 0; attempt < 2; attempt++) {
+    await savePage.keyboard.press('Control+s');
+    assert.equal(await savePage.locator('#save-status').innerText(), '保存失败，请复制草稿备份');
+    assert.equal(await savePage.locator('#toast').innerText(), '保存失败，请复制草稿备份。');
+  }
+  await savePage.locator('#practice-bookshelf').click();
+  await savePage.locator('#bank-picker').waitFor({ state: 'visible' });
+  assert.equal(await dispatchSave({}), false);
+  await savePage.locator('[data-bank="hot100"]').click();
+  await savePage.locator('#mode-picker').waitFor({ state: 'visible' });
+  assert.equal(await dispatchSave({}), false);
+  await saveContext.close();
+  checks.push('Ctrl/⌘+S 在练习页立即保存当前语言或思路草稿，拦截网页保存、跨焦点生效、失败提示正确，书架/模式页及其他组合键不受影响');
+
   assert.equal(await page.locator('#problem-content').evaluate(el => getComputedStyle(el).fontSize), '14px');
   await page.locator('#code-editor').fill('// Java 独立草稿');
   for (const [language, config] of Object.entries(LANGUAGES)) {

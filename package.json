@@ -3,14 +3,23 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "node scripts/serve.mjs",
     "build": "node scripts/build.mjs",
+    "vendor:formatter": "node scripts/vendor-formatter.mjs",
     "preview": "node scripts/serve.mjs dist",
     "fetch:questions": "node scripts/fetch-questions.mjs",
     "test": "node --test tests/*.test.mjs",
     "test:browser": "node scripts/browser-check.mjs",
+    "test:formatter-browser": "node scripts/formatter-browser-check.mjs",
     "check": "node --check src/app.js && node --check src/core.js && npm test && npm run build"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "prettier": "3.9.8",
+    "prettier-plugin-java": "2.10.4"
   }
 }
