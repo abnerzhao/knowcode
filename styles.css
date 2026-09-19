@@ -742,6 +742,26 @@ button:hover:not(:disabled) {
   color:#a47822
 }
 
+.problem-hints {
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:6px 10px;
+  min-width:0
+}
+
+#toggle-tags {
+  padding:4px 0;
+  color:#597565;
+  white-space:nowrap;
+  text-underline-offset:3px
+}
+
+#toggle-tags:hover {
+  color:var(--accent);
+  text-decoration:underline
+}
+
 .difficulty-badge.easy {
   background:#eaf6ee;
   color:#31845c

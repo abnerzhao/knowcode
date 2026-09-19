@@ -89,6 +89,45 @@ try {
   assert.equal(await page.locator('#next').isDisabled(), true);
   checks.push('100 道题都可导航，中文题干与 Java 模板完整，首尾边界正确');
 
+  const hintsContext = await browser.newContext();
+  const hintsPage = await hintsContext.newPage();
+  hintsPage.on('pageerror', error => errors.push(error.message));
+  for (const [bank, slug, mode, width] of [
+    ['hot100', 'longest-substring-without-repeating-characters', 'ordered', 1440],
+    ['hot100', 'longest-substring-without-repeating-characters', 'random', 320],
+    ['system-design', 'sd-requirements', 'ordered', 390],
+  ]) {
+    await hintsPage.setViewportSize({ width, height: 900 });
+    await hintsPage.goto(`http://127.0.0.1:4173/#/${bank}/${mode}/${slug}`);
+    await hintsPage.locator('#workspace').waitFor({ state: 'visible' });
+    const toggle = hintsPage.locator('#toggle-tags');
+    const tags = hintsPage.locator('#problem-tags');
+    assert.equal(await tags.isVisible(), false);
+    assert.equal(await toggle.getAttribute('aria-expanded'), 'false');
+    assert.equal(await toggle.innerText(), '查看提示');
+    await toggle.click();
+    assert.equal(await tags.isVisible(), true);
+    assert.ok((await tags.textContent()).length > 0);
+    assert.equal(await toggle.getAttribute('aria-expanded'), 'true');
+    assert.equal(await toggle.innerText(), '收起提示');
+    assert.ok(await hintsPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    await toggle.press('Enter');
+    assert.equal(await tags.isVisible(), false);
+    await toggle.press('Space');
+    assert.equal(await tags.isVisible(), true);
+    await hintsPage.reload();
+    await hintsPage.locator('#workspace').waitFor({ state: 'visible' });
+    assert.equal(await tags.isVisible(), false);
+    await toggle.click();
+    await hintsPage.locator('#next').click();
+    assert.equal(await tags.isVisible(), false);
+    assert.equal(await toggle.getAttribute('aria-expanded'), 'false');
+    await hintsPage.locator('#previous').click();
+    assert.equal(await tags.isVisible(), false);
+  }
+  await hintsContext.close();
+  checks.push('知识点标签默认隐藏，点击/键盘可展开收起；刷新、切题与返回后重置，随机模式和手机布局正常');
+
   await openQuestion('two-sum');
   const code = '// 中文草稿\nclass Solution {\n    // <script> is plain text\n}\n';
   await page.locator('#code-editor').fill(code);

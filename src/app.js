@@ -248,6 +248,10 @@ function visit(slug) {
   $('difficulty-badge').className = `difficulty-badge ${question.difficulty}`;
   $('difficulty-badge').textContent = DIFFICULTIES[question.difficulty];
   $('problem-tags').textContent = question.tags.slice(0, 3).join(' · ');
+  $('problem-tags').hidden = true;
+  $('toggle-tags').setAttribute('aria-expanded', 'false');
+  $('toggle-tags').textContent = '查看提示';
+  $('problem-hints').hidden = $('tags-divider').hidden = question.tags.length === 0;
   $('source-link').href = question.source;
   $('source-link').textContent = isDiscussion() ? '题目参考 ↗' : '力扣原题 ↗';
   $('verify-link').href = question.source;
@@ -498,6 +502,12 @@ $('format-code').addEventListener('click', async () => {
     formatting = false;
     updateFormatButton();
   }
+});
+$('toggle-tags').addEventListener('click', () => {
+  const expanded = $('problem-tags').hidden;
+  $('problem-tags').hidden = !expanded;
+  $('toggle-tags').setAttribute('aria-expanded', String(expanded));
+  $('toggle-tags').textContent = expanded ? '收起提示' : '查看提示';
 });
 $('copy-code').addEventListener('click', async () => {
   try { await navigator.clipboard.writeText($('code-editor').value); notify(isDiscussion() ? '思路已复制。' : '代码已复制，可粘贴到力扣验证。'); }
