@@ -15,7 +15,7 @@ createServer(async (req, res) => {
     let route = decodeURIComponent(url.pathname);
     if (route === '/') route = '/index.html';
     // Only expose public product files, never scripts, dotfiles, or workspace data.
-    if (!formatterRoute.test(route) && !/^\/(index\.html|styles\.css|favicon\.svg|THIRD_PARTY_LICENSES\.txt|src\/[a-z-]+\.js|data\/(questions|interview150|offer|scenarios|system-design|devops-sre|data-middleware|os-network|languages-frameworks|data-structures-algorithms|design-patterns)\.json|images\/[a-f0-9]+\.(png|jpe?g|gif|webp|svg))$/.test(route)) {
+    if (!formatterRoute.test(route) && !/^\/(index\.html|styles\.css|favicon\.svg|THIRD_PARTY_LICENSES\.txt|src\/[a-z-]+\.js|data\/(questions|interview150|offer|scenarios|system-design|devops-sre|data-middleware|os-network|languages-frameworks|data-structures-algorithms|design-patterns|algorithm-fasttrack)\.json|images\/[a-f0-9]+\.(png|jpe?g|gif|webp|svg))$/.test(route)) {
       res.writeHead(404).end('Not found'); return;
     }
     const publicAsset = formatterRoute.test(route) || /^\/(data|images)\//.test(route) || ['/favicon.svg', '/THIRD_PARTY_LICENSES.txt'].includes(route);

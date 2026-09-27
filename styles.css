@@ -236,6 +236,12 @@ button:hover:not(:disabled) {
   --cover-secondary:#63566d
 }
 
+.workbook[data-bank=algorithm-fasttrack] {
+  --cover:#b8c9cb;
+  --cover-text:#2f454b;
+  --cover-secondary:#476069
+}
+
 .book-object {
   display:block;
   position:relative;
@@ -787,6 +793,28 @@ button:hover:not(:disabled) {
 
 .problem-content p {
   margin:0 0 15px
+}
+
+.problem-review {
+  margin-top:28px;
+  padding-top:16px;
+  border-top:1px solid var(--border)
+}
+
+.problem-review summary {
+  cursor:pointer;
+  color:var(--accent-dark);
+  font-size:13px;
+  padding:8px 0
+}
+
+.problem-review summary:focus-visible {
+  outline:2px solid var(--accent);
+  outline-offset:3px
+}
+
+.problem-review[open] summary {
+  margin-bottom:16px
 }
 
 .problem-content p:empty {

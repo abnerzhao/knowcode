@@ -9,6 +9,8 @@
   "scripts": {
     "dev": "node scripts/serve.mjs",
     "build": "node scripts/build.mjs",
+    "build:fasttrack": "node scripts/build-algorithm-fasttrack.mjs",
+    "test:fasttrack-java": "node scripts/check-fasttrack-java.mjs",
     "vendor:formatter": "node scripts/vendor-formatter.mjs",
     "preview": "node scripts/serve.mjs dist",
     "fetch:questions": "node scripts/fetch-questions.mjs",

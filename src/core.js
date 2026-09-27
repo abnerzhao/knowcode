@@ -65,6 +65,8 @@ export function validateDataset(data, count = 100) {
   if (new Set(data.questions.map(q => q.slug)).size !== count) throw new Error('题库包含重复题目。');
   data.questions.forEach((q, i) => {
     const questionsOnly = q.format === 'questions-only';
+    if (q.review !== undefined && (typeof q.review !== 'string' || !q.review.trim() ||
+        typeof q.technique !== 'string' || !q.technique.trim())) throw new Error('速通笔记或题型不完整。');
     if ((q.format !== undefined && !questionsOnly) || (questionsOnly && q.kind !== 'discussion')) throw new Error('题目格式无效。');
     if (q.order !== i + 1 || !q.title || !q.id || !q.category || !DIFFICULTIES[q.difficulty] || !Array.isArray(q.tags) ||
         typeof q.content !== 'string' || !q.content.trim() || !(questionsOnly ? q.content.includes('？') : q.content.includes('示例'))) {
@@ -86,7 +88,7 @@ export function validateDataset(data, count = 100) {
 export function filterQuestions(questions, difficulty = 'all', query = '') {
   const text = query.trim().toLowerCase();
   return questions.filter(q => (difficulty === 'all' || q.difficulty === difficulty) &&
-    (!text || `${q.id} ${q.title} ${q.englishTitle} ${q.category}`.toLowerCase().includes(text)));
+    (!text || `${q.id} ${q.title} ${q.englishTitle} ${q.category} ${q.technique || ''}`.toLowerCase().includes(text)));
 }
 
 // Fisher–Yates: one complete round with no duplicates, avoiding the current
