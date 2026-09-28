@@ -551,12 +551,12 @@ try {
     if (bank.id === 'algorithm-fasttrack') {
       await page.locator('#search').fill('数组');
       const arrayGroup = page.locator('.question-group').filter({ has: page.getByText('数组', { exact: true }) });
-      assert.equal(await arrayGroup.locator('.question-button').count(), 19);
+      assert.equal(await arrayGroup.locator('.question-button').count(), 31);
       assert.deepEqual(await arrayGroup.locator('.question-button').evaluateAll(buttons => buttons.map(b => b.dataset.slug)),
         catalogGroups.find(group => group.name === '数组').slugs);
       await page.locator('#search').fill('哈希表');
       assert.equal(await page.locator('.question-group').count(), 1);
-      assert.equal(await page.locator('.question-button').count(), 14);
+      assert.equal(await page.locator('.question-button').count(), 16);
       assert.deepEqual(await page.locator('.question-button').evaluateAll(buttons => buttons.map(b => b.dataset.slug)),
         catalogGroups.find(group => group.name === '哈希表').slugs);
       await page.locator('#search').fill('');
@@ -804,7 +804,7 @@ try {
   assert.equal(await fasttrackPage.locator('#code-editor').inputValue(), '// 速通独立草稿');
   await fasttrackContext.close();
   checks.push('星标与HOT100火焰仅在算法题速通显示，支持独立与并列；目录与标题一致，搜索、随机、刷新、切题、跨册、320px长标题与高对比度均通过');
-  checks.push('各册目录同分类按难度稳定排序、搜索保持排序；算法题速通92题含哈希表14题笔记完整，自编题来源准确，默认收起、键盘展开、刷新/切题重置，顺序/随机/手机可用，跨题库草稿隔离');
+  checks.push('各册目录同分类按难度稳定排序、搜索保持排序；算法题速通110题含HOT100数据结构补齐题，笔记完整，自编题来源准确，默认收起、键盘展开、刷新/切题重置，顺序/随机/手机可用，跨题库草稿隔离');
   const loadingContext = await browser.newContext();
   const loadingPage = await loadingContext.newPage();
   await loadingPage.route('**/data/interview150.json', route => route.fulfill({ status: 503, body: 'Unavailable' }), { times: 1 });

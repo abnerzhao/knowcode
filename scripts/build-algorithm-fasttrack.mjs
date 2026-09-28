@@ -1,6 +1,6 @@
 // Offline content assembly. Source workbooks and authored notes remain untouched.
 import { readFile, writeFile } from 'node:fs/promises';
-import { chapters, patterns, interviewFocus } from './algorithm-fasttrack/outline.mjs';
+import { chapters, patterns, interviewFocus, hot100StructureCategories } from './algorithm-fasttrack/outline.mjs';
 import { supplements } from './algorithm-fasttrack/supplements.mjs';
 import { validateDataset } from '../src/core.js';
 
@@ -50,6 +50,10 @@ const data = {
   fetchedAt: '2026-09-28T00:00:00.000Z',
   groups: chapters.map(chapter => ({ name: chapter.name, count: chapter.questions.length })), questions,
 };
-validateDataset(data, 92);
+const included = new Set(questions.map(question => question.slug));
+const missing = sourceBooks[0].questions.filter(question =>
+  hot100StructureCategories.includes(question.category) && !question.tags.includes('矩阵') && !included.has(question.slug));
+if (missing.length) throw new Error(`HOT 100 数据结构题未补齐：${missing.map(q => q.id).join(', ')}`);
+validateDataset(data, 110);
 await writeFile(new URL('public/data/algorithm-fasttrack.json', root), JSON.stringify(data, null, 2) + '\n');
 console.log(`算法题速通：${questions.length} 题、${chapters.length} 个结构、${Object.keys(patterns).length} 个题型；离线生成完成。`);

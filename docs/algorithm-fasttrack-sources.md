@@ -144,3 +144,36 @@
 - **最近下标：**219 保存每个值的最近一次位置；先检查与当前位置的距离，再更新位置。只保存第一次出现的位置会错过更近的重复对。若改用滑动集合，窗口范围与移除时机要匹配 `≤ k` 的闭边界。[219](https://leetcode.com/problems/contains-duplicate-ii/)
 - **随机集合：**380 的数组保存每个现存值一次，Map 保存值到数组下标；删除时以末位补洞并同步被移动值的下标，再删除尾部与目标映射。删除本来就在末位的元素也要成立。对紧凑数组下标均匀抽样才能得到等概率；不能以 HashSet 的固定迭代首项替代随机抽样，数组中间直接移除也无法满足平均 O(1)。[380](https://leetcode.com/problems/insert-delete-getrandom-o1/)
 - **LRU 访问顺序：**146 的成功读取、写入已有键都刷新最近使用次序。Java `LinkedHashMap` 默认是插入顺序；若用于 LRU，应使用 `new LinkedHashMap<>(16, 0.75f, true)` 开启 access-order，并在超容量时删除最久未访问项，或覆盖 `removeEldestEntry`。仅更新 value、却不移动访问顺序会淘汰错误条目。它与手写哈希表加双向链表是可对照的实现方式。[146](https://leetcode.com/problems/lru-cache/)、[Java LinkedHashMap](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/LinkedHashMap.html)
+
+## 按 HOT100 数据结构标签补齐（2026-09-28）
+
+本轮依据项目已有 `public/data/questions.json` 中的官方题面、Java 接口、`category` 与 `tags` 核验，数据标注采集于 2026-09-07，来源为 [LeetCode HOT100 学习计划](https://leetcode.cn/studyplan/top-100-liked/)。这是对本地官方题库快照的覆盖核对，未重新抓取题目，也不宣称当前线上题单完全未变。下面逐题链接指向该快照记录的官方原题。
+
+仅按「数组、哈希表、链表、堆（优先队列）、栈、队列、单调队列、二叉树」任一标签筛选，会得到 91 题；补齐前已覆盖 49 题，尚缺 42 题。标签可同时表示输入结构和主要解题方法，不能据此把矩阵、回溯或动态规划全部放进数组章节。
+
+按本轮确认的范围，新增候选排除官方分类「图论」（含 208 Trie）、「贪心算法」、「回溯」、「动态规划」、「多维动态规划」、「矩阵」，并排除任何带「矩阵」标签的题目（如二分分类的 74）。该范围共 64 题，原有 46 题，新增下表 18 题后覆盖完整。原先已收录的 200、994、32 继续保留，因此全册 HOT100 交集为 67 题（原 49 + 新增 18），全册总题数为 110（原 92 + 新增 18）。这里的“补齐”指本轮约定的结构范围，不表示已经收录完整 HOT100；73、54、48、240 等矩阵题留待独立分类。
+
+以下实现边界是从题意、约束和相应算法不变量推导出的编辑说明，不代表官方要求只能采用该实现。
+
+| 官方题目 | 已有题面契约与 Java 实现边界 |
+| --- | --- |
+| [438 找到字符串中所有字母异位词](https://leetcode.cn/problems/find-all-anagrams-in-a-string/description/) | 两串长度 1～30000，仅小写字母；返回所有匹配子串的起始下标，允许重叠，顺序不限。固定窗口长度为 `p.length()`，比较 26 项频次而非字符集合；`p` 比 `s` 长时直接返回空列表。检验 `s="abab", p="ab"` 应包含 0、1、2。 |
+| [76 最小覆盖子串](https://leetcode.cn/problems/minimum-window-substring/description/) | 两串长度 1～100000，含大小写英文字母；覆盖必须包含 `t` 的重复字符，无解返回空串，答案唯一，进阶 O(m+n)。ASCII 计数可用 128 项，不能沿用 438 的 `c-'a'`；只有频次跨越需求阈值时才改变满足状态，满足后持续收缩。`s="a", t="aa"` 无解；答案截取的右端为 Java `substring` 的排他边界。 |
+| [189 轮转数组](https://leetcode.cn/problems/rotate-array/description/) | 数组长度 1～100000、元素覆盖 int 范围，`k` 为 0～100000；方法 `void rotate(int[] nums, int k)` 将结果写回原数组，方向是向右。先取 `k %= n`；整段、前 k 项、剩余项三次反转可达 O(n) 时间和 O(1) 空间。`k=0`、整圈轮转、单元素都必须成立；本题保证 n 非零。 |
+| [238 除了自身以外数组的乘积](https://leetcode.cn/problems/product-of-array-except-self/description/) | 长度 2～100000，元素 -30～30；要求 O(n)，禁止除法，保证前后缀乘积及结果在 int 范围内，输出数组不计入进阶额外空间。答案先存左侧乘积，再乘右侧累积；空侧乘积初始化为 1，两遍都要先使用累积再纳入当前元素，避免包含自身。零、多个零、负数无需另设除法分支。 |
+| [41 缺失的第一个正数](https://leetcode.cn/problems/first-missing-positive/description/) | 长度 1～100000，元素覆盖 int 范围；必须 O(n) 时间、O(1) 额外空间。答案在 1～n+1，原地归位只处理 1～n；条件应先检验范围，再访问 `nums[value-1]`。目标位置已有相同值时停止交换，避免重复值死循环；一次交换后继续检查当前槽位。 |
+| [148 排序链表](https://leetcode.cn/problems/sort-list/description/) | 节点数 0～50000，值 -100000～100000；返回升序链表头，空链与单节点直接返回。递归归并应切断左右链的连接，并确保两个节点时仍严格缩小子问题。递归归并占 O(log n) 调用栈，不满足 O(1) 额外空间进阶；要求严格常数空间时用自底向上归并，处理最后一段不足步长、合并后尾指针与余下链重连。 |
+| [108 将有序数组转换为二叉搜索树](https://leetcode.cn/problems/convert-sorted-array-to-binary-search-tree/description/) | 长度 1～10000，元素 -10000～10000且严格递增；返回高度平衡 BST，合法结果不唯一。闭区间递归以 `left > right` 返回 null，并排除已选中点；不要混用半开区间的结束条件。取左右中点均可，测试应检查中序结果与高度平衡，不能只认一种序列化形状；平衡递归调用栈为 O(log n)，生成节点占 O(n)。 |
+| [114 二叉树展开为链表](https://leetcode.cn/problems/flatten-binary-tree-to-linked-list/description/) | 节点数 0～2000，值 -100～100；`void flatten(TreeNode root)` 沿用原树节点，所有 left 置 null，right 链严格等于原树先序序列。重连前保存原右子树，不能覆盖后丢失；前驱接法应把原右子树接到左子树最右节点，再把左子树移到 right。递归或显式栈需要 O(h) 空间，不能称为 O(1) 进阶；空树无需处理。 |
+| [437 路径总和 III](https://leetcode.cn/problems/path-sum-iii/description/) | 节点数 0～1000，值在 ±10⁹ 内，目标在 ±1000 内；统计任意起点到任意终点的向下非空路径，不要求根或叶。Java 路径前缀必须使用 long 和 `Map<Long, Integer>`；初始化空前缀 `0L -> 1`，先查询 `prefix-target` 再加入当前前缀，退出节点时扣回频次，防止零长度路径与兄弟分支串接。负数允许出现，不能按“超过目标”剪枝；空树返回 0。 |
+| [35 搜索插入位置](https://leetcode.cn/problems/search-insert-position/description/) | 长度 1～10000，严格升序且无重复，值和目标在 ±10000 内；要求 O(log n)。求第一个 `>= target` 的位置，可能为 n；采用 `[left,right)` 时初始化 right=n，循环用 `left < right`，不能把越界插入位当成失败 -1。 |
+| [34 在排序数组中查找元素的第一个和最后一个位置](https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/description/) | 长度 0～100000，非递减，值和目标在 ±10⁹ 内；要求 O(log n)，不存在返回 `[-1,-1]`。分别求第一个 `>= target` 和第一个 `> target` 的边界；先验证左边界未越界且命中，再把后一边界减 1。空数组、所有元素相等和目标在两端外侧要成立；围绕命中点线性扩展会失去复杂度保证。 |
+| [153 寻找旋转排序数组中的最小值](https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array/description/) | 长度 1～5000，元素 -5000～5000且互不相同，严格升序数组旋转 1～n 次；必须 O(log n)，返回最小值而非下标。与右端比较时，`nums[mid] > nums[right]` 排除 mid，否则保留 mid，令 right=mid；已经有序（旋转整圈）和单元素同样有效。此判定不能直接套用于含重复值的 154。 |
+| [4 寻找两个正序数组的中位数](https://leetcode.cn/problems/median-of-two-sorted-arrays/description/) | 每数组长度 0～1000，总长度 1～2000，值在 ±10⁶ 内；返回 double，要求 O(log(m+n))。在较短数组二分分割点，左右部分大小按总长奇偶确定；分割点可在 0 或数组长度，缺失邻居用哨兵。允许一个数组为空、重复值；偶数答案必须除以 `2.0`，不可整数截断。合并扫描是 O(m+n)，不满足要求；若扩展到完整 int 范围，应先转 long 或 double 再加中间两值。 |
+| [136 只出现一次的数字](https://leetcode.cn/problems/single-number/description/) | 非空数组长度最多 30000，值在 ±30000 内；仅一个元素出现一次，其余每个恰好两次，要求线性时间和常数空间。从 0 累积异或即可消去成对元素，负数与零同样成立。结论依赖“其余恰好两次”，不能当成任意频次的唯一元素模板；HashMap 计数不满足该空间要求。 |
+| [169 多数元素](https://leetcode.cn/problems/majority-element/description/) | 非空数组长度最多 50000，值在 ±10⁹ 内；保证存在出现次数严格大于 n/2 的元素，进阶 O(n) 时间、O(1) 空间。摩尔投票计数为零时重设候选，最后候选依赖存在性保证；投票余额不是实际出现次数。扩展到不保证存在多数元素的接口时，还需第二遍验证。 |
+| [75 颜色分类](https://leetcode.cn/problems/sort-colors/description/) | 长度 1～300，每项仅为 0、1、2；原地排序且禁止调用内置 sort，进阶一趟扫描和常数空间。三路划分中，当前值为 2 时与右边界交换并缩短未知区，但不能推进当前指针，因为换入值仍未分类；循环应覆盖当前指针等于右边界的最后一项。 |
+| [31 下一个排列](https://leetcode.cn/problems/next-permutation/description/) | 长度 1～100，值 0～100，允许重复；原地修改且额外空间为 O(1)，没有更大排列时回到最小排列。从右找第一个严格上升断点，再从右找严格大于断点值的元素交换，最后反转后缀；寻找断点时应跳过相等值。完全非递增、全相等、单元素都走得通，不能只找到任意一个更大排列。 |
+| [287 寻找重复数](https://leetcode.cn/problems/find-the-duplicate-number/description/) | 长度 n+1，1≤n≤100000，每项属于 1～n；只有一种数重复，但它可出现两次或更多次。必须不修改输入且使用 O(1) 额外空间，线性时间是进阶；排序、原地交换归位或取负标记均违背只读要求。将下标映射为 `i -> nums[i]` 做 Floyd 判圈时，两阶段初始化要配套；若从下标 0 出发，第二阶段重置一指针到 0，再同步单步前进到入口。不可把第一次相遇直接当重复数。 |
+
+复习与验证优先覆盖上述边界，尤其是 76 重复需求字符、41 重复值归位、148 断链与空间说明、437 long 前缀及回溯、4 单空数组与偶数长度、75 换入未知值、31 非递增序列、287 输入未被修改。复杂度中的“常数额外空间”不包含结果对象时应明确注明；递归调用栈不能省略不算。
