@@ -31,13 +31,15 @@ for (const chapter of chapters) {
       `<h4>本题切入点</h4><p>${escape(focus)}</p>`,
       `<h4>Java 通用模板</h4><p>模板演示这一类题的基本方法，不一定能直接提交到当前题目。需要结合本题切入点调整。使用 Java 17，集合类需 import java.util.*；链表/树节点沿用题目定义。</p><pre><code>${escape(pattern.java)}</code></pre>`,
       `<h4>复杂度与易错点</h4><p>${escape(pattern.boundary)}</p>`,
-      `<h4>代表题（本册均已收录）</h4><ul>${related.map(q => `<li><a href="${escape(q.source)}">${escape(q.id)}. ${escape(q.title)}</a></li>`).join('')}</ul>`,
+      `<h4>代表题（本册均已收录）</h4><ul>${related.map(q => q.contentOrigin === 'original-exercise'
+        ? `<li>${escape(q.id)}. ${escape(q.title)}（本站自编）</li>`
+        : `<li><a href="${escape(q.source)}">${escape(q.id)}. ${escape(q.title)}</a></li>`).join('')}</ul>`,
       `<h4>建议练习顺序</h4>${list(chapter.stages)}`,
       '<p>先独立尝试，再看识别信号和模板；合上笔记后重新实现，并说明为什么指针移动或出入栈不会遗漏答案。</p>',
     ].join('\n');
     questions.push({ ...original, order: questions.length + 1, category: chapter.name,
       technique: pattern.title, review,
-      contentOrigin: supplements.includes(original) ? 'original-restatement' : 'existing-workbook' });
+      contentOrigin: original.contentOrigin || (supplements.includes(original) ? 'original-restatement' : 'existing-workbook') });
   }
 }
 const data = {
@@ -45,6 +47,6 @@ const data = {
   fetchedAt: '2026-09-28T00:00:00.000Z',
   groups: chapters.map(chapter => ({ name: chapter.name, count: chapter.questions.length })), questions,
 };
-validateDataset(data, 75);
+validateDataset(data, 92);
 await writeFile(new URL('public/data/algorithm-fasttrack.json', root), JSON.stringify(data, null, 2) + '\n');
 console.log(`算法题速通：${questions.length} 题、${chapters.length} 个结构、${Object.keys(patterns).length} 个题型；离线生成完成。`);

@@ -2,16 +2,17 @@
 
 核验日期：2026-09-27 至 2026-09-28。
 
-本册定位是六类数据结构的编程练习，与既有「数据结构与算法」概念问答册互补。选题和模式分组是教学编辑建议，不是企业面试频率统计或 LeetCode 官方排名。识别信号只帮助提出候选思路，不能替代适用条件和正确性论证。
+本册定位是七类数据结构的编程练习，与既有「数据结构与算法」概念问答册互补。选题和模式分组是教学编辑建议，不是企业面试频率统计或 LeetCode 官方排名。识别信号只帮助提出候选思路，不能替代适用条件和正确性论证。
 
 新增题面在 `scripts/algorithm-fasttrack/supplements.mjs` 中以原创中文重述任务、接口和约束，并构造简短示例；不复制官方题解、插图或整段原题描述。原题链接保留，空白 Java 模板仅含接口与 TODO，不预填解答。其余题目复用项目已有题库，既有题号、标识与个人草稿不迁移。
 
-## 六类模式与适用边界
+## 七类模式与适用边界
 
 下列模式名称、识别信号和分组是编者对官方题目契约的归纳，不宣称官方题页给出了同样的分类或唯一解法。
 
 | 结构 | 建议模式及识别信号 | 代表题与一手依据 |
 | --- | --- | --- |
+| 哈希表 | 存在性／频次；双向映射；规范化分组；连续段起点；补数计数；最近下标；动态数组与访问顺序链表的组合设计 | [217 重复元素](https://leetcode.cn/problems/contains-duplicate/)、[49 异位词分组](https://leetcode.cn/problems/group-anagrams/)、[128 连续序列](https://leetcode.cn/problems/longest-consecutive-sequence/)、[146 LRU](https://leetcode.cn/problems/lru-cache/)；全部 14 题与边界见文末核验表 |
 | 数组 | 原地写入／双指针：有序、相向查找、过滤元素；滑窗：连续区间与可维护条件；前缀和：区间和、计数；排序合并区间；二分：有序或可证明的单调判定 | [167 两数之和 II](https://leetcode.cn/problems/two-sum-ii-input-array-is-sorted/)、[209 长度最小的子数组](https://leetcode.cn/problems/minimum-size-subarray-sum/)、[560 和为 K 的子数组](https://leetcode.cn/problems/subarray-sum-equals-k/)、[56 合并区间](https://leetcode.cn/problems/merge-intervals/)、[704 二分查找](https://leetcode.cn/problems/binary-search/) |
 | 链表 | 反转与局部重连：修改 next；快慢指针：中点、环；哨兵节点与删除：头节点也可能变化；合并：多个有序链；双指针身份判断：相交而非值相同 | [206 反转链表](https://leetcode.cn/problems/reverse-linked-list/)、[876 中间结点](https://leetcode.cn/problems/middle-of-the-linked-list/)、[141 环形链表](https://leetcode.cn/problems/linked-list-cycle/description/)、[21 合并两个有序链表](https://leetcode.cn/problems/merge-two-sorted-lists/) |
 | 堆 | Top K／第 K 大：只保留候选；多路归并：每路只取当前最小候选；动态最值：反复取当前最大或最小；双堆：数据流中位数 | [703 数据流第 K 大](https://leetcode.cn/problems/kth-largest-element-in-a-stream/)、[23 合并 K 个升序链表](https://leetcode.cn/problems/merge-k-sorted-lists/)、[1046 最后一块石头](https://leetcode.cn/problems/last-stone-weight/description/)、[295 数据流中位数](https://leetcode.cn/problems/find-median-from-data-stream/)、[Princeton 优先队列](https://algs4.cs.princeton.edu/24pq/) |
@@ -91,3 +92,51 @@
 | 110 | [平衡二叉树](https://leetcode.cn/problems/balanced-binary-tree/)／[官方英文页](https://leetcode.com/problems/balanced-binary-tree/description/) | 全树每个节点都要求高度平衡，空树为 true |
 
 设计题示例中的 `null` 表示构造器或 void 方法无返回值；布尔值和整数按每次调用顺序一一对应。链表和树的 Java 节点定义保留为注释，因为 LeetCode 环境提供这些类；单独本地编译时需提供对应类型。模板中的 TODO 异常仅为合法占位，不是答案。
+
+## 数组基础题补充核验（2026-09-28）
+
+以下题意、难度和约束取自官方题页；66、2149 的 Java 签名另核对同页公开 `codeSnippets` 数据。题面继续使用原创中文重述。
+
+| 题目与来源 | 难度／Java 接口 | 必须保留的契约 |
+| --- | --- | --- |
+| [66 加一](https://leetcode.cn/problems/plus-one/) | 简单；`public int[] plusOne(int[] digits)` | 高位在左，返回加一后的数字数组；长度 1～100，每位 0～9，无前导零。全为 9 时结果会多一位，不能先转成 `int` 或 `long` 再加一。 |
+| [2149 按符号重排数组](https://leetcode.cn/problems/rearrange-array-elements-by-sign/) | 中等；`public int[] rearrangeArray(int[] nums)` | 长度为偶数且在 2～200000 之间；正负数等量，元素绝对值 1～100000，不含零。正数开头、正负交替，同号元素保持原有相对顺序；官方明确允许使用新数组，不要求原地修改。 |
+| [88 合并两个有序数组](https://leetcode.cn/problems/merge-sorted-array/) | 简单；结果写回 `nums1`，方法无返回值 | 两段有效元素均非递减；`nums1` 长度为 `m+n`，只有前 `m` 项参与合并，尾部 `n` 个零是占位。`m` 或 `n` 可为 0，总长度至少 1；进阶为 O(m+n)。不能把占位零也当成待合并元素。 |
+| [215 数组中的第 K 个最大元素](https://leetcode.cn/problems/kth-largest-element-in-an-array/) | 中等；返回第 K 大的值 | 排名保留重复值，并非第 K 个不同值；`1 <= k <= nums.length <= 100000`，元素为 -10000～10000。中文官方题面明确要求 O(n)；排序 O(n log n) 和堆 O(n log k) 可作思路对照，但不满足该复杂度要求。 |
+
+“数组中第一个不重复元素”（`first-unique-array-element`）是本项目自编数组练习，不是 LeetCode 387，难度“简单”为本项目教学评级。契约为返回原数组中第一个**在全数组仅出现一次**的元素下标；不存在时返回 -1，不能把首次遇见某个值误认为它全局唯一。
+
+此自编题的计数思路依据 Java 17 [`Map.getOrDefault`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html#getOrDefault(java.lang.Object,V))：键无映射时返回指定默认值，因此非空整数计数可用 `count.getOrDefault(value, 0) + 1`。官方 [`HashMap`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/HashMap.html) 不保证迭代顺序，所以“第一个”的判断应按原数组下标顺序进行第二遍扫描；不能直接取哈希表遍历到的首个计数为 1 的键。两遍扫描是针对自编题契约作出的编辑推导，并非官方题解。
+
+## 哈希表章节：14 题来源与边界（2026-09-28）
+
+本节补充哈希表练习：复用既有题库的 242、383、202、205、290、49、128、219、380、146，原创重述新增 217、349、350、454。题意、难度和约束核对以下官方题页；新增四题的 Java 接口另核对官方中文页公开 `codeSnippets`。两数之和仍在数组章节，可作为补数查询的跨章节复习题，不计入此处 14 题。分组表达的是常见解题模式，不是面试频率统计。
+
+| 官方题目 | 难度 | 需要保留的契约或边界 |
+| --- | --- | --- |
+| [217 存在重复元素](https://leetcode.com/problems/contains-duplicate/) | 简单 | 长度 1～100000，值在 ±10⁹ 内；不同下标有相同值就成立，无距离限制。Java：`boolean containsDuplicate(int[] nums)`。 |
+| [242 有效的字母异位词](https://leetcode.com/problems/valid-anagram/) | 简单 | 两串长度各 1～50000，只含小写英文字母；字符种类和每种数量都必须相同。26 项计数数组依赖这个字符集约束，Unicode 是进阶问题。 |
+| [383 赎金信](https://leetcode.com/problems/ransom-note/) | 简单 | 两串长度各 1～100000，只含小写英文字母；来源中的每个字符只能使用一次，允许有剩余，不能把它误写成频次完全相等。 |
+| [349 两个数组的交集](https://leetcode.com/problems/intersection-of-two-arrays/) | 简单 | 两数组长度各 1～1000，值在 0～1000 内；结果必须去重，顺序不限。Java：`int[] intersection(int[] nums1, int[] nums2)`。 |
+| [350 两个数组的交集 II](https://leetcode.com/problems/intersection-of-two-arrays-ii/) | 简单 | 范围同 349；结果保留多重性，每个值出现 `min(次数1, 次数2)` 次，顺序不限。Java：`int[] intersect(int[] nums1, int[] nums2)`。 |
+| [202 快乐数](https://leetcode.com/problems/happy-number/) | 简单 | 输入为 1～2³¹−1 的正整数；重复执行各位平方和，终止于 1 才成功，否则检测重复状态避免死循环。 |
+| [205 同构字符串](https://leetcode.com/problems/isomorphic-strings/) | 简单 | 两串等长、长度 1～50000，可含任意有效 ASCII 字符；必须一一映射，两个源字符不能映射到同一目标字符。不能只用 26 个槽位。 |
+| [290 单词规律](https://leetcode.com/problems/word-pattern/) | 简单 | 模式长 1～300，字符串长 1～3000；单词以单个空格分隔、无首尾空格。模式字符与完整单词必须双向一一对应，单词数也要匹配。 |
+| [49 字母异位词分组](https://leetcode.com/problems/group-anagrams/) | 中等 | 1～10000 个字符串，每串长 0～100，只含小写英文字母；允许空串和重复字符串，分组不能丢掉重复项。 |
+| [454 四数相加 II](https://leetcode.com/problems/4sum-ii/) | 中等 | 四数组等长，1 ≤ n ≤ 200，元素在 ±2²⁸ 内；统计下标四元组，重复数值对应的不同组合都要计数。Java：`int fourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4)`。 |
+| [128 最长连续序列](https://leetcode.com/problems/longest-consecutive-sequence/) | 中等 | 长度 0～100000，值在 ±10⁹ 内；求数值连续序列长度，非原数组连续子数组；重复值不延长序列，要求 O(n)。 |
+| [219 存在重复元素 II](https://leetcode.com/problems/contains-duplicate-ii/) | 简单 | 长度 1～100000，值在 ±10⁹ 内，0 ≤ k ≤ 100000；相同值还要求不同下标距离 ≤ k，距离恰好 k 仍有效，k=0 必为 false。 |
+| [380 O(1) 时间插入、删除和获取随机元素](https://leetcode.com/problems/insert-delete-getrandom-o1/) | 中等 | `RandomizedSet` 不保存重复值；插入和删除返回是否发生变更。每个操作要求平均 O(1)，随机返回现存值且各值等概率，调用 getRandom 时保证非空；值可覆盖完整 int 范围，最多 200000 次调用。 |
+| [146 LRU 缓存](https://leetcode.com/problems/lru-cache/) | 中等 | 正容量 1～3000；get 未命中返回 -1，put 更新或插入，超容量淘汰最久未使用项；get/put 要求平均 O(1)。key 在 0～10000，value 在 0～100000，最多 200000 次调用。 |
+
+### 哈希模板的推导边界
+
+以下是基于上述契约的编辑推导，不宣称官方规定必须使用这一种实现。
+
+- **集合与频次表：**349 输出的是不同值的集合交集，350 输出的是多重交集。350 匹配一次就消耗一次库存，库存为 0 时不能继续添加；若只使用 Set，会丢失应保留的重复项。[349](https://leetcode.com/problems/intersection-of-two-arrays/)、[350](https://leetcode.com/problems/intersection-of-two-arrays-ii/)
+- **规范化分组键：**49 的计数键需要编码全部 26 项并使用分隔符，例如 `#1#11` 与 `#11#1` 不能拼成同一个无分隔字符串。Java 数组默认不能按内容作为可互换的 HashMap 键；应转换成稳定的内容键，且不能只保存可能冲突的哈希值来判等。这是对分组正确性的实现要求。[49](https://leetcode.com/problems/group-anagrams/)、[Java Arrays.equals](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Arrays.html#equals(int%5B%5D,int%5B%5D))
+- **成对和计数：**454 将前两数组的所有下标对累加到频次表，再查询后两数组的相反和；同一个和出现多次必须累计，不能去重。由官方范围推得，二数和绝对值最多 2²⁹，取相反数安全；四数和绝对值最多 2³⁰，答案最多 200⁴ = 1,600,000,000，均在 Java int 范围内。若将模板扩展到更大 n 或完整 int 元素，需要重新估算，并在加法前转 long。[454 的约束](https://leetcode.com/problems/4sum-ii/)
+- **连续序列：**128 先去重，再遍历集合；只从不存在前驱 `x-1` 的序列头向右扩展。遍历原数组会使重复的序列头反复扫描整段，从每个值向右扩展也可能退化为 O(n²)。官方 ±10⁹ 范围使 `x±1` 不溢出，但通用 int 模板仍需考虑边界。[128 的线性要求与范围](https://leetcode.com/problems/longest-consecutive-sequence/)
+- **最近下标：**219 保存每个值的最近一次位置；先检查与当前位置的距离，再更新位置。只保存第一次出现的位置会错过更近的重复对。若改用滑动集合，窗口范围与移除时机要匹配 `≤ k` 的闭边界。[219](https://leetcode.com/problems/contains-duplicate-ii/)
+- **随机集合：**380 的数组保存每个现存值一次，Map 保存值到数组下标；删除时以末位补洞并同步被移动值的下标，再删除尾部与目标映射。删除本来就在末位的元素也要成立。对紧凑数组下标均匀抽样才能得到等概率；不能以 HashSet 的固定迭代首项替代随机抽样，数组中间直接移除也无法满足平均 O(1)。[380](https://leetcode.com/problems/insert-delete-getrandom-o1/)
+- **LRU 访问顺序：**146 的成功读取、写入已有键都刷新最近使用次序。Java `LinkedHashMap` 默认是插入顺序；若用于 LRU，应使用 `new LinkedHashMap<>(16, 0.75f, true)` 开启 access-order，并在超容量时删除最久未访问项，或覆盖 `removeEldestEntry`。仅更新 value、却不移动访问顺序会淘汰错误条目。它与手写哈希表加双向链表是可对照的实现方式。[146](https://leetcode.com/problems/lru-cache/)、[Java LinkedHashMap](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/LinkedHashMap.html)

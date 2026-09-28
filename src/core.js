@@ -78,7 +78,10 @@ export function validateDataset(data, count = 100) {
           !q.references.some(ref => ref.url === q.source)) throw new Error('讨论题的作答模板或来源不完整。');
     } else {
       if ((q.kind && q.kind !== 'algorithm') || !q.java) throw new Error('算法题模板不完整。');
-      if (!/^https:\/\/leetcode\.cn\/problems\/[a-z0-9-]+\/description\/$/.test(q.source)) throw new Error('题目来源地址无效。');
+      if (q.contentOrigin === 'original-exercise') {
+        if (!q.references?.length || !q.references.every(ref => ref.title && isReferenceURL(ref.url)) ||
+            !q.references.some(ref => ref.url === q.source)) throw new Error('自编题的参考来源不完整。');
+      } else if (!/^https:\/\/leetcode\.cn\/problems\/[a-z0-9-]+\/description\/$/.test(q.source)) throw new Error('题目来源地址无效。');
     }
   });
   if (data.groups.reduce((sum, g) => sum + g.count, 0) !== count) throw new Error('分类数量不正确。');
@@ -89,6 +92,12 @@ export function filterQuestions(questions, difficulty = 'all', query = '') {
   const text = query.trim().toLowerCase();
   return questions.filter(q => (difficulty === 'all' || q.difficulty === difficulty) &&
     (!text || `${q.id} ${q.title} ${q.englishTitle} ${q.category} ${q.technique || ''}`.toLowerCase().includes(text)));
+}
+
+// Sort a catalog group without changing the workbook's practice order.
+export function sortByDifficulty(questions) {
+  const rank = { easy: 0, medium: 1, hard: 2 };
+  return [...questions].sort((a, b) => rank[a.difficulty] - rank[b.difficulty]);
 }
 
 // Fisher–Yates: one complete round with no duplicates, avoiding the current

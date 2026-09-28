@@ -1,11 +1,21 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
-import { DIFFICULTIES, LANGUAGES, draftKey, initialCode, indentedNewline, filterQuestions, randomRound, normalizeSaved, validateDataset, parsePracticeRoute, practiceHash } from '../src/core.js';
+import { DIFFICULTIES, LANGUAGES, draftKey, initialCode, indentedNewline, filterQuestions, sortByDifficulty, randomRound, normalizeSaved, validateDataset, parsePracticeRoute, practiceHash } from '../src/core.js';
 import { BANKS, storageKey } from '../src/banks.js';
 
 const dataset = JSON.parse(await readFile(new URL('../public/data/questions.json', import.meta.url), 'utf8'));
 const questions = dataset.questions;
+
+test('目录按简单、中等、困难稳定排序，不修改原题单；搜索子集同样排序', () => {
+  const original = ['hard', 'medium', 'easy', 'medium', 'easy'].map((difficulty, i) => ({
+    id: String(i), title: '数组', category: '数组', difficulty,
+  }));
+  assert.deepEqual(sortByDifficulty(original).map(q => q.id), ['2', '4', '1', '3', '0']);
+  assert.deepEqual(original.map(q => q.id), ['0', '1', '2', '3', '4']);
+  assert.deepEqual(sortByDifficulty(filterQuestions(original, 'medium', '数组')).map(q => q.id), ['1', '3']);
+  assert.deepEqual(sortByDifficulty([]), []);
+});
 
 test('代码换行沿用当前行缩进，保留空格与 Tab 且不复制光标后的缩进', () => {
   for (const [value, position, expected] of [

@@ -28,6 +28,56 @@ static String values(ListNode node) {
 }
 public static void main(String[] args) {
     TemplateSuite t=new TemplateSuite();
+    check(t.containsDuplicate(new int[]{2,7,2}) && !t.containsDuplicate(new int[]{1,2,3}));
+    check(t.containsDuplicate(new int[]{Integer.MIN_VALUE,Integer.MIN_VALUE}));
+    check(t.isAnagram("anagram","nagaram") && !t.isAnagram("rat","car"));
+    check(t.isAnagram("","") && !t.isAnagram("a","aa"));
+    check(t.isIsomorphic("egg","add") && t.isIsomorphic("paper","title"));
+    check(!t.isIsomorphic("foo","bar") && !t.isIsomorphic("ab","aa") && !t.isIsomorphic("aa","ab"));
+    check(!t.isIsomorphic("a","ab"));
+    Set<String> grouped=new HashSet<>();
+    for(List<String> group:t.groupAnagrams(new String[]{"eat","tea","tan","ate","nat","bat","",""})) {
+        Collections.sort(group);grouped.add(group.toString());
+    }
+    check(grouped.equals(Set.of("[ate, eat, tea]","[nat, tan]","[bat]","[, ]")));
+    check(t.longestConsecutive(new int[]{100,4,200,1,3,2,1})==4);
+    check(t.longestConsecutive(new int[]{})==0 && t.longestConsecutive(new int[]{0,0})==1);
+    check(t.longestConsecutive(new int[]{Integer.MIN_VALUE,Integer.MAX_VALUE})==1);
+    check(t.longestConsecutive(new int[]{Integer.MIN_VALUE,Integer.MIN_VALUE+1})==2);
+    check(t.longestConsecutive(new int[]{Integer.MAX_VALUE-1,Integer.MAX_VALUE})==2);
+    check(t.fourSumCount(new int[]{1,2},new int[]{-2,-1},new int[]{-1,2},new int[]{0,2})==2);
+    check(t.fourSumCount(new int[]{0,0},new int[]{0,0},new int[]{0,0},new int[]{0,0})==16);
+    check(t.fourSumCount(new int[]{268435456},new int[]{268435456},new int[]{-268435456},new int[]{-268435456})==1);
+    check(t.fourSumCount(new int[]{1},new int[]{1},new int[]{1},new int[]{1})==0);
+    check(t.containsNearbyDuplicate(new int[]{1,2,3,1},3));
+    check(!t.containsNearbyDuplicate(new int[]{1,2,3,1,2,3},2));
+    check(t.containsNearbyDuplicate(new int[]{1,2,1,1},1) && !t.containsNearbyDuplicate(new int[]{1,1},0));
+    RandomSet randomSet=t.new RandomSet();
+    check(randomSet.insert(10) && randomSet.insert(20) && randomSet.insert(30) && !randomSet.insert(20));
+    check(randomSet.remove(20) && !randomSet.remove(20));
+    for(int i=0;i<100;i++) {int value=randomSet.getRandom();check(value==10 || value==30);}
+    check(randomSet.remove(30) && randomSet.getRandom()==10 && randomSet.remove(10));
+    check(!randomSet.remove(10) && randomSet.insert(-1) && randomSet.getRandom()==-1);
+    Lru lru=t.new Lru(2);lru.put(1,1);lru.put(2,2);check(lru.get(1)==1);
+    lru.put(3,3);check(lru.get(2)==-1);lru.put(1,10);lru.put(4,4);
+    check(lru.get(3)==-1 && lru.get(1)==10 && lru.get(4)==4);
+    Lru single=t.new Lru(1);single.put(1,1);single.put(1,2);check(single.get(1)==2);
+    single.put(2,3);check(single.get(1)==-1 && single.get(2)==3);
+    check(Arrays.equals(t.plusOne(new int[]{0}),new int[]{1}));
+    check(Arrays.equals(t.plusOne(new int[]{1,2,3}),new int[]{1,2,4}));
+    check(Arrays.equals(t.plusOne(new int[]{1,9,9}),new int[]{2,0,0}));
+    check(Arrays.equals(t.plusOne(new int[]{9,9}),new int[]{1,0,0}));
+    int[] largeDigits=new int[100];Arrays.fill(largeDigits,9);
+    int[] incremented=t.plusOne(largeDigits);
+    check(incremented.length==101 && incremented[0]==1 && Arrays.stream(incremented).sum()==1);
+    int[] uniqueInput={4,2,4,7,2,9}, uniqueBefore=uniqueInput.clone();
+    check(t.firstUniqueIndex(uniqueInput)==3 && Arrays.equals(uniqueInput,uniqueBefore));
+    check(t.firstUniqueIndex(new int[]{5,5,2,2})==-1 && t.firstUniqueIndex(new int[]{})==-1);
+    check(t.firstUniqueIndex(new int[]{-1,3,3})==0 && t.firstUniqueIndex(new int[]{9,1})==0);
+    check(t.firstUniqueIndex(new int[]{Integer.MIN_VALUE,Integer.MAX_VALUE,Integer.MIN_VALUE})==1);
+    check(Arrays.equals(t.rearrangeArray(new int[]{-3,4,2,-7,-1,6}),new int[]{4,-3,2,-7,6,-1}));
+    check(Arrays.equals(t.rearrangeArray(new int[]{-5,8}),new int[]{8,-5}));
+    check(Arrays.equals(t.rearrangeArray(new int[]{2,2,-1,-1}),new int[]{2,-1,2,-1}));
     check(Arrays.equals(t.twoSum(new int[]{2,7,11},9),new int[]{0,1}));
     check(t.removeElement(new int[]{3,2,3},3)==1);
     check(Arrays.equals(t.twoSumSorted(new int[]{2,7,11},9),new int[]{1,2}));
@@ -44,6 +94,7 @@ public static void main(String[] args) {
     Node original=new Node(7);original.random=original;Node copy=t.copyRandomList(original);
     check(copy!=original && copy.random==copy && t.copyRandomList(null)==null);
     check(t.kthLargest(new int[]{3,2,1,5,6,4},2)==5);
+    check(t.kthLargest(new int[]{3,2,3,1,2,4,5,5,6},4)==4);
     check(t.lastStoneWeight(new int[]{9,3,2})==4 && t.lastStoneWeight(new int[]{2,2})==0);
     check(values(t.mergeKLists(new ListNode[]{list(1,4),list(2,3)})).equals("[1, 2, 3, 4]"));
     Median median=t.new Median();median.add(Integer.MAX_VALUE);median.add(Integer.MAX_VALUE);check(median.median()==Integer.MAX_VALUE);
@@ -63,7 +114,7 @@ public static void main(String[] args) {
     check(t.lowestCommonAncestor(root,root.left,root.right)==root);
     check(t.validBST(root));root.right.left=new TreeNode(0);check(!t.validBST(root));
     check(t.levelOrder(t.build(new int[]{2,1,3},0,0,2,Map.of(1,0,2,1,3,2))).toString().equals("[[2], [1, 3]]"));
-    System.out.println("32 个题型模板编译与边界示例通过");
+    System.out.println("${Object.keys(patterns).length} 个题型模板编译与边界示例通过");
 }
 }`;
 const files = [path.join(dir, 'TemplateSuite.java')];
@@ -78,4 +129,4 @@ for (const question of supplements) {
 await run('javac', ['--release', '17', '-encoding', 'UTF-8', ...files]);
 const { stdout } = await run('java', ['-cp', dir, 'TemplateSuite']);
 console.log(stdout.trim());
-console.log(`20 个补充题的 Java 初始骨架编译通过。临时测试文件：${dir}`);
+console.log(`${supplements.length} 个补充题的 Java 初始骨架编译通过。临时测试文件：${dir}`);

@@ -538,6 +538,29 @@ try {
     await page.locator('#workspace').waitFor({ state: 'visible' });
     await page.locator('#search').fill('');
     const dataset = await page.evaluate(async file => (await fetch(`./data/${file}`)).json(), bank.file);
+    const catalogGroups = await page.locator('.question-group').evaluateAll(groups => groups.map(group => ({
+      name: group.querySelector('.group-heading span').textContent,
+      slugs: [...group.querySelectorAll('.question-button')].map(button => button.dataset.slug),
+    })));
+    assert.deepEqual(catalogGroups.map(group => group.name), dataset.groups.map(group => group.name));
+    const difficultyRank = { easy: 0, medium: 1, hard: 2 };
+    for (const group of catalogGroups) {
+      assert.deepEqual(group.slugs, dataset.questions.filter(q => q.category === group.name)
+        .sort((a, b) => difficultyRank[a.difficulty] - difficultyRank[b.difficulty]).map(q => q.slug));
+    }
+    if (bank.id === 'algorithm-fasttrack') {
+      await page.locator('#search').fill('数组');
+      const arrayGroup = page.locator('.question-group').filter({ has: page.getByText('数组', { exact: true }) });
+      assert.equal(await arrayGroup.locator('.question-button').count(), 19);
+      assert.deepEqual(await arrayGroup.locator('.question-button').evaluateAll(buttons => buttons.map(b => b.dataset.slug)),
+        catalogGroups.find(group => group.name === '数组').slugs);
+      await page.locator('#search').fill('哈希表');
+      assert.equal(await page.locator('.question-group').count(), 1);
+      assert.equal(await page.locator('.question-button').count(), 14);
+      assert.deepEqual(await page.locator('.question-button').evaluateAll(buttons => buttons.map(b => b.dataset.slug)),
+        catalogGroups.find(group => group.name === '哈希表').slugs);
+      await page.locator('#search').fill('');
+    }
     assert.equal(await page.locator('.question-button').count(), bank.count);
     if (bank.id === 'algorithm-fasttrack') {
       assert.equal(await page.locator('#catalog-caption').innerText(), '按数据结构分类，可搜索题号或题型');
@@ -602,6 +625,12 @@ try {
         }
         assert.ok(await page.locator('#review-content pre code').count() > 0);
         assert.equal(await page.locator('#code-editor').inputValue(), q.java);
+        if (q.contentOrigin === 'original-exercise') {
+          assert.equal(await page.locator('#source-link').innerText(), '题目参考 ↗');
+          assert.equal(await page.locator('#verify-link').innerText(), '参考来源 ↗');
+          assert.equal(await page.locator('#verify-link').getAttribute('href'), q.source);
+          assert.match(await page.locator('#editor-note-text').innerText(), /本站自编/);
+        } else assert.equal(await page.locator('#source-link').innerText(), '力扣原题 ↗');
       } else assert.equal(await page.locator('#problem-review').isVisible(), false);
       if (q.format === 'questions-only') {
         assert.doesNotMatch(await page.locator('#problem-content').innerText(), /答案|提示|参考来源|练习假设/);
@@ -725,7 +754,7 @@ try {
   await fasttrackPage.locator('#workspace').waitFor({ state: 'visible' });
   assert.equal(await fasttrackPage.locator('#code-editor').inputValue(), '// 速通独立草稿');
   await fasttrackContext.close();
-  checks.push('算法题速通75题笔记完整，默认收起、键盘展开、刷新/切题重置，顺序/随机/手机可用，跨题库草稿隔离');
+  checks.push('各册目录同分类按难度稳定排序、搜索保持排序；算法题速通92题含哈希表14题笔记完整，自编题来源准确，默认收起、键盘展开、刷新/切题重置，顺序/随机/手机可用，跨题库草稿隔离');
   const loadingContext = await browser.newContext();
   const loadingPage = await loadingContext.newPage();
   await loadingPage.route('**/data/interview150.json', route => route.fulfill({ status: 503, body: 'Unavailable' }), { times: 1 });

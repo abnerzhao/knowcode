@@ -2,13 +2,16 @@
 export const chapters = [
   {
     name: '数组', core: '先判断问题是在处理位置、连续区间、前缀关系，还是有序性，再选择指针或辅助结构。',
-    stages: ['基础扫描：1 → 26 → 27 → 283 → 88', '指针与窗口：167 → 15 → 11 → 3 → 209', '综合进阶：560 → 53 → 56 → 704 → 33'],
+    stages: ['基础扫描：66 → A01 → 1 → 26 → 27 → 283 → 88 → 2149', '指针与窗口：167 → 15 → 11 → 3 → 209', '综合进阶：560 → 53 → 56 → 704 → 33 → 215'],
     questions: [
+      [66, 'array-carry', '从最低位向前加一：遇到非 9 加一即返回；连续的 9 置零，全为 9 时新建多一位的数组。不要先转成整数，以免溢出。'],
+      ['A01', 'array-frequency', '先统计整个数组中每个值的出现次数，再按原数组顺序寻找次数为 1 的第一个下标；不是找数值最小者，也不是只判断相邻元素。'],
       [1, 'array-hash', '先查询 target - nums[i]，再记录当前下标，避免同一元素用两次。'],
       [26, 'array-compact', '有序数组中只把与上一个保留值不同的元素写入前缀；返回前缀长度。'],
       [27, 'array-compact', '读指针遍历所有元素，写指针只接收不等于 val 的元素。'],
       [283, 'array-compact', '先稳定写入非零元素，再把后面的槽位填零；不可打乱非零元素的相对顺序。'],
       [88, 'array-opposite', '利用 nums1 尾部空位，从两个有效尾部向后合并，避免覆盖未读取元素。'],
+      [2149, 'array-alternate', '题目保证正负各半且没有 0；正数依次写入偶数下标，负数依次写入奇数下标，保留各自原有顺序。允许使用新数组。'],
       [167, 'array-opposite', '数组有序：和偏小移动左指针，偏大移动右指针；返回下标从 1 开始。'],
       [15, 'array-opposite', '先排序，再固定一个数并对剩余区间做双指针；固定值、左右指针都要跳过重复值。'],
       [11, 'array-opposite', '面积由较短边和宽度决定；移动短边才可能提高水位。它不要求数组有序。'],
@@ -19,6 +22,27 @@ export const chapters = [
       [56, 'array-interval', '按左端点排序后只与最后一个已合并区间比较；端点相等也算重叠。'],
       [704, 'array-binary', '统一使用一种区间约定；闭区间写 left <= right，找不到返回 -1。'],
       [33, 'array-binary', '每次先判断哪一半有序，再判断 target 是否落在该半区；不能直接套普通二分的大小比较。'],
+      [215, 'heap-topk', '第 k 大按出现次数排名，不能去重。维护 k 个最大值的小顶堆是 O(n log k) 基础方案；若严格满足本题 O(n) 要求，应进一步学习选择算法，不能把堆解称作线性解。'],
+    ],
+  },
+  {
+    name: '哈希表', core: '先明确键和值分别代表什么：只判断存在用 Set，需要次数、下标或映射关系用 Map；哈希查询快，但不保证原始顺序。',
+    stages: ['存在与计数：217 → 349 → 350 → 242 → 383 → 202', '映射与分组：205 → 290 → 49', '关系与设计：219 → 128 → 454 → 380 → 146', '跨章节复习：数组 1（两数之和）、A01（首个唯一值）、560（前缀和计数），堆 347（高频元素）'],
+    questions: [
+      [217, 'hash-set', '集合的 add 返回 false 表示此前已存在；本题只需判断，不必保存次数或先排序。'],
+      [349, 'hash-set', '先把一个数组放入集合，再遍历另一个数组；用结果集合去重，或命中后从原集合删除。同一交集值只输出一次。'],
+      [350, 'hash-count', '统计一个数组的频次，扫描另一个数组时仅在剩余次数大于 0 时输出，并扣减一次；每个值输出次数为两边频次的较小者。'],
+      [242, 'hash-count', '只含小写英文字母时可用长度 26 的计数数组替代 Map；两串长度不同先失败，计数最终应完全抵消。'],
+      [383, 'hash-count', 'magazine 是可消耗的字符库存，ransomNote 每使用一次就扣减；库存可有剩余，不能要求两个字符串频次完全相等。'],
+      [202, 'hash-set', '记录每轮各位平方和状态；到达 1 成功，重复状态说明进入非 1 循环。当前数必须按十进制拆位，不能只检查原始输入是否重复。'],
+      [205, 'hash-bijection', '两个方向都必须唯一：同一个源字符只能映射到一个目标，两个不同源字符也不能映射到同一目标。映射自己允许。'],
+      [290, 'hash-bijection', '把 pattern 的字符与分词后的完整单词建立双向映射；先检查字符数与单词数相等，不要按 s 的单个字符比较。'],
+      [49, 'hash-signature', '把排序后的字符序列作为分组键；同组原字符串和重复字符串都要保留，空字符串也应进入对应组。'],
+      [128, 'hash-streak', '先去重，只从不存在前驱的数开始向后扩展；不排序，也不要对每个数都重复扫描整段。边界相减、递增需考虑整数溢出。'],
+      [454, 'hash-pairs', '把前两组的两数和映射到出现次数，后两组查询相反数并累加；统计的是下标四元组，重复值贡献不能去掉。'],
+      [219, 'hash-nearby', '表中记录每个值最近出现的下标；遇到相同值时检查当前下标差不超过 k，再更新最近位置。k=0 时不可能选择两个不同下标。'],
+      [380, 'hash-random', '数组提供等概率随机下标，Map 定位元素；删除时把最后一个元素移到待删除位置，并同步更新其下标，避免中间删除导致 O(n) 移动。'],
+      [146, 'hash-lru', 'Map 负责按键定位，双向链表维护访问顺序；get 命中和更新已有键都算使用，超容量时淘汰最久未使用节点。模板用访问顺序的 LinkedHashMap 演示，面试可能要求手写链表。'],
     ],
   },
   {
@@ -41,9 +65,8 @@ export const chapters = [
   },
   {
     name: '堆', core: '堆让当前最优候选留在堆顶；先回答“堆里保留谁、堆顶代表谁”，再决定大小顶堆。',
-    stages: ['堆操作与 Top K：1046 → 703 → 215 → 347', '多路归并：23 → 373 → 378', '双堆平衡：295'],
+    stages: ['堆操作与 Top K：1046 → 703 → 347（另见数组 215）', '多路归并：23 → 373 → 378', '双堆平衡：295'],
     questions: [
-      [215, 'heap-topk', '维护 k 个最大值的小顶堆是 O(n log k) 基础方案；若严格满足本题 O(n) 要求，应进一步学习选择算法，不能把堆解称作线性解。'],
       [347, 'heap-topk', '先统计频次，再按频次维护候选。堆解为 O(n log k)，不是对所有 k 都严格优于 O(n log n)；进阶可用桶排序。'],
       [23, 'heap-merge', '堆中每条链只放当前头节点；弹出节点后仅加入该节点的后继。'],
       [295, 'heap-median', '左侧大顶堆，右侧小顶堆；保持左侧大小等于右侧或多 1，且左侧最大值不大于右侧最小值。'],
@@ -115,6 +138,159 @@ export const chapters = [
 
 const p = (title, signals, idea, java, boundary) => ({ title, signals, idea, java, boundary });
 export const patterns = {
+  'hash-set': p('集合判重与存在性', ['是否出现过', '去重交集', '重复状态检测'], '只需要知道存在与否时，用 HashSet 记录已经见过的值或状态。重复状态可用于识别循环。', `boolean containsDuplicate(int[] nums) {
+    Set<Integer> seen = new HashSet<>();
+    for (int num : nums) {
+        if (!seen.add(num)) return true;
+    }
+    return false;
+}`, '在哈希分布合理时，n 次操作期望 O(n)，空间 O(n)。Set 不保证插入顺序；349 的结果必须去重，202 需要反复计算新状态，不能直接把数组判重代码作为答案。'),
+  'hash-count': p('频次表与多重集合', ['字符数量匹配', '可消耗库存', '重复次数也要保留'], '把值映射到出现次数；匹配或使用一次就扣减一次。小而固定的字符集可以用数组充当频次表。', `boolean isAnagram(String s, String t) {
+    if (s.length() != t.length()) return false;
+    int[] counts = new int[26];
+    for (int i = 0; i < s.length(); i++) {
+        counts[s.charAt(i) - 'a']++;
+        counts[t.charAt(i) - 'a']--;
+    }
+    for (int count : counts) {
+        if (count != 0) return false;
+    }
+    return true;
+}`, '此字母模板只适用于 a-z，时间 O(n)，额外空间 O(26)。350 的整数频次用 Map，期望时间 O(m+n)、空间 O(min(m,n))（不含结果，统计较短数组）；383 只要求库存足够，不必相等。'),
+  'hash-bijection': p('双向映射约束', ['一一对应', '同构', '字符与单词规律'], '同时维护正向和反向映射：既不能一对多，也不能多对一。', `boolean isIsomorphic(String s, String t) {
+    if (s.length() != t.length()) return false;
+    Map<Character, Character> forward = new HashMap<>();
+    Map<Character, Character> backward = new HashMap<>();
+    for (int i = 0; i < s.length(); i++) {
+        char a = s.charAt(i), b = t.charAt(i);
+        if (forward.containsKey(a) && forward.get(a) != b) return false;
+        if (backward.containsKey(b) && backward.get(b) != a) return false;
+        forward.put(a, b);
+        backward.put(b, a);
+    }
+    return true;
+}`, '对 205 的字符输入，时间期望 O(n)，空间 O(u)，u 为不同字符数。290 应换成 Character 与 String 的双向 Map，比较字符串内容用 equals，先验证单词数。这里只按 Java char 处理，不是通用 Unicode 码点算法。'),
+  'hash-signature': p('规范化键分组', ['异位词分组', '不同表示归为一类', '按特征聚合'], '为等价对象计算相同且无歧义的键，再使用 Map<键, 列表> 聚合原对象。', `List<List<String>> groupAnagrams(String[] strs) {
+    Map<String, List<String>> groups = new HashMap<>();
+    for (String str : strs) {
+        char[] letters = str.toCharArray();
+        Arrays.sort(letters);
+        String key = new String(letters);
+        groups.computeIfAbsent(key, ignored -> new ArrayList<>()).add(str);
+    }
+    return new ArrayList<>(groups.values());
+}`, 'n 个字符串、最大长度 L 时，排序键总时间 O(n L log(L+1))，键和结果引用空间 O(n(L+1))。也可用 26 维计数签名；拼接计数需分隔符，避免歧义。输出组顺序不保证，重复字符串不能去重。'),
+  'hash-streak': p('集合中的连续段起点', ['无序数组', '最长连续而非连续子数组', '要求线性时间'], '集合用于常数期望时间查询，只让没有前驱的元素启动扩展，每个不同的数至多属于一段扩展。', `int longestConsecutive(int[] nums) {
+    Set<Integer> values = new HashSet<>();
+    for (int num : nums) values.add(num);
+    int longest = 0;
+    for (int start : values) {
+        if (start != Integer.MIN_VALUE && values.contains(start - 1)) continue;
+        int end = start, length = 1;
+        while (end != Integer.MAX_VALUE && values.contains(end + 1)) {
+            end++;
+            length++;
+        }
+        longest = Math.max(longest, length);
+    }
+    return longest;
+}`, '时间期望 O(n)，空间 O(n)。外层遍历去重后的集合而非原数组，否则重复起点可能反复扩展；空数组返回 0。完整 int 值域时要防止 MIN_VALUE-1 与 MAX_VALUE+1 溢出。'),
+  'hash-pairs': p('分组求和与补数计数', ['四组数组', '四数和为零', '按下标组合计数'], '把四重枚举拆成两组二重枚举：先统计前半的和，再为后半查找互补和的频次。', `int fourSumCount(int[] a, int[] b, int[] c, int[] d) {
+    Map<Integer, Integer> sums = new HashMap<>();
+    for (int x : a) for (int y : b) {
+        sums.put(x + y, sums.getOrDefault(x + y, 0) + 1);
+    }
+    int total = 0;
+    for (int x : c) for (int y : d) {
+        total += sums.getOrDefault(-(x + y), 0);
+    }
+    return total;
+}`, '四组长度均为 n，时间期望 O(n²)，空间 O(n²)。454 的 n≤200、值范围 [-2^28,2^28] 使两数和及最多 n^4 个答案均能用 int；扩展输入范围时需对和、相反数和答案使用 long。重复值仍对应不同下标组合。'),
+  'hash-nearby': p('最近位置与距离约束', ['重复元素下标差', '距离不超过 k', '维护最近一次出现'], '每个值只保存最近下标：它与当前下标的距离最小，若最近的都太远，更早的也不满足。', `boolean containsNearbyDuplicate(int[] nums, int k) {
+    Map<Integer, Integer> latest = new HashMap<>();
+    for (int i = 0; i < nums.length; i++) {
+        Integer previous = latest.put(nums[i], i);
+        if (previous != null && i - previous <= k) return true;
+    }
+    return false;
+}`, 'k≥0，时间期望 O(n)，空间 O(n)。最近下标可以每轮覆盖；若换成窗口 Set，必须同步移出窗口外的元素，才能把空间控制到 O(min(n,k))。'),
+  'hash-random': p('哈希定位与动态数组', ['平均 O(1) 插入删除', '等概率随机取值', '集合无需有序'], 'Map 保存值到数组下标的映射；删除时与末尾交换，随机时均匀选择数组下标。', `class RandomSet {
+    private final List<Integer> values = new ArrayList<>();
+    private final Map<Integer, Integer> positions = new HashMap<>();
+    private final Random random = new Random();
+    boolean insert(int value) {
+        if (positions.containsKey(value)) return false;
+        positions.put(value, values.size());
+        values.add(value);
+        return true;
+    }
+    boolean remove(int value) {
+        Integer index = positions.get(value);
+        if (index == null) return false;
+        int last = values.get(values.size() - 1);
+        values.set(index, last);
+        positions.put(last, index);
+        values.remove(values.size() - 1);
+        positions.remove(value);
+        return true;
+    }
+    int getRandom() {
+        return values.get(random.nextInt(values.size()));
+    }
+}`, '哈希操作平均 O(1)，ArrayList 扩容使插入为均摊 O(1)，总空间 O(n)。题目保证 getRandom 时非空；删除最后一项也必须正确更新映射。RandomSet 是教学类名，提交时使用 RandomizedSet 和 public 接口。'),
+  'hash-lru': p('哈希表与访问顺序链表', ['LRU 缓存', '最近最少使用', '按键访问同时维护顺序'], '哈希表按键快速定位，双向链表把最近使用项移到一端，满容量淘汰另一端。Java LinkedHashMap 的访问顺序模式已实现这种组合。', `class Lru {
+    private final int capacity;
+    private final LinkedHashMap<Integer, Integer> cache = new LinkedHashMap<>(16, 0.75f, true);
+    Lru(int capacity) {
+        this.capacity = capacity;
+    }
+    int get(int key) {
+        return cache.getOrDefault(key, -1);
+    }
+    void put(int key, int value) {
+        cache.put(key, value);
+        if (cache.size() > capacity) {
+            int oldest = cache.keySet().iterator().next();
+            cache.remove(oldest);
+        }
+    }
+}`, '容量为正；哈希分布合理时 get/put 平均 O(1)，空间 O(capacity)。构造参数 true 表示访问顺序，默认插入顺序不等于 LRU。命中 get 和更新旧值都会刷新顺序；若要求手写，应改为 Map<键,节点> + 带哨兵的双向链表，不能用线性查找的 List.remove。'),
+  'array-carry': p('逐位进位', ['数字以数组表示', '加一', '低位向高位进位'], '模拟竖式运算，从右向左处理进位；遇到无需继续进位的一位就结束。', `int[] plusOne(int[] digits) {
+    for (int i = digits.length - 1; i >= 0; i--) {
+        if (digits[i] < 9) {
+            digits[i]++;
+            return digits;
+        }
+        digits[i] = 0;
+    }
+    int[] result = new int[digits.length + 1];
+    result[0] = 1;
+    return result;
+}`, '最坏时间 O(n)；除返回结果外辅助空间 O(1)，全为 9 时新数组占 O(n)。输入非空，数字为 0 至 9；会修改原数组，不能把百位大整数装进 int 或 long。'),
+  'array-frequency': p('频次统计与原序查找', ['第一个不重复的元素', '全局只出现一次', '返回原下标'], '第一遍统计全局频次，第二遍按原顺序找频次为 1 的值。先数清，再确定第一个。', `int firstUniqueIndex(int[] nums) {
+    Map<Integer, Integer> counts = new HashMap<>();
+    for (int num : nums) {
+        counts.put(num, counts.getOrDefault(num, 0) + 1);
+    }
+    for (int i = 0; i < nums.length; i++) {
+        if (counts.get(nums[i]) == 1) return i;
+    }
+    return -1;
+}`, '在哈希操作期望 O(1) 下，总时间期望 O(n)，空间 O(n)。第二遍遍历原数组而非 HashMap；空数组或没有唯一值返回 -1。取元素前先检查索引不为 -1，合法元素本身也可能是 -1。'),
+  'array-alternate': p('按类别稳定写入', ['正负交替', '保持同类相对顺序', '正数开头'], '为两类元素分别维护写入位置，正数写偶数位、负数写奇数位，各自每次前进两格。', `int[] rearrangeArray(int[] nums) {
+    int[] result = new int[nums.length];
+    int positive = 0, negative = 1;
+    for (int num : nums) {
+        if (num > 0) {
+            result[positive] = num;
+            positive += 2;
+        } else {
+            result[negative] = num;
+            negative += 2;
+        }
+    }
+    return result;
+}`, '时间 O(n)，新数组空间 O(n)。仅适用于没有 0、正负数量相等且正数开头的契约；正负数量不等时不能直接套用。顺序扫描并分别追加保证稳定性，不需排序。'),
   'array-hash': p('哈希查找', ['寻找配对', '元素是否已经出现'], '用空间换查询时间，把“回头找”变成哈希查询。', `int[] twoSum(int[] nums, int target) {
     Map<Integer, Integer> seen = new HashMap<>();
     for (int i = 0; i < nums.length; i++) {

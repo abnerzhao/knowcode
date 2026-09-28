@@ -1,4 +1,4 @@
-import { DIFFICULTIES, LANGUAGES, draftKey, initialCode, indentedNewline, validateDataset, filterQuestions, randomRound, normalizeSaved, parsePracticeRoute, practiceHash } from './core.js';
+import { DIFFICULTIES, LANGUAGES, draftKey, initialCode, indentedNewline, validateDataset, filterQuestions, sortByDifficulty, randomRound, normalizeSaved, parsePracticeRoute, practiceHash } from './core.js';
 import { highlightCode } from './highlight.js';
 import { canFormat, formatDraft } from './formatter.js';
 import { BANKS, bankById, storageKey } from './banks.js';
@@ -112,6 +112,7 @@ function syncDraft() {
 function renderEditor() {
   editorRevision++;
   const discussion = isDiscussion();
+  const originalExercise = current.contentOrigin === 'original-exercise';
   const config = LANGUAGES[language];
   const editor = $('code-editor');
   editor.value = saved.drafts[draftKey(current.slug, draftLanguage())] ?? initialCode(current, language);
@@ -127,8 +128,9 @@ function renderEditor() {
   $('copy-code').textContent = discussion ? '复制思路' : '复制代码';
   $('editor-note-text').textContent = discussion
     ? '先独立推演，再对照来源补充。此处保存纯文本，不执行代码或自动评分。'
+    : originalExercise ? '本站自编练习，请自行验证示例与边界。此处仅编辑与保存代码，不执行或判题。'
     : '先独立写一遍，再去力扣验证。此处仅编辑与保存代码，不执行或判题。';
-  $('verify-link').textContent = discussion ? '参考来源 ↗' : '去验证 ↗';
+  $('verify-link').textContent = discussion || originalExercise ? '参考来源 ↗' : '去验证 ↗';
   editor.scrollTop = 0;
   editor.scrollLeft = 0;
   editor.setSelectionRange(0, 0);
@@ -186,7 +188,7 @@ function renderCatalog() {
   const filtered = filterQuestions(data.questions, 'all', query);
   const fragment = document.createDocumentFragment();
   for (const group of data.groups) {
-    const questions = filtered.filter(q => q.category === group.name);
+    const questions = sortByDifficulty(filtered.filter(q => q.category === group.name));
     if (!questions.length) continue;
     const section = document.createElement('section');
     section.className = 'question-group';
@@ -253,7 +255,7 @@ function visit(slug) {
   $('toggle-tags').textContent = '查看提示';
   $('problem-hints').hidden = $('tags-divider').hidden = question.tags.length === 0;
   $('source-link').href = question.source;
-  $('source-link').textContent = isDiscussion() ? '题目参考 ↗' : '力扣原题 ↗';
+  $('source-link').textContent = isDiscussion() || question.contentOrigin === 'original-exercise' ? '题目参考 ↗' : '力扣原题 ↗';
   $('verify-link').href = question.source;
   $('problem-content').replaceChildren(renderProblemHTML(question.content));
   $('problem-review').open = false;

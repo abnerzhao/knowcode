@@ -40,6 +40,56 @@ const problem = (id, slug, title, englishTitle, difficulty, tags, content, java)
 });
 
 export const supplements = [
+  problem(217, 'contains-duplicate', '存在重复元素', 'Contains Duplicate', 'easy', ['数组', '哈希表', '排序'],
+    '<p>给定整数数组 <code>nums</code>，判断是否有某个值出现在至少两个不同下标上。只要找到一组重复就返回 <code>true</code>；所有值都只出现一次时返回 <code>false</code>。</p>' +
+    example('nums = [8,-2,5,8]', 'true', '下标 0 和 3 的值都是 8。') +
+    example('nums = [0,-4,9]', 'false', '三个元素互不相同。') +
+    limits('1 ≤ nums.length ≤ 100000；-10⁹ ≤ nums[i] ≤ 10⁹。'),
+    solution('boolean containsDuplicate(int[] nums)')),
+
+  problem(349, 'intersection-of-two-arrays', '两个数组的交集', 'Intersection of Two Arrays', 'easy', ['数组', '哈希表', '双指针', '二分查找', '排序'],
+    '<p>给定整数数组 <code>nums1</code> 和 <code>nums2</code>，返回同时出现在两者中的所有不同值。结果中的每个值只能保留一次，排列顺序不限；没有共同值时返回空数组。</p>' +
+    example('nums1 = [6,3,6,8], nums2 = [8,6,6,1]', '[6,8]', '6 虽然重复出现，结果中仍只保留一个；[8,6] 也正确。') +
+    example('nums1 = [0,4], nums2 = [2,2,7]', '[]', '两个数组没有共同值。') +
+    limits('1 ≤ nums1.length, nums2.length ≤ 1000；0 ≤ nums1[i], nums2[i] ≤ 1000。'),
+    solution('int[] intersection(int[] nums1, int[] nums2)')),
+
+  problem(350, 'intersection-of-two-arrays-ii', '两个数组的交集 II', 'Intersection of Two Arrays II', 'easy', ['数组', '哈希表', '双指针', '二分查找', '排序'],
+    '<p>给定整数数组 <code>nums1</code> 和 <code>nums2</code>，返回它们能够逐个配对的共同元素。一个值在结果中出现的次数，等于它在两个数组中出现次数的较小值。结果顺序不限，没有配对时返回空数组。</p><p>进阶：分别考虑输入已排序、两个数组长度相差很大，以及较大数组存于磁盘且不能全部载入内存的情形。</p>' +
+    example('nums1 = [6,3,6,8], nums2 = [6,6,6,8]', '[6,6,8]', '6 在两边分别出现 2 次和 3 次，能配对 2 次；8 能配对 1 次。') +
+    example('nums1 = [0,0,4], nums2 = [0,4,4]', '[0,4]', '0 和 4 都只能各配对一次，[4,0] 也正确。') +
+    limits('1 ≤ nums1.length, nums2.length ≤ 1000；0 ≤ nums1[i], nums2[i] ≤ 1000。'),
+    solution('int[] intersect(int[] nums1, int[] nums2)')),
+
+  problem(454, '4sum-ii', '四数相加 II', '4Sum II', 'medium', ['数组', '哈希表'],
+    '<p>给定四个长度均为 <code>n</code> 的整数数组 <code>nums1</code>、<code>nums2</code>、<code>nums3</code> 和 <code>nums4</code>。从每个数组各选择一个下标，统计四个对应元素之和为 0 的下标组合数量。不同数组中的下标彼此独立；即使选出的数值相同，只要下标组合不同就要分别计数。</p>' +
+    example('nums1 = [2,2], nums2 = [-2,-2], nums3 = [5,5], nums4 = [-5,-5]', '16', '每个数组都有 2 个下标可选，全部 2 × 2 × 2 × 2 个组合都满足和为 0。') +
+    example('nums1 = [3], nums2 = [-1], nums3 = [2], nums4 = [-3]', '0', '唯一组合的和为 1，因此没有符合条件的组合。') +
+    limits('四个数组长度相同；1 ≤ n ≤ 200；每个元素在 [-2²⁸, 2²⁸] 内。'),
+    solution('int fourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4)')),
+
+  problem(2149, 'rearrange-array-elements-by-sign', '按符号重排数组', 'Rearrange Array Elements by Sign', 'medium', ['数组', '双指针', '模拟'],
+    '<p>给定偶数长度的整数数组 <code>nums</code>，其中正数与负数数量相等，且没有 0。请返回一个重新排列后的数组：正数在第一个位置，此后正负交替；所有正数之间、所有负数之间的相对顺序分别保持不变。不要求原地修改。</p>' +
+    example('nums = [-3,4,2,-7,-1,6]', '[4,-3,2,-7,6,-1]', '正数顺序仍为 4、2、6，负数顺序仍为 -3、-7、-1，两类依次交替。') +
+    example('nums = [-5,8]', '[8,-5]', '从正数开始排列。') +
+    limits('2 ≤ nums.length ≤ 200000，长度为偶数；1 ≤ |nums[i]| ≤ 100000；正负元素数量相等。'),
+    solution('int[] rearrangeArray(int[] nums)')),
+
+  {
+    id: 'A01', slug: 'first-unique-array-element', title: '查找第一个不重复的数组元素 / 索引',
+    englishTitle: 'First Unique Element in an Array', difficulty: 'easy', tags: ['数组', '哈希表', '计数'],
+    contentOrigin: 'original-exercise',
+    source: 'https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/HashMap.html',
+    references: [{ title: 'Java 17 HashMap API（方法参考，非原题）', url: 'https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/HashMap.html' }],
+    content: '<p>本站自编练习，编号 A01，不对应 LeetCode 题号。</p><p>给定整数数组 <code>nums</code>，找到在整个数组中只出现一次、且原始下标最小的元素。实现 <code>firstUniqueIndex</code> 返回它的下标（从 0 开始）；不存在时返回 <code>-1</code>。数组允许为空、允许负数，不要修改输入数组。</p><p>若需要返回元素值，先判断返回的索引是否为 -1；存在时读取 <code>nums[index]</code>。不要用元素值 -1 表示不存在，因为它也可能是合法答案。</p>' +
+      example('nums = [4,2,4,7,2,9]', '3', '7 和 9 各出现一次，最先出现的是 7，其下标为 3；元素值为 nums[3] = 7。') +
+      example('nums = [5,5,2,2]', '-1', '所有元素都重复。') +
+      example('nums = [-1,3,3]', '0', '唯一值是 -1，但返回的是有效下标 0。') +
+      example('nums = []', '-1', '空数组没有可选元素。') +
+      limits('0 ≤ nums.length ≤ 100000；元素为 Java int 范围内的整数；争取达到期望 O(n) 时间复杂度。'),
+    java: solution('int firstUniqueIndex(int[] nums)'),
+  },
+
   problem(704, 'binary-search', '二分查找', 'Binary Search', 'easy', ['数组', '二分查找'],
     '<p>在严格递增的整数数组 <code>nums</code> 中查找 <code>target</code>。找到时返回它的下标，否则返回 <code>-1</code>。要求时间复杂度为 O(log n)。</p>' +
     example('nums = [-4,0,2,8,13], target = 8', '3', '数组从下标 0 开始，8 位于下标 3；若 target 改为 7，则返回 -1。') +
