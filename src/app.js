@@ -83,6 +83,10 @@ function interviewStarLabel(question) {
   return bank.id === 'algorithm-fasttrack' && question.interviewFocus
     ? `面试重点：${question.interviewFocus} 按经典考点整理，非出题频率统计。` : '';
 }
+function hot100Label(question) {
+  return bank.id === 'algorithm-fasttrack' && question.hot100 === true
+    ? '收录于 HOT 100（以本站题单为准）' : '';
+}
 
 function notify(message) {
   clearTimeout(toastTimer);
@@ -224,6 +228,17 @@ function renderCatalog() {
         button.title += ` · ${starLabel}`;
         button.append(star);
       }
+      const hotLabel = hot100Label(question);
+      if (hotLabel) {
+        const mark = document.createElement('span');
+        mark.className = 'hot100-mark';
+        mark.textContent = '🔥';
+        mark.setAttribute('role', 'img');
+        mark.setAttribute('aria-label', hotLabel);
+        mark.title = hotLabel;
+        button.title += ` · ${hotLabel}`;
+        button.append(mark);
+      }
       const badge = document.createElement('span');
       badge.className = `question-dot ${question.difficulty}`;
       badge.setAttribute('aria-label', DIFFICULTIES[question.difficulty]);
@@ -262,6 +277,10 @@ function visit(slug) {
   $('problem-star').hidden = !starLabel;
   $('problem-star').title = starLabel;
   $('problem-star').setAttribute('aria-label', starLabel);
+  const hotLabel = hot100Label(question);
+  $('problem-hot100').hidden = !hotLabel;
+  $('problem-hot100').title = hotLabel;
+  $('problem-hot100').setAttribute('aria-label', hotLabel);
   $('english-title').textContent = question.englishTitle;
   $('english-title').hidden = !question.englishTitle;
   $('problem-category').textContent = question.category;

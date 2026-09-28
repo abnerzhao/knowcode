@@ -568,6 +568,12 @@ button:hover:not(:disabled) {
   flex-shrink:0
 }
 
+.hot100-mark {
+  font-size:14px;
+  line-height:1;
+  flex-shrink:0
+}
+
 .problem-title-row {
   display:flex;
   align-items:baseline;
@@ -578,7 +584,7 @@ button:hover:not(:disabled) {
   min-width:0
 }
 
-.problem-title-row .interview-star {
+.problem-title-row .interview-star,.problem-title-row .hot100-mark {
   font-size:18px
 }
 

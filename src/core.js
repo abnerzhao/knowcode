@@ -65,6 +65,7 @@ export function validateDataset(data, count = 100) {
   if (new Set(data.questions.map(q => q.slug)).size !== count) throw new Error('题库包含重复题目。');
   data.questions.forEach((q, i) => {
     const questionsOnly = q.format === 'questions-only';
+    if (q.hot100 !== undefined && typeof q.hot100 !== 'boolean') throw new Error('HOT 100 标记必须为布尔值。');
     if (q.interviewFocus !== undefined && (typeof q.interviewFocus !== 'string' || !q.interviewFocus.trim())) {
       throw new Error('面试重点标记缺少有效说明。');
     }

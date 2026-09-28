@@ -7,6 +7,26 @@ import { filterQuestions, validateDataset, initialCode } from '../src/core.js';
 
 const data = JSON.parse(await readFile(new URL('../public/data/algorithm-fasttrack.json', import.meta.url), 'utf8'));
 
+test('HOT 100 火焰标记严格匹配本地题单，与面试星标独立且不更改其他题库', async () => {
+  const hot100 = JSON.parse(await readFile(new URL('../public/data/questions.json', import.meta.url), 'utf8'));
+  const slugs = new Set(hot100.questions.map(q => q.slug));
+  for (const q of data.questions) assert.equal(q.hot100 === true, slugs.has(q.slug), q.slug);
+  assert.ok(data.questions.some(q => q.hot100 && q.interviewFocus));
+  assert.ok(data.questions.some(q => q.hot100 && !q.interviewFocus));
+  assert.ok(data.questions.some(q => !q.hot100 && q.interviewFocus));
+  assert.ok(data.questions.some(q => !q.hot100 && !q.interviewFocus));
+  assert.equal(data.questions.find(q => q.id === 'A01').hot100, undefined);
+  for (const file of ['questions', 'interview150', 'offer']) {
+    const book = JSON.parse(await readFile(new URL(`../public/data/${file}.json`, import.meta.url), 'utf8'));
+    assert.ok(book.questions.every(q => q.hot100 === undefined));
+  }
+  for (const value of ['true', 1, null, {}]) {
+    const broken = structuredClone(data);
+    broken.questions[0].hot100 = value;
+    assert.throws(() => validateDataset(broken, 92), /HOT 100/);
+  }
+});
+
 test('面试重点仅为速通册的30道编辑推荐，每个标记都有学习理由且覆盖七类结构', async () => {
   const marked = data.questions.filter(q => q.interviewFocus);
   assert.equal(marked.length, 30);

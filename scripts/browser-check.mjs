@@ -564,6 +564,8 @@ try {
     assert.equal(await page.locator('.question-button').count(), bank.count);
     assert.equal(await page.locator('.question-button .interview-star').count(),
       bank.id === 'algorithm-fasttrack' ? dataset.questions.filter(q => q.interviewFocus).length : 0);
+    assert.equal(await page.locator('.question-button .hot100-mark').count(),
+      bank.id === 'algorithm-fasttrack' ? dataset.questions.filter(q => q.hot100).length : 0);
     if (bank.id === 'algorithm-fasttrack') {
       assert.equal(await page.locator('#catalog-caption').innerText(), '按数据结构分类，可搜索题号或题型');
       assert.equal(await page.locator('#bank-source').innerText(), '选题参考 ↗');
@@ -617,6 +619,13 @@ try {
       await page.locator(`[data-slug="${q.slug}"]`).click();
       assert.equal(await page.locator('#problem-title').innerText(), `${q.id}. ${q.title}`.trim());
       const starred = bank.id === 'algorithm-fasttrack' && Boolean(q.interviewFocus);
+      const hot = bank.id === 'algorithm-fasttrack' && q.hot100 === true;
+      assert.equal(await page.locator('#problem-hot100').isVisible(), hot);
+      assert.equal(await page.locator(`[data-slug="${q.slug}"] .hot100-mark`).count(), hot ? 1 : 0);
+      if (hot) {
+        assert.match(await page.locator('#problem-hot100').getAttribute('aria-label'), /HOT 100/);
+        assert.match(await page.locator('#problem-hot100').getAttribute('title'), /本站题单/);
+      } else assert.equal(await page.locator('#problem-hot100').getAttribute('title'), '');
       assert.equal(await page.locator('#problem-star').isVisible(), starred);
       assert.equal(await page.locator(`[data-slug="${q.slug}"] .interview-star`).count(), starred ? 1 : 0);
       if (starred) {
@@ -733,6 +742,7 @@ try {
     await fasttrackPage.locator('#workspace').waitFor({ state: 'visible' });
     const review = fasttrackPage.locator('#problem-review');
     assert.equal(await fasttrackPage.locator('#problem-star').isVisible(), true);
+    assert.equal(await fasttrackPage.locator('#problem-hot100').isVisible(), true);
     assert.equal(await review.evaluate(el => el.open), false);
     await review.locator('summary').click();
     assert.equal(await fasttrackPage.locator('#review-content').isVisible(), true);
@@ -745,6 +755,7 @@ try {
     await fasttrackPage.reload();
     await fasttrackPage.locator('#workspace').waitFor({ state: 'visible' });
     assert.equal(await fasttrackPage.locator('#problem-star').isVisible(), true);
+    assert.equal(await fasttrackPage.locator('#problem-hot100').isVisible(), true);
     assert.equal(await review.evaluate(el => el.open), false);
     await review.locator('summary').click();
     await fasttrackPage.locator('#next').click();
@@ -754,11 +765,16 @@ try {
   }
   for (const mode of ['ordered', 'random']) {
     await fasttrackPage.setViewportSize({ width: 320, height: 900 });
-    for (const [slug, starred] of [['insert-delete-getrandom-o1', true], ['plus-one', false]]) {
+    for (const [slug, starred, hot] of [
+      ['insert-delete-getrandom-o1', true, false], ['plus-one', false, false],
+      ['merge-intervals', false, true], ['longest-substring-without-repeating-characters', true, true],
+    ]) {
       await fasttrackPage.goto(`http://127.0.0.1:4173/#/algorithm-fasttrack/${mode}/${slug}`);
       await fasttrackPage.locator('#workspace').waitFor({ state: 'visible' });
       assert.equal(await fasttrackPage.locator('#problem-star').isVisible(), starred);
+      assert.equal(await fasttrackPage.locator('#problem-hot100').isVisible(), hot);
       assert.ok(await fasttrackPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      if (hot) await fasttrackPage.screenshot({ path: `${screenshots}/hot100-${mode}-mobile.png`, fullPage: true });
       if (starred) {
         await fasttrackPage.screenshot({ path: `${screenshots}/interview-star-${mode}-mobile.png`, fullPage: true });
       } else assert.equal(await fasttrackPage.locator('#problem-star').getAttribute('title'), '');
@@ -769,9 +785,11 @@ try {
   await fasttrackPage.locator('#workspace').waitFor({ state: 'visible' });
   await fasttrackPage.locator('#search').fill('两数之和');
   assert.equal(await fasttrackPage.locator('.question-button .interview-star').count(), 1);
+  assert.equal(await fasttrackPage.locator('.question-button .hot100-mark').count(), 1);
   await fasttrackPage.locator('#search').fill('');
   await fasttrackPage.emulateMedia({ forcedColors: 'active' });
   assert.equal(await fasttrackPage.locator('#problem-star').isVisible(), true);
+  assert.equal(await fasttrackPage.locator('#problem-hot100').isVisible(), true);
   await fasttrackPage.emulateMedia({ forcedColors: 'none' });
   await fasttrackPage.locator('#code-editor').fill('// 速通独立草稿');
   await fasttrackPage.locator('#practice-bookshelf').click();
@@ -779,12 +797,13 @@ try {
   await fasttrackPage.locator('#ordered-mode').click();
   await fasttrackPage.locator('#workspace').waitFor({ state: 'visible' });
   assert.equal(await fasttrackPage.locator('#problem-review').isVisible(), false);
+  assert.equal(await fasttrackPage.locator('#problem-hot100').isVisible(), false);
   assert.notEqual(await fasttrackPage.locator('#code-editor').inputValue(), '// 速通独立草稿');
   await fasttrackPage.goto('http://127.0.0.1:4173/#/algorithm-fasttrack/ordered/two-sum');
   await fasttrackPage.locator('#workspace').waitFor({ state: 'visible' });
   assert.equal(await fasttrackPage.locator('#code-editor').inputValue(), '// 速通独立草稿');
   await fasttrackContext.close();
-  checks.push('星标仅在算法题速通显示，目录与标题一致，搜索、随机、刷新、切题、跨册、320px长标题与高对比度均通过');
+  checks.push('星标与HOT100火焰仅在算法题速通显示，支持独立与并列；目录与标题一致，搜索、随机、刷新、切题、跨册、320px长标题与高对比度均通过');
   checks.push('各册目录同分类按难度稳定排序、搜索保持排序；算法题速通92题含哈希表14题笔记完整，自编题来源准确，默认收起、键盘展开、刷新/切题重置，顺序/随机/手机可用，跨题库草稿隔离');
   const loadingContext = await browser.newContext();
   const loadingPage = await loadingContext.newPage();

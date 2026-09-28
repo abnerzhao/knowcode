@@ -7,6 +7,7 @@ import { validateDataset } from '../src/core.js';
 const root = new URL('../', import.meta.url);
 const sourceBooks = await Promise.all(['questions', 'interview150', 'offer'].map(async name =>
   JSON.parse(await readFile(new URL(`public/data/${name}.json`, root), 'utf8'))));
+const hot100Slugs = new Set(sourceBooks[0].questions.map(question => question.slug));
 const byId = new Map();
 for (const book of sourceBooks) for (const question of book.questions) {
   if (!byId.has(question.id)) byId.set(question.id, question);
@@ -38,6 +39,7 @@ for (const chapter of chapters) {
       '<p>先独立尝试，再看识别信号和模板；合上笔记后重新实现，并说明为什么指针移动或出入栈不会遗漏答案。</p>',
     ].join('\n');
     questions.push({ ...original, order: questions.length + 1, category: chapter.name,
+      ...(hot100Slugs.has(original.slug) ? { hot100: true } : {}),
       ...(interviewFocus[id] ? { interviewFocus: interviewFocus[id] } : {}),
       technique: pattern.title, review,
       contentOrigin: original.contentOrigin || (supplements.includes(original) ? 'original-restatement' : 'existing-workbook') });
