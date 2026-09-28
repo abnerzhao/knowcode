@@ -557,7 +557,29 @@ button:hover:not(:disabled) {
 
 .question-button .question-name {
   font-size:12px;
+  min-width:0;
   flex:1
+}
+
+.interview-star {
+  color:#9a6b20;
+  font-size:14px;
+  line-height:1;
+  flex-shrink:0
+}
+
+.problem-title-row {
+  display:flex;
+  align-items:baseline;
+  gap:8px
+}
+
+.problem-title-row h1 {
+  min-width:0
+}
+
+.problem-title-row .interview-star {
+  font-size:18px
 }
 
 .question-button .question-dot {
@@ -1053,6 +1075,7 @@ button:hover:not(:disabled) {
 .code-area textarea.highlighted::selection { background:#729acb55 }
 
 @media (forced-colors:active) {
+  .interview-star { color:CanvasText }
   #code-highlight { display:none }
   .code-area textarea.highlighted { color:CanvasText }
 }

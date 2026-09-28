@@ -562,6 +562,8 @@ try {
       await page.locator('#search').fill('');
     }
     assert.equal(await page.locator('.question-button').count(), bank.count);
+    assert.equal(await page.locator('.question-button .interview-star').count(),
+      bank.id === 'algorithm-fasttrack' ? dataset.questions.filter(q => q.interviewFocus).length : 0);
     if (bank.id === 'algorithm-fasttrack') {
       assert.equal(await page.locator('#catalog-caption').innerText(), '按数据结构分类，可搜索题号或题型');
       assert.equal(await page.locator('#bank-source').innerText(), '选题参考 ↗');
@@ -614,6 +616,14 @@ try {
     for (const q of dataset.questions) {
       await page.locator(`[data-slug="${q.slug}"]`).click();
       assert.equal(await page.locator('#problem-title').innerText(), `${q.id}. ${q.title}`.trim());
+      const starred = bank.id === 'algorithm-fasttrack' && Boolean(q.interviewFocus);
+      assert.equal(await page.locator('#problem-star').isVisible(), starred);
+      assert.equal(await page.locator(`[data-slug="${q.slug}"] .interview-star`).count(), starred ? 1 : 0);
+      if (starred) {
+        assert.match(await page.locator('#problem-star').getAttribute('aria-label'), /面试重点/);
+        assert.ok((await page.locator('#problem-star').getAttribute('title')).includes(q.interviewFocus));
+        assert.match(await page.locator('#problem-star').getAttribute('title'), /非出题频率统计/);
+      }
       assert.match(await page.locator('#problem-content').innerText(), q.format === 'questions-only' ? /？/ : /示例/);
       if (bank.id === 'algorithm-fasttrack') {
         assert.equal(await page.locator('#problem-review').isVisible(), true);
@@ -722,6 +732,7 @@ try {
     await fasttrackPage.goto(`http://127.0.0.1:4173/#/algorithm-fasttrack/${mode}/two-sum`);
     await fasttrackPage.locator('#workspace').waitFor({ state: 'visible' });
     const review = fasttrackPage.locator('#problem-review');
+    assert.equal(await fasttrackPage.locator('#problem-star').isVisible(), true);
     assert.equal(await review.evaluate(el => el.open), false);
     await review.locator('summary').click();
     assert.equal(await fasttrackPage.locator('#review-content').isVisible(), true);
@@ -733,6 +744,7 @@ try {
     assert.equal(await review.evaluate(el => el.open), true);
     await fasttrackPage.reload();
     await fasttrackPage.locator('#workspace').waitFor({ state: 'visible' });
+    assert.equal(await fasttrackPage.locator('#problem-star').isVisible(), true);
     assert.equal(await review.evaluate(el => el.open), false);
     await review.locator('summary').click();
     await fasttrackPage.locator('#next').click();
@@ -740,9 +752,27 @@ try {
     await fasttrackPage.locator('#previous').click();
     assert.equal(await review.evaluate(el => el.open), false);
   }
+  for (const mode of ['ordered', 'random']) {
+    await fasttrackPage.setViewportSize({ width: 320, height: 900 });
+    for (const [slug, starred] of [['insert-delete-getrandom-o1', true], ['plus-one', false]]) {
+      await fasttrackPage.goto(`http://127.0.0.1:4173/#/algorithm-fasttrack/${mode}/${slug}`);
+      await fasttrackPage.locator('#workspace').waitFor({ state: 'visible' });
+      assert.equal(await fasttrackPage.locator('#problem-star').isVisible(), starred);
+      assert.ok(await fasttrackPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      if (starred) {
+        await fasttrackPage.screenshot({ path: `${screenshots}/interview-star-${mode}-mobile.png`, fullPage: true });
+      } else assert.equal(await fasttrackPage.locator('#problem-star').getAttribute('title'), '');
+    }
+  }
   await fasttrackPage.setViewportSize({ width: 1440, height: 900 });
   await fasttrackPage.goto('http://127.0.0.1:4173/#/algorithm-fasttrack/ordered/two-sum');
   await fasttrackPage.locator('#workspace').waitFor({ state: 'visible' });
+  await fasttrackPage.locator('#search').fill('两数之和');
+  assert.equal(await fasttrackPage.locator('.question-button .interview-star').count(), 1);
+  await fasttrackPage.locator('#search').fill('');
+  await fasttrackPage.emulateMedia({ forcedColors: 'active' });
+  assert.equal(await fasttrackPage.locator('#problem-star').isVisible(), true);
+  await fasttrackPage.emulateMedia({ forcedColors: 'none' });
   await fasttrackPage.locator('#code-editor').fill('// 速通独立草稿');
   await fasttrackPage.locator('#practice-bookshelf').click();
   await fasttrackPage.locator('[data-bank="hot100"]').click();
@@ -754,6 +784,7 @@ try {
   await fasttrackPage.locator('#workspace').waitFor({ state: 'visible' });
   assert.equal(await fasttrackPage.locator('#code-editor').inputValue(), '// 速通独立草稿');
   await fasttrackContext.close();
+  checks.push('星标仅在算法题速通显示，目录与标题一致，搜索、随机、刷新、切题、跨册、320px长标题与高对比度均通过');
   checks.push('各册目录同分类按难度稳定排序、搜索保持排序；算法题速通92题含哈希表14题笔记完整，自编题来源准确，默认收起、键盘展开、刷新/切题重置，顺序/随机/手机可用，跨题库草稿隔离');
   const loadingContext = await browser.newContext();
   const loadingPage = await loadingContext.newPage();

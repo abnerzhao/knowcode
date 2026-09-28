@@ -1,11 +1,28 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { chapters, patterns } from '../scripts/algorithm-fasttrack/outline.mjs';
+import { chapters, patterns, interviewFocus } from '../scripts/algorithm-fasttrack/outline.mjs';
 import { supplements } from '../scripts/algorithm-fasttrack/supplements.mjs';
 import { filterQuestions, validateDataset, initialCode } from '../src/core.js';
 
 const data = JSON.parse(await readFile(new URL('../public/data/algorithm-fasttrack.json', import.meta.url), 'utf8'));
+
+test('面试重点仅为速通册的30道编辑推荐，每个标记都有学习理由且覆盖七类结构', async () => {
+  const marked = data.questions.filter(q => q.interviewFocus);
+  assert.equal(marked.length, 30);
+  assert.deepEqual(new Set(marked.map(q => q.id)), new Set(Object.keys(interviewFocus)));
+  assert.deepEqual(new Set(marked.map(q => q.category)), new Set(chapters.map(c => c.name)));
+  for (const q of marked) assert.equal(q.interviewFocus, interviewFocus[q.id]);
+  for (const file of ['questions', 'interview150', 'offer']) {
+    const book = JSON.parse(await readFile(new URL(`../public/data/${file}.json`, import.meta.url), 'utf8'));
+    assert.ok(book.questions.every(q => q.interviewFocus === undefined));
+  }
+  for (const value of ['', ' ', true, 30, null]) {
+    const broken = structuredClone(data);
+    broken.questions[0].interviewFocus = value;
+    assert.throws(() => validateDataset(broken, 92), /面试重点/);
+  }
+});
 
 test('算法题速通完整覆盖七种结构、92题、44类笔记和用户指定的19道栈题', () => {
   assert.equal(validateDataset(data, 92), true);

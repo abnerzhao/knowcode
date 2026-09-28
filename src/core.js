@@ -65,6 +65,9 @@ export function validateDataset(data, count = 100) {
   if (new Set(data.questions.map(q => q.slug)).size !== count) throw new Error('题库包含重复题目。');
   data.questions.forEach((q, i) => {
     const questionsOnly = q.format === 'questions-only';
+    if (q.interviewFocus !== undefined && (typeof q.interviewFocus !== 'string' || !q.interviewFocus.trim())) {
+      throw new Error('面试重点标记缺少有效说明。');
+    }
     if (q.review !== undefined && (typeof q.review !== 'string' || !q.review.trim() ||
         typeof q.technique !== 'string' || !q.technique.trim())) throw new Error('速通笔记或题型不完整。');
     if ((q.format !== undefined && !questionsOnly) || (questionsOnly && q.kind !== 'discussion')) throw new Error('题目格式无效。');

@@ -79,6 +79,10 @@ for (const [index, item] of BANKS.entries()) {
 
 function isDiscussion() { return current?.kind === 'discussion'; }
 function draftLanguage() { return isDiscussion() ? 'text' : language; }
+function interviewStarLabel(question) {
+  return bank.id === 'algorithm-fasttrack' && question.interviewFocus
+    ? `面试重点：${question.interviewFocus} 按经典考点整理，非出题频率统计。` : '';
+}
 
 function notify(message) {
   clearTimeout(toastTimer);
@@ -209,6 +213,17 @@ function renderCatalog() {
       for (const [className, text] of [['question-id', question.id], ['question-name', question.title]]) {
         const span = document.createElement('span'); span.className = className; span.textContent = text; button.append(span);
       }
+      const starLabel = interviewStarLabel(question);
+      if (starLabel) {
+        const star = document.createElement('span');
+        star.className = 'interview-star';
+        star.textContent = '★';
+        star.setAttribute('role', 'img');
+        star.setAttribute('aria-label', starLabel);
+        star.title = starLabel;
+        button.title += ` · ${starLabel}`;
+        button.append(star);
+      }
       const badge = document.createElement('span');
       badge.className = `question-dot ${question.difficulty}`;
       badge.setAttribute('aria-label', DIFFICULTIES[question.difficulty]);
@@ -243,6 +258,10 @@ function visit(slug) {
   saved.current = question.slug;
   persist();
   $('problem-title').textContent = `${question.id}. ${question.title}`;
+  const starLabel = interviewStarLabel(question);
+  $('problem-star').hidden = !starLabel;
+  $('problem-star').title = starLabel;
+  $('problem-star').setAttribute('aria-label', starLabel);
   $('english-title').textContent = question.englishTitle;
   $('english-title').hidden = !question.englishTitle;
   $('problem-category').textContent = question.category;

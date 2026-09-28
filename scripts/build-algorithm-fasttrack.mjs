@@ -1,6 +1,6 @@
 // Offline content assembly. Source workbooks and authored notes remain untouched.
 import { readFile, writeFile } from 'node:fs/promises';
-import { chapters, patterns } from './algorithm-fasttrack/outline.mjs';
+import { chapters, patterns, interviewFocus } from './algorithm-fasttrack/outline.mjs';
 import { supplements } from './algorithm-fasttrack/supplements.mjs';
 import { validateDataset } from '../src/core.js';
 
@@ -38,6 +38,7 @@ for (const chapter of chapters) {
       '<p>先独立尝试，再看识别信号和模板；合上笔记后重新实现，并说明为什么指针移动或出入栈不会遗漏答案。</p>',
     ].join('\n');
     questions.push({ ...original, order: questions.length + 1, category: chapter.name,
+      ...(interviewFocus[id] ? { interviewFocus: interviewFocus[id] } : {}),
       technique: pattern.title, review,
       contentOrigin: original.contentOrigin || (supplements.includes(original) ? 'original-restatement' : 'existing-workbook') });
   }
