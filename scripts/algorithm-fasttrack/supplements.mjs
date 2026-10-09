@@ -1,5 +1,6 @@
 // Official problem contracts checked on 2026-09-27. Wording and examples are original.
 // These are practice starters, not solutions; see docs/algorithm-fasttrack-sources.md.
+import { sortingQuestions } from './sorting.mjs';
 const source = slug => `https://leetcode.cn/problems/${slug}/description/`;
 const listNode = `/**
  * LeetCode 提供的单链表节点：
@@ -40,6 +41,7 @@ const problem = (id, slug, title, englishTitle, difficulty, tags, content, java)
 });
 
 export const supplements = [
+  ...sortingQuestions,
   problem(217, 'contains-duplicate', '存在重复元素', 'Contains Duplicate', 'easy', ['数组', '哈希表', '排序'],
     '<p>给定整数数组 <code>nums</code>，判断是否有某个值出现在至少两个不同下标上。只要找到一组重复就返回 <code>true</code>；所有值都只出现一次时返回 <code>false</code>。</p>' +
     example('nums = [8,-2,5,8]', 'true', '下标 0 和 3 的值都是 8。') +

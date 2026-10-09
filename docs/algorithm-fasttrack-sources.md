@@ -1,8 +1,8 @@
 # 算法题速通：来源与编辑说明
 
-核验日期：2026-09-27 至 2026-09-28。
+核验日期：2026-09-27 至 2026-09-28；排序章节补充核验：2026-10-09。
 
-本册定位是七类数据结构的编程练习，与既有「数据结构与算法」概念问答册互补。选题和模式分组是教学编辑建议，不是企业面试频率统计或 LeetCode 官方排名。识别信号只帮助提出候选思路，不能替代适用条件和正确性论证。
+本册定位是七类数据结构及十大排序算法的编程练习，与既有「数据结构与算法」概念问答册互补。选题和模式分组是教学编辑建议，不是企业面试频率统计或 LeetCode 官方排名。识别信号只帮助提出候选思路，不能替代适用条件和正确性论证。
 
 新增题面在 `scripts/algorithm-fasttrack/supplements.mjs` 中以原创中文重述任务、接口和约束，并构造简短示例；不复制官方题解、插图或整段原题描述。原题链接保留，空白 Java 模板仅含接口与 TODO，不预填解答。其余题目复用项目已有题库，既有题号、标识与个人草稿不迁移。
 
@@ -177,3 +177,33 @@
 | [287 寻找重复数](https://leetcode.cn/problems/find-the-duplicate-number/description/) | 长度 n+1，1≤n≤100000，每项属于 1～n；只有一种数重复，但它可出现两次或更多次。必须不修改输入且使用 O(1) 额外空间，线性时间是进阶；排序、原地交换归位或取负标记均违背只读要求。将下标映射为 `i -> nums[i]` 做 Floyd 判圈时，两阶段初始化要配套；若从下标 0 出发，第二阶段重置一指针到 0，再同步单步前进到入口。不可把第一次相遇直接当重复数。 |
 
 复习与验证优先覆盖上述边界，尤其是 76 重复需求字符、41 重复值归位、148 断链与空间说明、437 long 前缀及回溯、4 单空数组与偶数长度、75 换入未知值、31 非递增序列、287 输入未被修改。复杂度中的“常数额外空间”不包含结果对象时应明确注明；递归调用栈不能省略不算。
+
+## 十大排序算法：来源与适用边界（2026-10-09）
+
+排序章收录 S01～S10 十道原创实现练习，分别对应冒泡、选择、插入、希尔、归并、快速、堆、计数、桶、基数排序；题号和难度属于项目教学编排，不是 LeetCode 官方题号或评级。算法描述与示例自行编写，以下大学课程资料用于核验原理与分析边界，不复制其代码或整段题面。
+
+稳定性指相等键的记录仍保持输入时的相对顺序，单纯 `int[]` 的相同值无法展示这种区别。表中性质针对所注明的常规实现；更换相等时的处理、增量序列、桶内排序或递归策略，需要重新分析。[Princeton：排序应用与稳定性](https://algs4.cs.princeton.edu/25applications/)
+
+| 练习 | 核验结论与一手来源 |
+| --- | --- |
+| S01 冒泡排序 | 仅交换严格逆序的相邻元素时稳定，额外空间 O(1)；加上“本轮无交换则结束”后最佳 O(n)，平均／最坏 O(n²)。[Bubble 源码与说明](https://algs4.cs.princeton.edu/21elementary/Bubble.java.html)、[复杂度表](https://algs4.cs.princeton.edu/cheatsheet/) |
+| S02 选择排序 | 常规“找最小值后与当前位置交换”不稳定；最好／平均／最坏均 Θ(n²)，额外空间 O(1)，交换次数 O(n)。[初等排序](https://algs4.cs.princeton.edu/21elementary/)、[稳定性反例](https://algs4.cs.princeton.edu/25applications/) |
+| S03 插入排序 | 只将严格大于待插入值的项右移时稳定；有序输入 Θ(n)，随机互异输入平均 Θ(n²)，最坏 Θ(n²)，额外空间 O(1)。[初等排序](https://algs4.cs.princeton.edu/21elementary/) |
+| S04 希尔排序 | 本章固定 `gap=n/2`、每轮 `gap/=2`，最终包含 1；不稳定，额外空间 O(1)。其最坏 O(n²)，有序输入最佳 Θ(n log n)，不为平均复杂度填入未经证明的统一指数。Princeton 的 `Shell` 使用 Knuth 序列 1、4、13……，其 Θ(n^(3/2)) 最坏界不能移植到本章。[Shell API](https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/Shell.html)、[增量序列课程讲义](https://www.cs.princeton.edu/courses/archive/spr03/cs226/lectures/sorting.4up.pdf) |
+| S05 归并排序 | 常规数组归并稳定，前提是相等时先取左半段；时间 Θ(n log n)，辅助数组 O(n)，递归栈 O(log n)。若加入“边界已排序便跳过归并”，最佳时间须按新实现重算。[Merge API](https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/Merge.html) |
+| S06 快速排序 | 随机枢轴／预先洗牌配合三路划分，期望 O(n log n)，最坏仍 O(n²)，不稳定；全相等时三路划分只扫描一轮，为 Θ(n)。普通双侧递归栈期望 O(log n)、最坏 O(n)。[随机性与三路划分](https://algs4.cs.princeton.edu/23quicksort/)、[三路快排复杂度表](https://algs4.cs.princeton.edu/lectures/keynote/24PriorityQueues-2x2.pdf) |
+| S07 堆排序 | 自底向上建堆 O(n)，完整排序最坏 O(n log n)，迭代下沉额外空间 O(1)，不稳定。有提前结束的下沉在全相等输入上可以 Θ(n) 完成，不能无条件将最佳写成 Θ(n log n)。[Princeton 复杂度表及互异键注释](https://algs4.cs.princeton.edu/cheatsheet/) |
+| S08 计数排序 | 稳定版本时间 O(n+k)、辅助空间 O(n+k)，k 是值域宽度；并非所有整数输入均可忽略 k。负数可通过 `value-min` 映射到非负下标。[MIT 计数与基数排序讲义](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-fall-2011/bf7d79105762bf79bbc0925438e1468a_MIT6_006F11_lec07.pdf)；偏移是基于其整数键模型的编辑推导。 |
+| S09 桶排序 | 桶内采用插入排序时，只有输入独立、均匀落入各桶且桶数 m=Θ(n) 等前提成立，才有 O(n) 期望时间；最坏 O(n²+m)，辅助空间 O(n+m)。稳定性依赖按输入顺序入桶与桶内稳定排序。[Princeton 分桶练习](https://algs4.cs.princeton.edu/51radix/)、[MIT 6.006 桶排序讲义](https://courses.csail.mit.edu/6.006/fall08/notes/lecture11.pdf) |
+| S10 基数排序 | 本章使用非负 int 的十进制 LSD：从低位到高位，每一位必须稳定排序。d 位、基数 b 时为 O(d(n+b))，额外空间 O(n+b)；本章 b=10。非负限制属于本练习契约，不代表所有基数排序都不能处理负数。[MIT LSD 与稳定性分析](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-fall-2011/bf7d79105762bf79bbc0925438e1468a_MIT6_006F11_lec07.pdf) |
+
+以下是针对本章实现的编辑推导与检查点：
+
+- **希尔的复杂度口径：**减半增量共 Θ(log n) 轮，有序时每轮仍扫描 Θ(n) 项，故最佳 Θ(n log n)；每轮分组插入的上界 O(n²/gap)，对减半序列求和得到 O(n²)。当 n 为 2 的幂时，前面的偶数增量可能始终隔离奇偶位置，最后 gap=1 才处理大量逆序对；这解释了二次最坏情况。[增量序列课程讲义](https://www.cs.princeton.edu/courses/archive/spr03/cs226/lectures/sorting.4up.pdf)
+- **计数的稳定性和负数：**以累计计数表示结束位置时，从右向左扫描输入并递减计数写入输出，才能保持等值记录顺序。本题值域限制为 [-10000,10000]，`max-min+1` 不会溢出；如果扩展输入范围，应先用 `k=(long)max-min+1` 计算并检查可分配范围。“能偏移负数”不代表适合完整 int 值域。仅按频次重写整数值不能证明携带其他字段时也稳定。[MIT 稳定排序与计数排序](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2008/0c8bb24ef91668bfe85f1eaee80e72a0_lec11.pdf)
+- **桶的期望不是无条件保证：**均匀独立分配时，桶内插入排序的二次项期望为 O(n+n²/m)，总计 O(n+m+n²/m)；m=Θ(n) 才简化为 O(n)。集中到少量桶时会退化，固定十个桶不能据此宣称任意 n 均线性。本模板仅处理非负整数，求最大值后用 `value*n/(max+1)` 映射到 n 个桶，中间算术使用 long，处理全相等、最大值落桶、空桶等边界。[MIT 分桶前提](https://courses.csail.mit.edu/6.006/fall08/notes/lecture11.pdf)
+- **LSD 位权：**每轮从稳定的计数输出复制回数组，位权用 long，避免十进制位权乘 10 溢出；空数组、全零直接结束也必须保持正确。负数若要支持，需要另行设计符号处理，不能直接将负余数用作十个桶的下标。[MIT LSD 逐位稳定性](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-fall-2011/bf7d79105762bf79bbc0925438e1468a_MIT6_006F11_lec07.pdf)
+
+### 关联力扣练习的范围
+
+S05 归并、S06 快速、S07 堆排序关联 [912 排序数组](https://leetcode.cn/problems/sort-an-array/description/) 供在线练习，仍保留原创 S 系列标识。官方题目难度为中等，要求禁用内置排序、时间 O(n log n)、空间尽可能小；长度 1～50000，值 -50000～50000，允许重复。官方不指定使用上述哪一种算法，不能把三个独立算法练习都改称官方 912 原题。随机快排的 O(n log n) 是期望界，最坏 O(n²)，不能宣称其具有最坏 O(n log n) 保证。

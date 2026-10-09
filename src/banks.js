@@ -10,7 +10,7 @@ export const BANKS = [
   { id: 'languages-frameworks', name: '语言与框架', count: 138, file: 'languages-frameworks.json', kind: 'discussion' },
   { id: 'data-structures-algorithms', name: '数据结构与算法', count: 50, file: 'data-structures-algorithms.json', kind: 'discussion' },
   { id: 'design-patterns', name: '设计模式', count: 40, file: 'design-patterns.json', kind: 'discussion' },
-  { id: 'algorithm-fasttrack', name: '算法题速通', count: 110, file: 'algorithm-fasttrack.json', curated: true },
+  { id: 'algorithm-fasttrack', name: '算法题速通', count: 120, file: 'algorithm-fasttrack.json', curated: true },
 ];
 
 export function bankById(id) {

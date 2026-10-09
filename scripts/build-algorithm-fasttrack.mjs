@@ -47,13 +47,13 @@ for (const chapter of chapters) {
 }
 const data = {
   version: 1, name: '算法题速通', source: 'https://leetcode.cn/problemset/',
-  fetchedAt: '2026-09-28T00:00:00.000Z',
+  fetchedAt: '2026-10-09T00:00:00.000Z',
   groups: chapters.map(chapter => ({ name: chapter.name, count: chapter.questions.length })), questions,
 };
 const included = new Set(questions.map(question => question.slug));
 const missing = sourceBooks[0].questions.filter(question =>
   hot100StructureCategories.includes(question.category) && !question.tags.includes('矩阵') && !included.has(question.slug));
 if (missing.length) throw new Error(`HOT 100 数据结构题未补齐：${missing.map(q => q.id).join(', ')}`);
-validateDataset(data, 110);
+validateDataset(data, 120);
 await writeFile(new URL('public/data/algorithm-fasttrack.json', root), JSON.stringify(data, null, 2) + '\n');
-console.log(`算法题速通：${questions.length} 题、${chapters.length} 个结构、${Object.keys(patterns).length} 个题型；离线生成完成。`);
+console.log(`算法题速通：${questions.length} 题、${chapters.length} 个分类、${Object.keys(patterns).length} 个题型；离线生成完成。`);

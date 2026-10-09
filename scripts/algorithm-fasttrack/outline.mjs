@@ -1,5 +1,6 @@
 // Original teaching outline. Each problem has one primary home; cross-topic methods are noted.
 import { hot100Patterns } from './hot100-patterns.mjs';
+import { sortingChapter, sortingPatterns } from './sorting.mjs';
 
 // Matrix, backtracking, DP, greedy and graph/Trie topics need separate chapters.
 export const hot100StructureCategories = ['哈希', '双指针', '滑动窗口', '子串', '普通数组', '链表', '二叉树', '二分查找', '栈', '堆', '技巧'];
@@ -156,6 +157,7 @@ export const chapters = [
       [437, 'tree-prefix-path', '前缀表只统计当前祖先路径；先查询再记录当前前缀，离开节点时撤销。路径不必从根开始，但只能向下；路径和用 long。'],
     ],
   },
+  sortingChapter,
 ];
 
 // Editorial interview priorities, not measured company question frequencies.
@@ -195,6 +197,7 @@ export const interviewFocus = {
 const p = (title, signals, idea, java, boundary) => ({ title, signals, idea, java, boundary });
 export const patterns = {
   ...hot100Patterns,
+  ...sortingPatterns,
   'hash-set': p('集合判重与存在性', ['是否出现过', '去重交集', '重复状态检测'], '只需要知道存在与否时，用 HashSet 记录已经见过的值或状态。重复状态可用于识别循环。', `boolean containsDuplicate(int[] nums) {
     Set<Integer> seen = new HashSet<>();
     for (int num : nums) {

@@ -26,8 +26,59 @@ static String values(ListNode node) {
     while(node!=null) {result.add(node.val);node=node.next;}
     return result.toString();
 }
+static void verifySort(java.util.function.Function<int[], int[]> sort, int[] input) {
+    int[] expected = input.clone(), actual = input.clone();
+    Arrays.sort(expected);
+    check(sort.apply(actual) == actual);
+    check(Arrays.equals(actual, expected));
+}
+static void checkSorting(TemplateSuite t) {
+    List<java.util.function.Function<int[], int[]>> comparisons = List.of(
+        t::bubbleSort, t::selectionSort, t::insertionSort, t::shellSort,
+        t::mergeSort, t::quickSort, t::heapSort);
+    Random random = new Random(912);
+    for (var sort : comparisons) {
+        for (int[] edge : new int[][]{{}, {1}, {2,1}, {3,3,3}, {-1,-3,0,-3},
+                {Integer.MAX_VALUE,0,Integer.MIN_VALUE,Integer.MAX_VALUE},
+                {1,2,3,4,5}, {5,4,3,2,1}}) verifySort(sort, edge);
+        for (int round = 0; round < 150; round++) {
+            int[] input = new int[random.nextInt(100)];
+            for (int i = 0; i < input.length; i++) input[i] = round % 2 == 0 ? random.nextInt(9) - 4 : random.nextInt();
+            verifySort(sort, input);
+        }
+    }
+    for (var sort : List.<java.util.function.Function<int[], int[]>>of(t::countingSort, t::bucketSort, t::radixSort)) {
+        for (int[] edge : new int[][]{{}, {0}, {0,0,0}, {5,1,4,2,2}, {10,0,1,10}, {9,8,7,6,5}, {1,2,3}}) verifySort(sort, edge);
+    }
+    verifySort(t::countingSort, new int[]{-10000,10000,0,-10000,3,-3});
+    verifySort(t::bucketSort, new int[]{1000000,0,1000000,2,1,0});
+    verifySort(t::radixSort, new int[]{Integer.MAX_VALUE,0,10,100,1,1000000000,Integer.MAX_VALUE});
+    for (int round = 0; round < 200; round++) {
+        int n = random.nextInt(150);
+        int[] counted = new int[n], bucketed = new int[n], digits = new int[n];
+        for (int i = 0; i < n; i++) {
+            counted[i] = random.nextInt(20001) - 10000;
+            bucketed[i] = random.nextInt(1000001);
+            digits[i] = random.nextInt() & Integer.MAX_VALUE;
+        }
+        verifySort(t::countingSort, counted);
+        verifySort(t::bucketSort, bucketed);
+        verifySort(t::radixSort, digits);
+    }
+    int[] equal = new int[100000], ascending = new int[100000], descending = new int[100000];
+    for (int i = 0; i < ascending.length; i++) { ascending[i] = i; descending[i] = ascending.length - i; }
+    for (var sort : List.<java.util.function.Function<int[], int[]>>of(t::quickSort, t::mergeSort, t::heapSort, t::radixSort)) {
+        verifySort(sort, equal); verifySort(sort, ascending); verifySort(sort, descending);
+    }
+    // Concentrated buckets with a distant maximum: correctness under poor distribution.
+    int[] skewed = new int[2000];
+    for (int i = 0; i < skewed.length - 1; i++) skewed[i] = (skewed.length - i) % 100;
+    skewed[skewed.length - 1] = 1000000;
+    verifySort(t::bucketSort, skewed);
+}
 public static void main(String[] args) {
     TemplateSuite t=new TemplateSuite();
+    checkSorting(t);
     int[] rotated={1,2,3,4,5};t.rotateArray(rotated,7);
     check(Arrays.equals(rotated,new int[]{4,5,1,2,3}));
     t.rotateArray(rotated,0);check(Arrays.equals(rotated,new int[]{4,5,1,2,3}));

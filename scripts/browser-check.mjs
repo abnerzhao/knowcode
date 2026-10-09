@@ -615,6 +615,11 @@ try {
       }
       await page.locator('#search').fill('');
     }
+    if (bank.id === 'algorithm-fasttrack') {
+      await page.locator('#search').fill('排序算法');
+      assert.equal(await page.locator('.question-button').count(), 10);
+      await page.locator('#search').fill('');
+    }
     for (const q of dataset.questions) {
       await page.locator(`[data-slug="${q.slug}"]`).click();
       assert.equal(await page.locator('#problem-title').innerText(), `${q.id}. ${q.title}`.trim());
@@ -649,6 +654,12 @@ try {
           assert.equal(await page.locator('#verify-link').innerText(), '参考来源 ↗');
           assert.equal(await page.locator('#verify-link').getAttribute('href'), q.source);
           assert.match(await page.locator('#editor-note-text').innerText(), /本站自编/);
+          if (q.category === '排序算法') {
+            const linked = ['sorting-merge', 'sorting-quick', 'sorting-heap'].includes(q.slug);
+            const link = page.locator('#problem-content a[href="https://leetcode.cn/problems/sort-an-array/description/"]');
+            assert.equal(await link.count(), linked ? 1 : 0);
+            if (linked) assert.match(await link.innerText(), /912/);
+          }
         } else assert.equal(await page.locator('#source-link').innerText(), '力扣原题 ↗');
       } else assert.equal(await page.locator('#problem-review').isVisible(), false);
       if (q.format === 'questions-only') {
@@ -804,7 +815,7 @@ try {
   assert.equal(await fasttrackPage.locator('#code-editor').inputValue(), '// 速通独立草稿');
   await fasttrackContext.close();
   checks.push('星标与HOT100火焰仅在算法题速通显示，支持独立与并列；目录与标题一致，搜索、随机、刷新、切题、跨册、320px长标题与高对比度均通过');
-  checks.push('各册目录同分类按难度稳定排序、搜索保持排序；算法题速通110题含HOT100数据结构补齐题，笔记完整，自编题来源准确，默认收起、键盘展开、刷新/切题重置，顺序/随机/手机可用，跨题库草稿隔离');
+  checks.push('各册目录同分类按难度稳定排序、搜索保持排序；算法题速通120题含HOT100数据结构补齐题与十大排序，笔记完整，自编题来源准确，默认收起、键盘展开、刷新/切题重置，顺序/随机/手机可用，跨题库草稿隔离');
   const loadingContext = await browser.newContext();
   const loadingPage = await loadingContext.newPage();
   await loadingPage.route('**/data/interview150.json', route => route.fulfill({ status: 503, body: 'Unavailable' }), { times: 1 });
