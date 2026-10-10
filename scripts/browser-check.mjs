@@ -5,6 +5,7 @@ import { mkdir } from 'node:fs/promises';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { parsePracticeRoute, LANGUAGES } from '../src/core.js';
 import { BANKS } from '../src/banks.js';
+import { checkEditorFullscreen } from './editor-fullscreen-browser-check.mjs';
 
 const modulePath = process.env.PLAYWRIGHT_MODULE;
 const { chromium } = await import(modulePath ? pathToFileURL(modulePath).href : 'playwright');
@@ -25,6 +26,8 @@ const checks = [];
 const screenshots = fileURLToPath(new URL('../.cache/screenshots/', import.meta.url));
 await mkdir(screenshots, { recursive: true });
 try {
+  await checkEditorFullscreen(browser);
+  checks.push('页面全屏支持按钮/键盘进入、Esc退出、焦点约束、选区/滚动/撤销保留、保存与重置弹窗、语言配色、路由退出、刷新和手机布局');
   await page.goto('http://127.0.0.1:4173/');
   await page.locator('#bank-picker').waitFor({ state: 'visible' });
   assert.equal(await page.locator('[data-bank]').count(), BANKS.length);

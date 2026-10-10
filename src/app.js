@@ -178,6 +178,53 @@ function renderHighlight() {
 
 new ResizeObserver(syncEditorScroll).observe($('code-editor'));
 
+// Page fullscreen keeps the same textarea, undo history and draft state.
+let editorFullscreen = false;
+const fullscreenBackground = [...document.querySelectorAll('.sidebar, .session-bar, .mobile-tabs, .problem-panel, .navigation-bar')];
+function setEditorFullscreen(enabled, restoreFocus = true) {
+  if (editorFullscreen === enabled) return;
+  const editor = $('code-editor');
+  const { scrollTop, scrollLeft } = editor;
+  editorFullscreen = enabled;
+  const panel = $('editor-panel');
+  const button = $('toggle-editor-fullscreen');
+  panel.classList.toggle('is-fullscreen', enabled);
+  document.body.classList.toggle('editor-fullscreen', enabled);
+  for (const element of fullscreenBackground) element.inert = enabled;
+  button.setAttribute('aria-pressed', String(enabled));
+  button.setAttribute('aria-label', enabled ? '退出全屏' : '全屏编辑');
+  button.title = enabled ? '退出全屏（Esc）' : '全屏编辑';
+  if (enabled) {
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-modal', 'true');
+    editor.focus({ preventScroll: true });
+  } else {
+    panel.removeAttribute('role');
+    panel.removeAttribute('aria-modal');
+    if (restoreFocus) button.focus({ preventScroll: true });
+  }
+  editor.scrollTop = scrollTop;
+  editor.scrollLeft = scrollLeft;
+  syncEditorScroll();
+}
+$('toggle-editor-fullscreen').addEventListener('click', () => setEditorFullscreen(!editorFullscreen));
+document.addEventListener('keydown', event => {
+  if (!editorFullscreen || event.isComposing || $('reset-dialog').open) return;
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    setEditorFullscreen(false);
+  } else if (event.key === 'Tab' && !event.defaultPrevented) {
+    const controls = [...$('editor-panel').querySelectorAll('button, select, textarea, a[href]')]
+      .filter(element => !element.disabled && element.getClientRects().length);
+    const first = controls[0], last = controls.at(-1);
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault(); last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault(); first.focus();
+    }
+  }
+});
+
 function updateEditorInfo() {
   const editor = $('code-editor');
   const count = editor.value.split('\n').length;
@@ -331,6 +378,7 @@ function setMode(nextMode) {
 }
 
 async function applyRoute() {
+  setEditorFullscreen(false, false);
   const version = ++routeVersion;
   if (current) { syncDraft(); persist(); }
   current = null;

@@ -956,8 +956,49 @@ button:hover:not(:disabled) {
 }
 
 .editor-heading {
-  background:#fff
+  background:#fff;
+  height:auto;
+  min-height:48px;
+  padding:8px 12px;
+  flex-wrap:wrap;
+  gap:8px
 }
+
+#toggle-editor-fullscreen {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:32px;
+  height:32px;
+  flex-shrink:0;
+  border-radius:4px;
+  color:#52665a
+}
+
+#toggle-editor-fullscreen:hover { background:#eaf4ee }
+#toggle-editor-fullscreen:active { transform:scale(.97) }
+#toggle-editor-fullscreen .collapse-icon,
+#toggle-editor-fullscreen[aria-pressed=true] .expand-icon { display:none }
+#toggle-editor-fullscreen[aria-pressed=true] .collapse-icon { display:block }
+
+body.editor-fullscreen { overflow:hidden }
+.panels .editor-panel.is-fullscreen {
+  display:flex;
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100vh;
+  height:100dvh;
+  z-index:9;
+  border:0;
+  border-radius:0;
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  background:var(--draft-bg)
+}
+.editor-panel.is-fullscreen .code-area { min-height:0 }
+.editor-panel.is-fullscreen .editor-toolbar,
+.editor-panel.is-fullscreen .editor-status { flex-shrink:0 }
+.editor-panel.is-fullscreen .editor-note { display:none }
 
 .editor-language {
   font-family:var(--mono);
