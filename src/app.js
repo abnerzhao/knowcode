@@ -33,6 +33,8 @@ let queue = [];
 let randomHistory = [];
 let historyIndex = -1;
 let query = '';
+const expandedCatalogGroups = new Set();
+const searchCatalogGroups = new Map();
 let toastTimer;
 let saveTimer;
 let editorRevision = 0;
@@ -247,14 +249,23 @@ function renderCatalog() {
     if (!questions.length) continue;
     const section = document.createElement('section');
     section.className = 'question-group';
-    const heading = document.createElement('div');
+    const heading = document.createElement('button');
     heading.className = 'group-heading';
+    heading.type = 'button';
+    heading.dataset.group = group.name;
+    const expanded = query.trim() ? (searchCatalogGroups.get(group.name) ?? true) : expandedCatalogGroups.has(group.name);
+    heading.setAttribute('aria-expanded', String(expanded));
+    const body = document.createElement('div');
+    body.className = 'group-questions';
+    body.id = `catalog-${bank.id}-${data.groups.indexOf(group)}`;
+    body.hidden = !expanded;
+    heading.setAttribute('aria-controls', body.id);
     const name = document.createElement('span');
     name.textContent = group.name;
     const count = document.createElement('span');
     count.textContent = questions.length;
     heading.append(name, count);
-    section.append(heading);
+    section.append(heading, body);
     for (const question of questions) {
       const button = document.createElement('button');
       button.className = 'question-button';
@@ -290,7 +301,7 @@ function renderCatalog() {
       badge.className = `question-dot ${question.difficulty}`;
       badge.setAttribute('aria-label', DIFFICULTIES[question.difficulty]);
       button.append(badge);
-      section.append(button);
+      body.append(button);
     }
     fragment.append(section);
   }
@@ -399,6 +410,8 @@ async function applyRoute() {
     return;
   }
   if (bank.id !== route.bank) {
+    expandedCatalogGroups.clear();
+    searchCatalogGroups.clear();
     bank = bankById(route.bank);
     if (!bankSaves.has(bank.id)) {
       try { bankSaves.set(bank.id, normalizeSaved(JSON.parse(localStorage.getItem(storageKey(bank.id))))); }
@@ -499,8 +512,23 @@ $('difficulty').addEventListener('change', event => {
   queue = []; randomHistory = []; historyIndex = -1;
   randomNext();
 });
-$('search').addEventListener('input', event => { query = event.target.value; renderCatalog(); });
+$('search').addEventListener('input', event => {
+  query = event.target.value;
+  searchCatalogGroups.clear();
+  renderCatalog();
+});
 $('question-list').addEventListener('click', event => {
+  const heading = event.target.closest('.group-heading');
+  if (heading) {
+    const expanded = heading.getAttribute('aria-expanded') !== 'true';
+    const name = heading.dataset.group;
+    if (query.trim()) searchCatalogGroups.set(name, expanded);
+    else if (expanded) expandedCatalogGroups.add(name);
+    else expandedCatalogGroups.delete(name);
+    heading.setAttribute('aria-expanded', String(expanded));
+    $(heading.getAttribute('aria-controls')).hidden = !expanded;
+    return;
+  }
   const button = event.target.closest('[data-slug]');
   if (!button) return;
   visit(button.dataset.slug);

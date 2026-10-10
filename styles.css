@@ -505,14 +505,34 @@ button:hover:not(:disabled) {
 
 .group-heading {
   display:flex;
-  justify-content:space-between;
+  align-items:center;
+  gap:9px;
+  width:100%;
+  text-align:left;
+  border-radius:6px;
   padding:9px 12px;
   color:#75837a;
   font-size:12px;
   letter-spacing:.3px
 }
 
+.group-heading::before {
+  content:"";
+  width:6px;
+  height:6px;
+  flex-shrink:0;
+  border-right:1.5px solid currentColor;
+  border-bottom:1.5px solid currentColor;
+  transform:rotate(-45deg)
+}
+
+.group-heading[aria-expanded=true]::before { transform:rotate(45deg) }
+.group-heading:hover { background:#f1f5f2 }
+.group-heading:active { background:#eaf4ee }
+.group-heading span:first-child { flex:1; min-width:0; overflow-wrap:anywhere }
+
 .group-heading span:last-child {
+  flex-shrink:0;
   font-family:var(--mono);
   font-size:10px;
   color:#98a59c

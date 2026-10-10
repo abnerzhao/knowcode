@@ -6,6 +6,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { parsePracticeRoute, LANGUAGES } from '../src/core.js';
 import { BANKS } from '../src/banks.js';
 import { checkEditorFullscreen } from './editor-fullscreen-browser-check.mjs';
+import { checkCatalogCollapse, openCatalogQuestion } from './catalog-browser-check.mjs';
 
 const modulePath = process.env.PLAYWRIGHT_MODULE;
 const { chromium } = await import(modulePath ? pathToFileURL(modulePath).href : 'playwright');
@@ -19,13 +20,15 @@ page.on('request', request => { if (!request.url().startsWith('http://127.0.0.1:
 const waitForTitle = slug => page.waitForFunction(slug => location.hash.split('?')[0].split('/').at(-1) === slug && document.getElementById('problem-title').textContent.length > 0, slug);
 const openQuestion = async slug => {
   await page.locator('#search').fill(slug === 'two-sum' ? '两数之和' : '');
-  await page.locator(`[data-slug="${slug}"]`).click();
+  await openCatalogQuestion(page, slug);
   await waitForTitle(slug);
 };
 const checks = [];
 const screenshots = fileURLToPath(new URL('../.cache/screenshots/', import.meta.url));
 await mkdir(screenshots, { recursive: true });
 try {
+  await checkCatalogCollapse(browser);
+  checks.push('12本题库分类默认折叠，点击/键盘展开，切题保留、刷新/换册复位，搜索自动展开并可恢复，手机目录与草稿正常');
   await checkEditorFullscreen(browser);
   checks.push('页面全屏支持按钮/键盘进入、Esc退出、焦点约束、选区/滚动/撤销保留、保存与重置弹窗、语言配色、路由退出、刷新和手机布局');
   await page.goto('http://127.0.0.1:4173/');
@@ -84,7 +87,7 @@ try {
   assert.equal(await page.locator('#previous').isDisabled(), true);
   const data = await page.evaluate(async () => (await fetch('./data/questions.json')).json());
   for (const q of data.questions) {
-    await page.locator(`[data-slug="${q.slug}"]`).click();
+    await openCatalogQuestion(page, q.slug);
     assert.equal(await page.locator('#problem-title').innerText(), `${q.id}. ${q.title}`.trim());
     assert.match(await page.locator('#problem-content').innerText(), /示例/);
     assert.equal(await page.locator('#code-editor').inputValue(), q.java);
@@ -497,7 +500,7 @@ try {
   await page.locator('#toggle-catalog').click();
   assert.equal(await page.locator('#search').isVisible(), true);
   await page.locator('#search').fill('合并区间');
-  await page.locator('[data-slug="merge-intervals"]').click();
+  await openCatalogQuestion(page, 'merge-intervals');
   assert.equal(await page.locator('#toggle-catalog').getAttribute('aria-expanded'), 'false');
   assert.match(await page.locator('#problem-title').innerText(), /合并区间/);
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
@@ -632,7 +635,7 @@ try {
       await page.locator('#search').fill('');
     }
     for (const q of dataset.questions) {
-      await page.locator(`[data-slug="${q.slug}"]`).click();
+      await openCatalogQuestion(page, q.slug);
       assert.equal(await page.locator('#problem-title').innerText(), `${q.id}. ${q.title}`.trim());
       const starred = bank.id === 'algorithm-fasttrack' && Boolean(q.interviewFocus);
       const hot = bank.id === 'algorithm-fasttrack' && q.hot100 === true;
