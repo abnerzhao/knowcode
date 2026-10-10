@@ -6,6 +6,7 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { patterns } from './algorithm-fasttrack/outline.mjs';
 import { supplements } from './algorithm-fasttrack/supplements.mjs';
+import { techniqueJavaChecks } from './check-techniques-java-cases.mjs';
 const run = promisify(execFile);
 const dir = await mkdtemp(path.join(tmpdir(), 'knowcode-fasttrack-java-'));
 const nodes = `static class ListNode { int val; ListNode next; ListNode(int value) { val=value; } }
@@ -15,6 +16,7 @@ const suite = `import java.util.*;
 public class TemplateSuite {
 ${nodes}
 ${Object.values(patterns).map(pattern => pattern.java).join('\n')}
+${techniqueJavaChecks}
 static void check(boolean ok) { if (!ok) throw new AssertionError(); }
 static ListNode list(int... values) {
     ListNode dummy=new ListNode(0), tail=dummy;
@@ -79,6 +81,7 @@ static void checkSorting(TemplateSuite t) {
 public static void main(String[] args) {
     TemplateSuite t=new TemplateSuite();
     checkSorting(t);
+    checkTechniques(t);
     int[] rotated={1,2,3,4,5};t.rotateArray(rotated,7);
     check(Arrays.equals(rotated,new int[]{4,5,1,2,3}));
     t.rotateArray(rotated,0);check(Arrays.equals(rotated,new int[]{4,5,1,2,3}));

@@ -1,8 +1,13 @@
 // Original teaching outline. Each problem has one primary home; cross-topic methods are noted.
 import { hot100Patterns } from './hot100-patterns.mjs';
 import { sortingChapter, sortingPatterns } from './sorting.mjs';
+import { techniqueChapters, techniqueFocus } from './techniques.mjs';
+import { searchDividePatterns } from './search-divide-patterns.mjs';
+import { greedyBacktrackPatterns } from './greedy-backtrack-patterns.mjs';
+import { dpPatterns } from './dp-patterns.mjs';
 
-// Matrix, backtracking, DP, greedy and graph/Trie topics need separate chapters.
+// Historical data-structure scope; pure matrix transformations still await a chapter.
+export const hot100DeferredIds = ['73', '54', '48'];
 export const hot100StructureCategories = ['哈希', '双指针', '滑动窗口', '子串', '普通数组', '链表', '二叉树', '二分查找', '栈', '堆', '技巧'];
 export const chapters = [
   {
@@ -158,10 +163,12 @@ export const chapters = [
     ],
   },
   sortingChapter,
+  ...techniqueChapters,
 ];
 
 // Editorial interview priorities, not measured company question frequencies.
 export const interviewFocus = {
+  ...techniqueFocus,
   1: '补数查询与哈希表的入门代表题。',
   15: '排序、双指针和去重的综合练习。',
   3: '维护无重复滑动窗口的基础模板。',
@@ -198,6 +205,9 @@ const p = (title, signals, idea, java, boundary) => ({ title, signals, idea, jav
 export const patterns = {
   ...hot100Patterns,
   ...sortingPatterns,
+  ...searchDividePatterns,
+  ...greedyBacktrackPatterns,
+  ...dpPatterns,
   'hash-set': p('集合判重与存在性', ['是否出现过', '去重交集', '重复状态检测'], '只需要知道存在与否时，用 HashSet 记录已经见过的值或状态。重复状态可用于识别循环。', `boolean containsDuplicate(int[] nums) {
     Set<Integer> seen = new HashSet<>();
     for (int num : nums) {

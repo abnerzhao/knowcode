@@ -1,6 +1,6 @@
 // Offline content assembly. Source workbooks and authored notes remain untouched.
 import { readFile, writeFile } from 'node:fs/promises';
-import { chapters, patterns, interviewFocus, hot100StructureCategories } from './algorithm-fasttrack/outline.mjs';
+import { chapters, patterns, interviewFocus, hot100DeferredIds } from './algorithm-fasttrack/outline.mjs';
 import { supplements } from './algorithm-fasttrack/supplements.mjs';
 import { validateDataset } from '../src/core.js';
 
@@ -36,7 +36,7 @@ for (const chapter of chapters) {
         ? `<li>${escape(q.id)}. ${escape(q.title)}（本站自编）</li>`
         : `<li><a href="${escape(q.source)}">${escape(q.id)}. ${escape(q.title)}</a></li>`).join('')}</ul>`,
       `<h4>建议练习顺序</h4>${list(chapter.stages)}`,
-      '<p>先独立尝试，再看识别信号和模板；合上笔记后重新实现，并说明为什么指针移动或出入栈不会遗漏答案。</p>',
+      '<p>先独立尝试，再看识别信号和模板；合上笔记后重新实现，并说明循环、递归或状态转移为什么不会遗漏答案。</p>',
     ].join('\n');
     questions.push({ ...original, order: questions.length + 1, category: chapter.name,
       ...(hot100Slugs.has(original.slug) ? { hot100: true } : {}),
@@ -47,13 +47,13 @@ for (const chapter of chapters) {
 }
 const data = {
   version: 1, name: '算法题速通', source: 'https://leetcode.cn/problemset/',
-  fetchedAt: '2026-10-09T00:00:00.000Z',
+  fetchedAt: '2026-10-10T00:00:00.000Z',
   groups: chapters.map(chapter => ({ name: chapter.name, count: chapter.questions.length })), questions,
 };
 const included = new Set(questions.map(question => question.slug));
 const missing = sourceBooks[0].questions.filter(question =>
-  hot100StructureCategories.includes(question.category) && !question.tags.includes('矩阵') && !included.has(question.slug));
-if (missing.length) throw new Error(`HOT 100 数据结构题未补齐：${missing.map(q => q.id).join(', ')}`);
-validateDataset(data, 120);
+  !hot100DeferredIds.includes(question.id) && !included.has(question.slug));
+if (missing.length) throw new Error(`HOT 100 本轮范围未补齐：${missing.map(q => q.id).join(', ')}`);
+validateDataset(data, 170);
 await writeFile(new URL('public/data/algorithm-fasttrack.json', root), JSON.stringify(data, null, 2) + '\n');
 console.log(`算法题速通：${questions.length} 题、${chapters.length} 个分类、${Object.keys(patterns).length} 个题型；离线生成完成。`);

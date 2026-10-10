@@ -435,7 +435,7 @@ async function applyRoute() {
   $('back-to-banks').textContent = `← 书架 · ${bank.name}`;
   $('bank-source').href = data.source;
   $('bank-source').textContent = bank.curated || bank.kind === 'discussion' ? '选题参考 ↗' : '官方题单 ↗';
-  $('catalog-caption').textContent = bank.curated ? '按数据结构分类，可搜索题号或题型' : bank.kind === 'discussion' ? '按主题整理，难度为本站练习分级' : '按官方分类顺序排列';
+  $('catalog-caption').textContent = bank.curated ? '按结构与算法分类，可搜索题号或题型' : bank.kind === 'discussion' ? '按主题整理，难度为本站练习分级' : '按官方分类顺序排列';
   $('data-date').textContent = data.fetchedAt.slice(0, 10);
   $('data-date').dateTime = data.fetchedAt;
   $('question-list').setAttribute('aria-label', `${bank.name} 题目`);
