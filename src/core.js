@@ -52,12 +52,17 @@ export function parsePracticeRoute(hash) {
   const bank = bankById(parts[0]) ? parts.shift() : null;
   const [mode, slug] = parts;
   if (!['ordered', 'random'].includes(mode)) return { bank, mode: null };
-  const difficulty = new URLSearchParams(query).get('difficulty');
-  return { bank: bank || 'hot100', mode, slug: slug || null, difficulty: Object.hasOwn(DIFFICULTIES, difficulty) ? difficulty : 'all' };
+  const params = new URLSearchParams(query);
+  const difficulty = params.get('difficulty');
+  return { bank: bank || 'hot100', mode, slug: slug || null,
+    difficulty: Object.hasOwn(DIFFICULTIES, difficulty) ? difficulty : 'all',
+    category: mode === 'random' ? (params.get('category') || 'all') : 'all' };
 }
 
-export function practiceHash(mode, slug, difficulty = 'all', bank = 'hot100') {
-  return `#/${bank}/${mode}/${slug}${mode === 'random' ? `?difficulty=${difficulty}` : ''}`;
+export function practiceHash(mode, slug, difficulty = 'all', bank = 'hot100', category = 'all') {
+  const params = new URLSearchParams({ difficulty });
+  if (category !== 'all') params.set('category', category);
+  return `#/${bank}/${mode}/${slug}${mode === 'random' ? `?${params}` : ''}`;
 }
 
 export function validateDataset(data, count = 100) {
@@ -92,9 +97,10 @@ export function validateDataset(data, count = 100) {
   return true;
 }
 
-export function filterQuestions(questions, difficulty = 'all', query = '') {
+export function filterQuestions(questions, difficulty = 'all', query = '', category = 'all') {
   const text = query.trim().toLowerCase();
   return questions.filter(q => (difficulty === 'all' || q.difficulty === difficulty) &&
+    (category === 'all' || q.category === category) &&
     (!text || `${q.id} ${q.title} ${q.englishTitle} ${q.category} ${q.technique || ''}`.toLowerCase().includes(text)));
 }
 

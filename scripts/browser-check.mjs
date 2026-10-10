@@ -7,6 +7,7 @@ import { parsePracticeRoute, LANGUAGES } from '../src/core.js';
 import { BANKS } from '../src/banks.js';
 import { checkEditorFullscreen } from './editor-fullscreen-browser-check.mjs';
 import { checkCatalogCollapse, openCatalogQuestion } from './catalog-browser-check.mjs';
+import { checkRandomFilters } from './random-filters-browser-check.mjs';
 
 const modulePath = process.env.PLAYWRIGHT_MODULE;
 const { chromium } = await import(modulePath ? pathToFileURL(modulePath).href : 'playwright');
@@ -27,6 +28,8 @@ const checks = [];
 const screenshots = fileURLToPath(new URL('../.cache/screenshots/', import.meta.url));
 await mkdir(screenshots, { recursive: true });
 try {
+  await checkRandomFilters(browser);
+  checks.push('五本算法册支持难度×分类筛选、全部分类默认值、空组合禁选、URL恢复、每轮不重复、历史重置、草稿保存及手机布局');
   await checkCatalogCollapse(browser);
   checks.push('12本题库分类默认折叠，点击/键盘展开，切题保留、刷新/换册复位，搜索自动展开并可恢复，手机目录与草稿正常');
   await checkEditorFullscreen(browser);

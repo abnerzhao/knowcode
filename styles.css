@@ -699,6 +699,17 @@ button:hover:not(:disabled) {
   border-radius:6px
 }
 
+.random-filter {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0
+}
+
+.random-filter label { white-space:nowrap }
+#category { max-width:190px; min-width:0 }
+#pool-count { white-space:nowrap }
+
 .panels {
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(340px,.96fr);
@@ -1605,6 +1616,25 @@ dialog p {
 
 .order-label:empty {
   display:none
+}
+
+@media(max-width:900px) {
+  .random-workspace .session-bar {
+    height:auto;
+    flex-wrap:wrap;
+    padding:12px 0;
+    gap:10px
+  }
+
+  .random-workspace .random-controls {
+    flex:1 1 100%;
+    justify-content:flex-end
+  }
+}
+
+@media(max-width:600px) {
+  #category { max-width:170px }
+  .random-filter { gap:0 }
 }
 
 @media(prefers-reduced-motion:reduce) {

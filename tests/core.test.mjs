@@ -32,12 +32,12 @@ test('首页先选择题库，练习链接保留题库、模式、题目和难�
   for (const hash of ['', '#/', '#rotate-array', '#/unknown/two-sum']) {
     assert.deepEqual(parsePracticeRoute(hash), { bank: null, mode: null });
   }
-  assert.deepEqual(parsePracticeRoute(practiceHash('ordered', 'two-sum')), { bank: 'hot100', mode: 'ordered', slug: 'two-sum', difficulty: 'all' });
-  assert.deepEqual(parsePracticeRoute(practiceHash('random', 'trapping-rain-water', 'hard')), { bank: 'hot100', mode: 'random', slug: 'trapping-rain-water', difficulty: 'hard' });
+  assert.deepEqual(parsePracticeRoute(practiceHash('ordered', 'two-sum')), { bank: 'hot100', mode: 'ordered', slug: 'two-sum', difficulty: 'all', category: 'all' });
+  assert.deepEqual(parsePracticeRoute(practiceHash('random', 'trapping-rain-water', 'hard')), { bank: 'hot100', mode: 'random', slug: 'trapping-rain-water', difficulty: 'hard', category: 'all' });
   assert.equal(parsePracticeRoute('#/random/two-sum?difficulty=invalid').difficulty, 'all');
   assert.equal(parsePracticeRoute('#/random/two-sum?difficulty=constructor').difficulty, 'all');
   assert.equal(parsePracticeRoute('#/ordered').slug, null);
-  assert.deepEqual(parsePracticeRoute('#/random'), { bank: 'hot100', mode: 'random', slug: null, difficulty: 'all' });
+  assert.deepEqual(parsePracticeRoute('#/random'), { bank: 'hot100', mode: 'random', slug: null, difficulty: 'all', category: 'all' });
   for (const bank of BANKS) {
     assert.deepEqual(parsePracticeRoute(`#/${bank.id}`), { bank: bank.id, mode: null });
     assert.equal(parsePracticeRoute(`#/${bank.id}/random`).slug, null);
@@ -45,6 +45,40 @@ test('首页先选择题库，练习链接保留题库、模式、题目和难�
   }
   assert.equal(storageKey('hot100'), 'hot100-review:v1');
   assert.equal(new Set(BANKS.map(bank => storageKey(bank.id))).size, BANKS.length);
+});
+
+test('随机链接保留分类，中文与特殊字符正确往返，顺序模式忽略分类', () => {
+  for (const category of ['all', '数组', '基础 · 搜索 / 排序 & 堆+栈']) {
+    const hash = practiceHash('random', 'two-sum', 'easy', 'algorithm-fasttrack', category);
+    assert.equal(parsePracticeRoute(hash).category, category);
+    assert.equal(parsePracticeRoute(hash).difficulty, 'easy');
+    assert.equal(parsePracticeRoute(practiceHash('ordered', 'two-sum', 'all', 'hot100', category)).category, 'all');
+  }
+  assert.equal(parsePracticeRoute('#/hot100/random?category=').category, 'all');
+  assert.equal(parsePracticeRoute('#/hot100/ordered/two-sum?category=数组').category, 'all');
+});
+
+test('五本算法习题册支持难度与分类精确交集，抽题不重复且不改变题单', async () => {
+  const banks = BANKS.filter(bank => bank.randomCategories);
+  assert.deepEqual(banks.map(bank => bank.id), ['hot100', 'interview150', 'offer', 'data-structures-algorithms', 'algorithm-fasttrack']);
+  for (const bank of banks) {
+    const data = JSON.parse(await readFile(new URL(`../public/data/${bank.file}`, import.meta.url), 'utf8'));
+    const snapshot = JSON.stringify(data.questions);
+    for (const category of ['all', ...data.groups.map(group => group.name), '不存在的分类']) {
+      for (const difficulty of ['all', ...Object.keys(DIFFICULTIES)]) {
+        const expected = data.questions.filter(q => (category === 'all' || q.category === category) &&
+          (difficulty === 'all' || q.difficulty === difficulty));
+        const pool = filterQuestions(data.questions, difficulty, '', category);
+        assert.deepEqual(pool, expected);
+        const round = randomRound(pool, pool[0]?.slug);
+        assert.equal(round.length, expected.length);
+        assert.deepEqual(new Set(round), new Set(expected.map(q => q.slug)));
+        if (pool.length > 1) assert.notEqual(round[0], pool[0].slug);
+      }
+    }
+    assert.equal(JSON.stringify(data.questions), snapshot);
+  }
+  assert.deepEqual(filterQuestions(questions, 'easy', '两数', '哈希').map(q => q.slug), ['two-sum']);
 });
 
 for (const bank of BANKS) {

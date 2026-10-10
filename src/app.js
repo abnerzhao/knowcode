@@ -29,6 +29,7 @@ const bankSaves = new Map();
 let current;
 let mode = null;
 let difficulty = 'all';
+let category = 'all';
 let queue = [];
 let randomHistory = [];
 let historyIndex = -1;
@@ -313,7 +314,13 @@ function renderCatalog() {
 
 function renderNavigation() {
   const random = mode === 'random';
-  const pool = filterQuestions(data.questions, difficulty);
+  const pool = randomPool();
+  for (const option of $('difficulty').options) {
+    option.disabled = !filterQuestions(data.questions, option.value, '', category).length;
+  }
+  for (const option of $('category').options) {
+    option.disabled = !filterQuestions(data.questions, difficulty, '', option.value).length;
+  }
   $('random-controls').hidden = !random;
   $('session-title').textContent = random ? '随机练习' : '顺序练习';
   $('order-label').textContent = random ? '' : `${String(current.order).padStart(2, '0')} / ${data.questions.length}`;
@@ -362,15 +369,19 @@ function visit(slug) {
   renderEditor();
   renderCatalog();
   renderNavigation();
-  history.replaceState(null, '', practiceHash(mode, question.slug, difficulty, bank.id));
+  history.replaceState(null, '', practiceHash(mode, question.slug, difficulty, bank.id, category));
   document.title = `${question.title.trim()} · ${bank.name} · ${SITE_NAME}`;
+}
+
+function randomPool() {
+  return filterQuestions(data.questions, difficulty, '', category);
 }
 
 function randomNext() {
   if (historyIndex < randomHistory.length - 1) {
     visit(randomHistory[++historyIndex]); return;
   }
-  if (!queue.length) queue = randomRound(filterQuestions(data.questions, difficulty), current?.slug);
+  if (!queue.length) queue = randomRound(randomPool(), current?.slug);
   const slug = queue.shift();
   if (!slug) { notify('当前没有可抽取的题目。'); return; }
   randomHistory.push(slug);
@@ -452,8 +463,10 @@ async function applyRoute() {
   $('data-date').textContent = data.fetchedAt.slice(0, 10);
   $('data-date').dateTime = data.fetchedAt;
   $('question-list').setAttribute('aria-label', `${bank.name} 题目`);
-  for (const option of $('difficulty').options) {
-    option.disabled = !filterQuestions(data.questions, option.value).length;
+  $('category-filter').hidden = !bank.randomCategories;
+  $('category').replaceChildren(new Option('全部分类', 'all'));
+  if (bank.randomCategories) {
+    for (const group of data.groups) $('category').add(new Option(group.name, group.name));
   }
   $('mode-picker').hidden = mode !== null;
   $('workspace').hidden = mode === null;
@@ -463,8 +476,11 @@ async function applyRoute() {
     return;
   }
   difficulty = route.difficulty;
-  if (!filterQuestions(data.questions, difficulty).length) difficulty = 'all';
+  category = bank.randomCategories && data.groups.some(group => group.name === route.category) ? route.category : 'all';
+  // Invalid/empty combinations in old or manually edited URLs retain the category.
+  if (!randomPool().length) difficulty = 'all';
   $('difficulty').value = difficulty;
+  $('category').value = category;
   $('workspace').classList.toggle('random-workspace', mode === 'random');
   document.querySelector('.sidebar').hidden = mode === 'random';
   document.querySelector('.sidebar').classList.remove('expanded');
@@ -472,7 +488,7 @@ async function applyRoute() {
   $('toggle-catalog').textContent = '展开题目';
   mobileView(false);
   if (mode === 'random') {
-    const pool = filterQuestions(data.questions, difficulty);
+    const pool = randomPool();
     queue = randomRound(pool, current?.slug);
     const slug = pool.some(q => q.slug === route.slug) ? route.slug : queue[0];
     queue = queue.filter(item => item !== slug);
@@ -507,11 +523,14 @@ $('code-language').addEventListener('change', event => {
   renderEditor();
   persist();
 });
-$('difficulty').addEventListener('change', event => {
-  difficulty = event.target.value;
-  queue = []; randomHistory = []; historyIndex = -1;
-  randomNext();
-});
+for (const id of ['difficulty', 'category']) {
+  $(id).addEventListener('change', () => {
+    difficulty = $('difficulty').value;
+    category = $('category').value;
+    queue = []; randomHistory = []; historyIndex = -1;
+    randomNext();
+  });
+}
 $('search').addEventListener('input', event => {
   query = event.target.value;
   searchCatalogGroups.clear();
